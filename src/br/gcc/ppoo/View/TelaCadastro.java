@@ -59,6 +59,7 @@ public class TelaCadastro {
 //		Create my JFrame and I set it up
 		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewCadastro = new JFrame();
+		myViewCadastro.getContentPane().setBackground(new Color(147, 112, 219));
 		myViewCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myViewCadastro.setResizable(false);
 		myViewCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
@@ -74,6 +75,7 @@ public class TelaCadastro {
 		JLabel mais = new JLabel("");
 		mais.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/images.jpg")));
 		mais.setBounds(61, 11, 78, 80);
+		mais.setOpaque(false);
 		myViewCadastro.getContentPane().add(mais);
 		
 		JLabel lblNome = new JLabel("Nome");
@@ -157,14 +159,14 @@ public class TelaCadastro {
 		
 		JLabel fundoCadastro = new JLabel("");
 		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/xfce-teal.jpg")));
-		fundoCadastro.setBounds(0, 0, 554, 421);
+		fundoCadastro.setBounds(10, 337, 29, 32);
 		myViewCadastro.getContentPane().add(fundoCadastro);
 
 //		Creating DefaultListModel to receive the methods and attributes the of JList Methods and Attributes
 		listmetodosSec = new DefaultListModel();
 		
 //		More configuration of JFrame
-		myViewCadastro.setSize(560, 450);
+		myViewCadastro.setSize(532, 418);
 		myViewCadastro.setVisible(true);
 		myViewCadastro.setResizable(false);
 	}
