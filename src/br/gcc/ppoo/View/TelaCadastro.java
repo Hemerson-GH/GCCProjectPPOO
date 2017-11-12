@@ -4,11 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Map;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -26,18 +23,7 @@ public class TelaCadastro {
 
 //	Create I created the JFrame variable as a global variable so I did not have to create every instant I was going to use
 	JFrame myViewCadastro;
-	
-	@SuppressWarnings("rawtypes")
-	static DefaultListModel listmetodosSec;
 
-	@SuppressWarnings("rawtypes")
-	DefaultListModel listMethodsCalled;
-	int contMethods = 0;
-	@SuppressWarnings("rawtypes")
-	static Map<Integer, DefaultListModel> methodsCalleds;
-	ArrayList<Integer> listQtdMet = new ArrayList<Integer> ();
-	int qtdMetCall = 0, qtdMet = 0;
-	int qtdMethodsJTA;
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldConfir;
 	private JTextField textFieldNome;
@@ -51,68 +37,71 @@ public class TelaCadastro {
 		bd.conexao();
 		ViewMain();
 	}
-
-	//Class create my JFrame
-	@SuppressWarnings({ "rawtypes"})
+	
 	public void ViewMain(){
 		
 //		Create my JFrame and I set it up
 		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewCadastro = new JFrame();
-		myViewCadastro.getContentPane().setBackground(new Color(147, 112, 219));
+		myViewCadastro.getContentPane().setBackground(new Color(51, 102, 153));
 		myViewCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myViewCadastro.setResizable(false);
 		myViewCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		myViewCadastro.setTitle("Cadastro de usuário");
+		myViewCadastro.setTitle("Cadastro de novo usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
 		
-		JLabel lblEmail = new JLabel("Email");
+		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblEmail.setBounds(26, 206, 46, 23);
+		lblEmail.setBounds(25, 107, 50, 25);
 		myViewCadastro.getContentPane().add(lblEmail);
 		
-		JLabel mais = new JLabel("");
-		mais.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/images.jpg")));
-		mais.setBounds(61, 11, 78, 80);
-		mais.setOpaque(false);
-		myViewCadastro.getContentPane().add(mais);
-		
-		JLabel lblNome = new JLabel("Nome");
+		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNome.setBounds(26, 151, 46, 23);
+		lblNome.setBounds(25, 60, 50, 25);
 		myViewCadastro.getContentPane().add(lblNome);
 		
-		JLabel lblSenha = new JLabel("Senha");
+		JLabel lblSenha = new JLabel("Senha:");
+		lblSenha.setForeground(new Color(255, 255, 255));
 		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblSenha.setBounds(26, 270, 46, 14);
+		lblSenha.setBounds(25, 165, 60, 15);
 		myViewCadastro.getContentPane().add(lblSenha);
 		
-		JLabel lblConfirSenha = new JLabel("Confirmar Senha");
+		JLabel lblConfirSenha = new JLabel("Confirmar Senha:");
+		lblConfirSenha.setForeground(new Color(255, 255, 255));
 		lblConfirSenha.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblConfirSenha.setBounds(225, 270, 116, 14);
+		lblConfirSenha.setBounds(220, 165, 125, 15);
 		myViewCadastro.getContentPane().add(lblConfirSenha);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBackground(new Color(230, 230, 250));
-		passwordField.setBounds(82, 267, 125, 25);
+		passwordField.setToolTipText("Digite sua senha...");
+		passwordField.setBackground(new Color(255, 255, 255));
+		passwordField.setBounds(80, 160, 125, 25);
 		myViewCadastro.getContentPane().add(passwordField);
 		
 		passwordFieldConfir = new JPasswordField();
-		passwordFieldConfir.setBackground(new Color(230, 230, 250));
-		passwordFieldConfir.setBounds(351, 267, 125, 25);
+		passwordFieldConfir.setToolTipText("Digite a mesma senha digitada anteriormente...");
+		passwordFieldConfir.setBackground(new Color(255, 255, 255));
+		passwordFieldConfir.setBounds(345, 160, 125, 25);
 		myViewCadastro.getContentPane().add(passwordFieldConfir);
 		
 		JLabel txtrCadastrarUsurio = new JLabel();
-		txtrCadastrarUsurio.setBackground(Color.BLACK);
+		txtrCadastrarUsurio.setToolTipText("Cadastro de novo usuário...");
+		txtrCadastrarUsurio.setForeground(new Color(255, 255, 255));
+		txtrCadastrarUsurio.setBackground(new Color(255, 255, 255));
 		txtrCadastrarUsurio.setOpaque(false);
-//		txtrCadastrarUsurio.  HorizontalAlignment(SwingConstants.CENTER);
-		txtrCadastrarUsurio.setFont(new Font("Microsoft Sans Serif", Font.BOLD, 16));
+		txtrCadastrarUsurio.setFont(new Font("Arial", Font.BOLD, 18));
 		txtrCadastrarUsurio.setText("Cadastrar usuário");
-		txtrCadastrarUsurio.setBounds(172, 55, 153, 23);
+		txtrCadastrarUsurio.setBounds(165, 11, 176, 38);
 		myViewCadastro.getContentPane().add(txtrCadastrarUsurio);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setToolTipText("Salvar usuário...");
+		btnSalvar.setBackground(new Color(255, 255, 255));
+		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
+		
 		btnSalvar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
@@ -127,46 +116,49 @@ public class TelaCadastro {
 				
 				cd.salvar(dl);
 				
-				
+				myViewCadastro.dispose();
+				new TelaLogin();
 				
 			}
 		});
-		btnSalvar.setBounds(61, 329, 138, 40);
+		btnSalvar.setBounds(80, 210, 105, 35);
 		myViewCadastro.getContentPane().add(btnSalvar);
 		
 		JButton btnCancelar = new JButton("Sair");
+		btnCancelar.setToolTipText("Voltar para Tela de Login...");
+		btnCancelar.setBackground(new Color(255, 255, 255));
+		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				myViewCadastro.dispose();
 				bd.desconecta();
+				new TelaLogin();
 			}
 		});
-		btnCancelar.setBounds(377, 329, 125, 40);
+		btnCancelar.setBounds(345, 210, 105, 35);
 		myViewCadastro.getContentPane().add(btnCancelar);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setBackground(new Color(230, 230, 250));
+		textFieldNome.setToolTipText("Digite o seu nome...");
+		textFieldNome.setBackground(new Color(255, 255, 255));
 		textFieldNome.setColumns(10);
-		textFieldNome.setBounds(82, 152, 390, 25);
+		textFieldNome.setBounds(80, 60, 390, 25);
 		myViewCadastro.getContentPane().add(textFieldNome);
 		
 		textFieldEmail = new JTextField();
-		textFieldEmail.setBackground(new Color(230, 230, 250));
+		textFieldEmail.setToolTipText("Digite seu email...");
+		textFieldEmail.setBackground(new Color(255, 255, 255));
 		textFieldEmail.setColumns(10);
-		textFieldEmail.setBounds(82, 207, 390, 25);
+		textFieldEmail.setBounds(80, 110, 390, 25);
 		myViewCadastro.getContentPane().add(textFieldEmail);
 		
 		JLabel fundoCadastro = new JLabel("");
 		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/xfce-teal.jpg")));
-		fundoCadastro.setBounds(10, 337, 29, 32);
-		myViewCadastro.getContentPane().add(fundoCadastro);
-
-//		Creating DefaultListModel to receive the methods and attributes the of JList Methods and Attributes
-		listmetodosSec = new DefaultListModel();
+		fundoCadastro.setBounds(0, 421, 116, 84);
+//		myViewCadastro.getContentPane().add(fundoCadastro);
 		
 //		More configuration of JFrame
-		myViewCadastro.setSize(532, 418);
+		myViewCadastro.setSize(500, 300);
 		myViewCadastro.setVisible(true);
 		myViewCadastro.setResizable(false);
 	}

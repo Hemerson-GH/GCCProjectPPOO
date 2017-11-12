@@ -19,7 +19,7 @@ public class ControleDados {
 		bd.conexao();
 		
 		try {
-			PreparedStatement pst = bd.con.prepareStatement("insert into usuario_dados(nome,email,senha) values(?,?,md5(?))");
+			PreparedStatement pst = bd.con.prepareStatement("insert into dados_usuarios(nome,email,senha) values(?,?,md5(?))");
 			pst.setString(1, dados.getNome());		
 			pst.setString(2, dados.getEmail());
 			pst.setString(3, dados.getSenha());	
