@@ -1,4 +1,4 @@
-package br.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Dimension;

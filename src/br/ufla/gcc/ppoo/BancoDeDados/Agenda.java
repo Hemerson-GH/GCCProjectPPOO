@@ -1,4 +1,4 @@
-package br.gcc.ppoo.BancoDeDados;
+package br.ufla.gcc.ppoo.BancoDeDados;
 
 public class Agenda {
 	

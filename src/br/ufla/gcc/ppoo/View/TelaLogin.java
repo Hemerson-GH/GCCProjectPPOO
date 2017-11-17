@@ -1,4 +1,4 @@
-package br.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Locale;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -18,30 +17,27 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.gcc.ppoo.Control.ControleDados;
+import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
 public class TelaLogin {
-
-//	Create I created the JFrame variable as a global variable so I did not have to create every instant I was going to use
+	
 	JFrame myViewLogin;
 	
 	private JTextField textAreaUser;
 	private JPasswordField passwordField;
 	private JTextField txtNovoUsurio;
 	BancoDeDados bd = new BancoDeDados();
-	ControleDados cd = new ControleDados();
+	ControleDadosUsuarios cd = new ControleDadosUsuarios();
 
-//	Class calling my class that creates my JFrame
 	public TelaLogin() {
-		
+		bd.Conexao();
 		View();
 	}
 
-	//Class create my JFrame
 	public void View(){
-		
-//		Create my JFrame and I set it up
+
 		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewLogin = new JFrame();
 		myViewLogin.getContentPane().setBackground(new Color(51, 102, 153));
@@ -63,7 +59,7 @@ public class TelaLogin {
 		passwordField = new JPasswordField();
 		passwordField.setToolTipText("Digite sua senha...");
 		passwordField.setBackground(new Color(255, 255, 255));
-		passwordField.setBounds(70, 107, 218, 25);
+		passwordField.setBounds(70, 110, 220, 25);
 		myViewLogin.getContentPane().add(passwordField);
 		
 		JButton btnEnter = new JButton("Sing in");
@@ -75,22 +71,15 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (textAreaUser.getText().equals("Hemerson") && passwordField.getText().equals("123")) {
-					myViewLogin.dispose();
-					JOptionPane.showMessageDialog(null,
-						    "User " + textAreaUser.getText() + " logado com sucesseo.",
-						    "Logado Com Sucesso",
-						    JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					
-					System.out.println(textAreaUser.getText());
-					
-					JOptionPane.showMessageDialog(null,
-						    "User " + textAreaUser.getText() + " Not found",
-						    "Error",
-						    JOptionPane.ERROR_MESSAGE);
-				}
+				DadosLogin dl = new DadosLogin(cd.buscarDados(textAreaUser.getText()));
+//				JOptionPane.showMessageDialog(null, dl.getEmail() + "\n " + dl.getNome() + "\n" + dl.getSenha());
 				
+				if (passwordField.getText().equals(dl.getSenha())) {			
+					myViewLogin.dispose();
+					new TelaPrincipal();
+				} else {					
+					JOptionPane.showMessageDialog(null, "Email ou senha incorretos...", "Usuário invalidos", JOptionPane.ERROR_MESSAGE);
+				}				
 			}
 		});
 		btnEnter.setBounds(70, 160, 90, 25);
@@ -103,7 +92,7 @@ public class TelaLogin {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewLogin.dispose();
-				bd.desconecta();
+				bd.Desconecta();
 			}
 		});
 		btnCancel.setBounds(300, 160, 90, 25);
@@ -151,12 +140,13 @@ public class TelaLogin {
 //		lblAutenticao.setBorder(true);
 		myViewLogin.getContentPane().add(lblAutenticao);
 		
-		JLabel llbFundo = new JLabel("");
-		llbFundo.setIcon(new ImageIcon(TelaLogin.class.getResource("/br/gcc/ppoo/Imagens/xfce-blue.jpg")));
-		llbFundo.setBounds(0, 0, 477, 211);
+//		JLabel llbFundo = new JLabel("");
+//		llbFundo.setIcon(new ImageIcon(TelaLogin.class.getResource("/br/gcc/ppoo/Imagens/xfce-blue.jpg")));
+//		llbFundo.setBounds(0, 0, 477, 211);
 //		myViewLogin.getContentPane().add(llbFundo); // adicionar caso for colocar papel de parede
 		
 //		More configuration of JFrame
+//		myViewLogin.setLocationRelativeTo(null);
 		myViewLogin.setSize(485, 240);
 		myViewLogin.setVisible(true);
 		myViewLogin.setResizable(false);

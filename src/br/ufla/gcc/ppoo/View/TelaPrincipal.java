@@ -1,22 +1,19 @@
-package br.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.View;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
 
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.border.BevelBorder;
 
 public class TelaPrincipal {
 //	public class SecWind {
@@ -38,21 +35,19 @@ public class TelaPrincipal {
 //		Create my JFrame and I set it up
 		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewPrinc = new JFrame();
+		myViewPrinc.setBackground(new Color(255, 255, 255));
 		myViewPrinc.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myViewPrinc.setResizable(false);
 		myViewPrinc.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myViewPrinc.setTitle("Tela Login");
 		myViewPrinc.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewPrinc.getContentPane().setLayout(null);
-		
-		JLabel lblIcon1 = new JLabel("New label");
-		lblIcon1.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/GCC/Package/Imagens/CadMedicos.png")));
-		lblIcon1.setBounds(10, 37, 116, 122);
-		lblIcon1.setOpaque(true);
-		myViewPrinc.getContentPane().add(lblIcon1);
+//		myViewPrinc.setLocationRelativeTo(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 97, 21);
+		menuBar.setBackground(new Color(255, 255, 255));
+		menuBar.setBounds(0, 0, 72, 21);
+//		menuBar.setBorder(true);
 		myViewPrinc.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
@@ -60,6 +55,7 @@ public class TelaPrincipal {
 		mnMenu.setOpaque(true);
 		
 		JMenuItem mntmTipos = new JMenuItem("Tipos");
+		mntmTipos.setBackground(new Color(255, 255, 255));
 		mntmTipos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Menu OK");
@@ -67,41 +63,32 @@ public class TelaPrincipal {
 		});
 		mnMenu.add(mntmTipos);
 		
-		JInternalFrame internalFrame = new JInternalFrame("Bem-Vindo");
-		internalFrame.setBounds(0, 170, 894, 451);
-		myViewPrinc.getContentPane().add(internalFrame);
-		internalFrame.getContentPane().setLayout(null);
+		JMenuItem mnDados = new JMenuItem("Dados");
+		mnDados.setBackground(new Color(255, 255, 255));
+		mnMenu.add(mnDados);
 		
-		JPanel panelInternalFr = new JPanel();
-		panelInternalFr.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panelInternalFr.setBounds(0, 37, 878, 384);
-		internalFrame.getContentPane().add(panelInternalFr);
-		panelInternalFr.setLayout(null);
+		JMenu mnSair = new JMenu("Sair");
+		mnSair.setOpaque(true);
+		menuBar.add(mnSair);
 		
-		JLabel lblLblinternal = new JLabel("lblInternal");
-		lblLblinternal.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/GCC/Package/Imagens/internalframe.png")));
-		lblLblinternal.setBounds(0, 0, 878, 384);
-		panelInternalFr.add(lblLblinternal);
+		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair.setBackground(new Color(255, 255, 255));
+		mnSair.add(mntmSair);
+		
+		JMenuItem mntmTela = new JMenuItem("Tela De Login");
+		mntmTela.setBackground(new Color(255, 255, 255));
+		mnSair.add(mntmTela);
 		
 		JLabel llbFundo = new JLabel("");
-		llbFundo.setBounds(-26, -25, 920, 646);
-		llbFundo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/GCC/Package/Imagens/xfce-blue.jpg")));
+		llbFundo.setBounds(0, -26, 894, 647);
+//		llbFundo.setIcon(new ImageIcon(TelaPrincipal.class.getResource()));
 		myViewPrinc.getContentPane().add(llbFundo);
-		
-		JLabel lblNewLabel = new JLabel("New label");
-		lblNewLabel.setBounds(136, 58, 46, 14);
-		myViewPrinc.getContentPane().add(lblNewLabel);
 		
 		
 //		More configuration of JFrame
 		myViewPrinc.setSize(900, 650);
 		myViewPrinc.setVisible(true);
 		myViewPrinc.setResizable(false);
-	}
-	
-	public static void main(String[] args) {
-		@SuppressWarnings("unused")
-		TelaPrincipal t = new TelaPrincipal();
 	}
 }	
 

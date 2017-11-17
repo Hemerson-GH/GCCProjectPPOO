@@ -1,4 +1,4 @@
-package br.gcc.ppoo.BancoDeDados;
+package br.ufla.gcc.ppoo.BancoDeDados;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

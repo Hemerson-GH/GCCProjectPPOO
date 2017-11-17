@@ -1,4 +1,4 @@
-package br.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -11,36 +11,42 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import br.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.gcc.ppoo.Control.ControleDados;
-import br.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
+@SuppressWarnings("unused")
 public class TelaCadastro {
-//	public class SecWind {
-
-//	Create I created the JFrame variable as a global variable so I did not have to create every instant I was going to use
+	
 	JFrame myViewCadastro;
 
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldConfir;
 	private JTextField textFieldNome;
 	private JTextField textFieldEmail;
-	DadosLogin dl = new DadosLogin();
-	BancoDeDados bd = new BancoDeDados();
-	ControleDados cd = new ControleDados();
-	
-//	Class calling my class that creates my JFrame
+	DadosLogin dadosLogin = new DadosLogin();
+	BancoDeDados bancoDDados = new BancoDeDados();
+	ControleDadosUsuarios controlDados = new ControleDadosUsuarios();
+
 	public TelaCadastro() {
-		bd.conexao();
+		bancoDDados.Conexao();
 		ViewMain();
+	}
+	
+	public boolean confereSenhas(String senhaPri, String senhaSec){
+		if (senhaPri.equals(senhaSec)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public void ViewMain(){
 		
-//		Create my JFrame and I set it up
 		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewCadastro = new JFrame();
 		myViewCadastro.getContentPane().setBackground(new Color(51, 102, 153));
@@ -50,6 +56,7 @@ public class TelaCadastro {
 		myViewCadastro.setTitle("Cadastro de novo usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
+//		myViewCadastro.setLocationRelativeTo(null);
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setForeground(new Color(255, 255, 255));
@@ -104,21 +111,35 @@ public class TelaCadastro {
 		
 		btnSalvar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {		
 				
-				dl.setNome(textFieldNome.getText());
-				dl.setEmail(textFieldEmail.getText());
+				boolean confereEmail = controlDados.confereEmail(textFieldEmail.getText());
+				boolean confereSenha = confereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 				
-				if (passwordField.getText().equals(passwordFieldConfir.getText())) {
-					dl.setSenha(passwordField.getText());
-					System.out.println("senhas confere");
-				}
-				
-				cd.salvar(dl);
-				
-				myViewCadastro.dispose();
-				new TelaLogin();
-				
+				if (!confereEmail) {					
+					if (confereSenha) {
+						if (passwordField.getText().length() > 3  && passwordFieldConfir.getText().length() > 3) {
+							dadosLogin.setNome(textFieldNome.getText());
+							dadosLogin.setEmail(textFieldEmail.getText());
+							dadosLogin.setSenha(passwordField.getText());
+							controlDados.CadastrarUsuario(dadosLogin);
+							myViewCadastro.dispose();
+							bancoDDados.Desconecta();
+							JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
+									+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+							new TelaLogin();
+						} else {
+							JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "
+									+ "por favor digite uma nova senha válida.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "As senha digitadas não conferem, "
+								+ "digite novamente.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Este email já está sendo utilizado, "
+							+ "por favor utilize outro email.", "Email já cadastrado", JOptionPane.ERROR_MESSAGE);
+				}				
 			}
 		});
 		btnSalvar.setBounds(80, 210, 105, 35);
@@ -128,10 +149,11 @@ public class TelaCadastro {
 		btnCancelar.setToolTipText("Voltar para Tela de Login...");
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
+		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewCadastro.dispose();
-				bd.desconecta();
+				bancoDDados.Desconecta();
 				new TelaLogin();
 			}
 		});
@@ -139,28 +161,27 @@ public class TelaCadastro {
 		myViewCadastro.getContentPane().add(btnCancelar);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setToolTipText("Digite o seu nome...");
+		textFieldNome.setToolTipText("Digite aqui o seu nome de usuário...");
 		textFieldNome.setBackground(new Color(255, 255, 255));
 		textFieldNome.setColumns(10);
 		textFieldNome.setBounds(80, 60, 390, 25);
 		myViewCadastro.getContentPane().add(textFieldNome);
 		
 		textFieldEmail = new JTextField();
-		textFieldEmail.setToolTipText("Digite seu email...");
+		textFieldEmail.setToolTipText("Digite aqui seu email...");
 		textFieldEmail.setBackground(new Color(255, 255, 255));
 		textFieldEmail.setColumns(10);
 		textFieldEmail.setBounds(80, 110, 390, 25);
 		myViewCadastro.getContentPane().add(textFieldEmail);
 		
-		JLabel fundoCadastro = new JLabel("");
-		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/xfce-teal.jpg")));
-		fundoCadastro.setBounds(0, 421, 116, 84);
+//		JLabel fundoCadastro = new JLabel("");
+//		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/xfce-teal.jpg")));
+//		fundoCadastro.setBounds(0, 421, 116, 84);
 //		myViewCadastro.getContentPane().add(fundoCadastro);
 		
-//		More configuration of JFrame
 		myViewCadastro.setSize(500, 300);
 		myViewCadastro.setVisible(true);
 		myViewCadastro.setResizable(false);
-	}
+	}	
 }	
 

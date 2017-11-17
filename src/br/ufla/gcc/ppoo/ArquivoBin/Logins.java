@@ -1,4 +1,4 @@
-package br.gcc.ppoo.ArquivoBin;
+package br.ufla.gcc.ppoo.ArquivoBin;
 
 // ass package br.gcc.ppoo
 

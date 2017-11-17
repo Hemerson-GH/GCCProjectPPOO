@@ -1,4 +1,4 @@
-package br.gcc.ppoo.Dados;
+package br.ufla.gcc.ppoo.Dados;
 
 public class DadosLogin {
 
@@ -12,7 +12,14 @@ public class DadosLogin {
 		this.senha = senha;
 	}
 	
-	public DadosLogin() {
+	public DadosLogin(DadosLogin dadosLogin) {
+		this.setEmail(dadosLogin.getEmail());
+		this.setSenha(dadosLogin.getSenha());
+		this.setNome(dadosLogin.getNome());
+	}
+	
+	public DadosLogin(){
+		
 	}
 	
 	public String getEmail() {
