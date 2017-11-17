@@ -149,7 +149,6 @@ public class TelaCadastro {
 		btnCancelar.setToolTipText("Voltar para Tela de Login...");
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
-		
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewCadastro.dispose();
