@@ -15,7 +15,7 @@ public class ControleDadosUsuarios {
 	BancoDeDados bancoDados = new BancoDeDados();
 	
 	public void CadastrarUsuario(DadosLogin dados){
-		bancoDados.Conexao();
+		bancoDados.Conecta();
 		
 		try {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
@@ -36,7 +36,7 @@ public class ControleDadosUsuarios {
 	DadosLogin dadosLogin = new DadosLogin(null, null, null);
 	
 	public DadosLogin buscarDados(String email){
-		bancoDados.Conexao();	
+		bancoDados.Conecta();	
 		
 		try {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");
@@ -60,7 +60,7 @@ public class ControleDadosUsuarios {
 	}
 	
 	public boolean confereEmail(String email){
-		bancoDados.Conexao();	
+		bancoDados.Conecta();	
 //		String emailBancoDDados = null;
 		boolean encontrei = false;
 		

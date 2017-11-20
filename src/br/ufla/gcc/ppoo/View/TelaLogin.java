@@ -28,11 +28,11 @@ public class TelaLogin {
 	private JTextField textAreaUser;
 	private JPasswordField passwordField;
 	private JTextField txtNovoUsurio;
-	BancoDeDados bd = new BancoDeDados();
-	ControleDadosUsuarios cd = new ControleDadosUsuarios();
+	BancoDeDados bancoDDados = new BancoDeDados();
+	ControleDadosUsuarios controlDDados = new ControleDadosUsuarios();
 
 	public TelaLogin() {
-		bd.Conexao();
+		bancoDDados.Conecta();
 		View();
 	}
 
@@ -71,12 +71,12 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dl = new DadosLogin(cd.buscarDados(textAreaUser.getText()));
+				DadosLogin dadosLogin = new DadosLogin(controlDDados.buscarDados(textAreaUser.getText()));
 //				JOptionPane.showMessageDialog(null, dl.getEmail() + "\n " + dl.getNome() + "\n" + dl.getSenha());
 				
-				if (passwordField.getText().equals(dl.getSenha())) {			
+				if (passwordField.getText().equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();
-					new TelaPrincipal();
+					new TelaPrincipal(dadosLogin);
 				} else {					
 					JOptionPane.showMessageDialog(null, "Email ou senha incorretos...", "Usuário invalidos", JOptionPane.ERROR_MESSAGE);
 				}				
@@ -92,7 +92,7 @@ public class TelaLogin {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewLogin.dispose();
-				bd.Desconecta();
+				bancoDDados.Desconecta();
 			}
 		});
 		btnCancel.setBounds(300, 160, 90, 25);
@@ -113,7 +113,7 @@ public class TelaLogin {
 		});
 		txtNovoUsurio.setEditable(false);
 		txtNovoUsurio.setText("Novo usuário");
-		txtNovoUsurio.setBounds(315, 110, 95, 20);
+		txtNovoUsurio.setBounds(315, 112, 95, 20);
 		myViewLogin.getContentPane().add(txtNovoUsurio);
 //		txtNovoUsurio.setColumns(10);
 		txtNovoUsurio.setOpaque(false);
@@ -122,13 +122,13 @@ public class TelaLogin {
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(new Color(255, 255, 255));
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblSenha.setBounds(22, 105, 50, 20);
+		lblSenha.setBounds(20, 110, 50, 20);
 		myViewLogin.getContentPane().add(lblSenha);
 		
 		JLabel lblLogin = new JLabel("Email:");
 		lblLogin.setForeground(new Color(255, 255, 255));
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblLogin.setBounds(22, 55, 45, 25);
+		lblLogin.setBounds(20, 55, 45, 25);
 		myViewLogin.getContentPane().add(lblLogin);
 		
 		JLabel lblAutenticao = new JLabel("Autenticar usuário ");

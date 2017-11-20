@@ -33,7 +33,7 @@ public class TelaCadastro {
 	ControleDadosUsuarios controlDados = new ControleDadosUsuarios();
 
 	public TelaCadastro() {
-		bancoDDados.Conexao();
+		bancoDDados.Conecta();
 		ViewMain();
 	}
 	

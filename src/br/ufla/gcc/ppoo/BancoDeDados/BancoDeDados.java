@@ -16,7 +16,7 @@ public class BancoDeDados {
 	private String usuario = "postgres";
 	private String senha = "seagate01";
 
-	public void Conexao(){
+	public void Conecta(){
 		try {
 			System.setProperty("jdbc.Drivers", driver);
 			connection = DriverManager.getConnection(caminho, usuario, senha);
