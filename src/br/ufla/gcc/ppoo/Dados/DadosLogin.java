@@ -5,6 +5,7 @@ public class DadosLogin {
 	private String nome;
 	private String email;
 	private String senha;
+	private int id;
 	
 	public DadosLogin(String nome, String email, String senha) {
 		this.nome = nome;
@@ -44,5 +45,13 @@ public class DadosLogin {
 	
 	public void setSenha(String senha) {
 		this.senha = senha;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

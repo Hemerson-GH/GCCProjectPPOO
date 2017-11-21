@@ -21,27 +21,42 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Dados.Filme;
 
 public class TelaPrincipal {
 	
 	JFrame myViewMain;
 	JPanel myPanelCadastro;
 	BancoDeDados bancoDDados = new BancoDeDados();
-	ControleDadosUsuarios controlDDados = new ControleDadosUsuarios();
+	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
+	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
+	
+	Filme filme = new Filme();
 	private JTextField textFieldNome;
 	private JTextField textFieldData;
 	private JTextField textFieldDuracao;
 	private JTextField textFieldGenero;
 	private JTextField textFieldWorKeys;
+	private JEditorPane editorPaneDescricao;
+	
+	public void limpaCampos(){
+		textFieldNome.setText(null);
+		textFieldData.setText(null);
+		textFieldDuracao.setText(null);
+		textFieldGenero.setText(null);
+		textFieldWorKeys.setText(null);
+		editorPaneDescricao.setText(null);
+	}
 	
 	public TelaPrincipal(DadosLogin dadosLogin) {
 		bancoDDados.Conecta();
-		View();
+		View(dadosLogin);
 	}
 
-	public void View(){
+	public void View(DadosLogin dadosLogin){
 
 		myViewMain = new JFrame();
 		myViewMain.getContentPane().setBackground(new Color(51, 102, 153));
@@ -61,7 +76,7 @@ public class TelaPrincipal {
 		myPanelCadastro.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		myPanelCadastro.setLocation(70, 75);
 		myPanelCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		myPanelCadastro.setVisible(false);
+		myPanelCadastro.setVisible(false);
 		myPanelCadastro.setSize(485, 415);
 		myViewMain.getContentPane().add(myPanelCadastro);
 		myPanelCadastro.setLayout(null);
@@ -92,12 +107,12 @@ public class TelaPrincipal {
 		lblNome.setForeground(new Color(0, 0, 0));
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNome.setBounds(2, 90, 45, 25);
+		lblNome.setBounds(6, 90, 45, 25);
 		lblNome.setBackground(Color.GRAY);
 		myPanelCadastro.add(lblNome);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setBounds(45, 90, 435, 25);
+		textFieldNome.setBounds(50, 90, 423, 25);
 		myPanelCadastro.add(textFieldNome);
 		textFieldNome.setColumns(10);
 		
@@ -106,7 +121,7 @@ public class TelaPrincipal {
 		lblData.setForeground(Color.BLACK);
 		lblData.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblData.setBackground(Color.GRAY);
-		lblData.setBounds(5, 160, 130, 25);
+		lblData.setBounds(8, 160, 130, 25);
 		myPanelCadastro.add(lblData);
 		
 		textFieldData = new JTextField();
@@ -126,7 +141,7 @@ public class TelaPrincipal {
 //		});
 		textFieldData.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
 		textFieldData.setColumns(10);
-		textFieldData.setBounds(137, 160, 70, 25);
+		textFieldData.setBounds(142, 160, 70, 25);
 		myPanelCadastro.add(textFieldData);
 		
 		JLabel lblDuraoDoFilme = new JLabel("Duração");
@@ -148,13 +163,13 @@ public class TelaPrincipal {
 		lblGnero.setForeground(Color.BLACK);
 		lblGnero.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGnero.setBackground(Color.GRAY);
-		lblGnero.setBounds(353, 160, 53, 25);
+		lblGnero.setBounds(350, 160, 50, 25);
 		myPanelCadastro.add(lblGnero);
 		
 		textFieldGenero = new JTextField();
 		textFieldGenero.setToolTipText("");
 		textFieldGenero.setColumns(10);
-		textFieldGenero.setBounds(405, 160, 75, 25);
+		textFieldGenero.setBounds(400, 160, 75, 25);
 		myPanelCadastro.add(textFieldGenero);
 		
 		JLabel lblPalavras = new JLabel("Palavras-chaves(mínimo 2)");
@@ -162,13 +177,13 @@ public class TelaPrincipal {
 		lblPalavras.setForeground(Color.BLACK);
 		lblPalavras.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblPalavras.setBackground(Color.GRAY);
-		lblPalavras.setBounds(1, 125, 174, 25);
+		lblPalavras.setBounds(6, 125, 174, 25);
 		myPanelCadastro.add(lblPalavras);
 		
 		textFieldWorKeys = new JTextField();
 		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
 		textFieldWorKeys.setColumns(10);
-		textFieldWorKeys.setBounds(175, 125, 305, 25);
+		textFieldWorKeys.setBounds(180, 125, 295, 25);
 		myPanelCadastro.add(textFieldWorKeys);
 		
 		JLabel lblDescrio = new JLabel("Descrição");
@@ -179,7 +194,7 @@ public class TelaPrincipal {
 		lblDescrio.setBounds(7, 190, 65, 25);
 		myPanelCadastro.add(lblDescrio);
 		
-		JEditorPane editorPaneDescricao = new JEditorPane();
+		editorPaneDescricao = new JEditorPane();
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		editorPaneDescricao.setBounds(10, 215, 465, 155);
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
@@ -188,13 +203,7 @@ public class TelaPrincipal {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				textFieldNome.setText(null);
-				textFieldData.setText(null);
-				textFieldDuracao.setText(null);
-				textFieldGenero.setText(null);
-				textFieldWorKeys.setText(null);
-				editorPaneDescricao.setText(null);
-				myPanelCadastro.setVisible(false);
+				limpaCampos();
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));
@@ -205,6 +214,24 @@ public class TelaPrincipal {
 		myPanelCadastro.add(btnCancelar);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+
+				filme.setNome(textFieldNome.getText());
+				filme.setData(textFieldData.getText());
+				filme.setDescricao(editorPaneDescricao.getText());
+				filme.setWordKeys(textFieldWorKeys.getText());
+				filme.setGenero(textFieldGenero.getText());
+				filme.setDuracaoFilme(textFieldDuracao.getText());
+				
+				controlFilmes.CadastrarFilme(filme, dl.getId());
+					
+				JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
+				limpaCampos();
+			}
+		});
 		btnSalvar.setForeground(new Color(0, 0, 0));
 		btnSalvar.setToolTipText("Entrar");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -212,7 +239,7 @@ public class TelaPrincipal {
 		btnSalvar.setBounds(55, 380, 150, 25);
 		myPanelCadastro.add(btnSalvar);
 		
-		myPanelCadastro.setVisible(true);
+//		myPanelCadastro.setVisible(true);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(255, 255, 255));
@@ -229,7 +256,7 @@ public class TelaPrincipal {
 		mntmTipos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				myPanelCadastro.setVisible(true);
-				JOptionPane.showMessageDialog(null, "Filme");
+//				JOptionPane.showMessageDialog(null, "Filme");
 			}
 		});
 		mnMenu.add(mntmTipos);

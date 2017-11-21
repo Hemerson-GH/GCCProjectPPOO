@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
@@ -46,12 +48,11 @@ public class ControleDadosUsuarios {
 								
 			    dadosLogin.setEmail(rs.getString("email"));
 			    dadosLogin.setSenha(rs.getString("senha"));
-			    dadosLogin.setNome(rs.getString("nome"));		    
-//			    JOptionPane.showMessageDialog(null, dadosLogin.getEmail() + "\n " + dadosLogin.getNome() + "\n" + dadosLogin.getSenha());
+			    dadosLogin.setNome(rs.getString("nome"));	
+			    dadosLogin.setId(rs.getInt("id_user"));
 			}
 			
 		} catch (SQLException ex) {
-//			JOptionPane.showMessageDialog(null, "Erro Ao Buscar email: \n " + ex);
 			ex.printStackTrace();
 		}
 		

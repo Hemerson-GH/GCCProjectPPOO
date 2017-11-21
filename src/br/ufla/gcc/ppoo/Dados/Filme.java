@@ -8,6 +8,28 @@ public class Filme {
 	private String wordKeys;
 	private String genero;
 	private String duracaoFilme;
+	
+	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme){
+		this.nome = nome;
+		this.data = data;
+		this.descricao = descricao;
+		this.wordKeys = wordKeys;
+		this.genero = genero;
+		this.duracaoFilme = duracaoFilme;
+	}
+	
+	public Filme(Filme filme){
+		this.setNome(filme.getNome());
+		this.setData(filme.getData());
+		this.setDescricao(filme.getDescricao());
+		this.setWordKeys(filme.getWordKeys());
+		this.setGenero(filme.getGenero());
+		this.setDuracaoFilme(filme.getDuracaoFilme());
+	}
+	
+	public Filme(){
+		
+	}
 
 	public String getNome() {
 		return nome;

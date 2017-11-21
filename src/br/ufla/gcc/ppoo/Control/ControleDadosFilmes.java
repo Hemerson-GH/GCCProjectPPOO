@@ -4,55 +4,65 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Dados.Filme;
 
 public class ControleDadosFilmes {
+	
 	BancoDeDados bancoDados = new BancoDeDados();
 	
-	public void CadastrarFilme(DadosLogin dados){
+	public void CadastrarFilme(Filme filme, int id_user){
 		bancoDados.Conecta();
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
-			pst.setString(1, dados.getNome());		
-			pst.setString(2, dados.getEmail());
-			pst.setString(3, dados.getSenha());	
+			PreparedStatement pst = bancoDados.connection.prepareStatement("insert into filmes(id_user,nome_filme,ano_lancamento,"
+					+ "descricao,palavras_chaves,genero,duracao_filme) values(?,?,?,?,?,?,?)");
+			
+			System.out.println(id_user);
+			pst.setInt(1, id_user);
+			pst.setString(2, filme.getNome());		
+			pst.setString(3, filme.getData());
+			pst.setString(4, filme.getDescricao());	
+			pst.setString(5, filme.getWordKeys());	
+			pst.setString(6, filme.getGenero());	
+			pst.setString(7, filme.getDuracaoFilme());	
 			pst.execute();
-//			JOptionPane.showMessageDialog(null, "Salvo Com Sucesso");
 			
 		} catch (SQLException ex) {
-//			JOptionPane.showMessageDialog(null, "Erro Ao Salvar Dado: \n " + ex);
 			ex.printStackTrace();
 		}
 		
 		bancoDados.Desconecta();
 	}
 	
-	DadosLogin dadosLogin = new DadosLogin(null, null, null);
+	Filme findFilme = new Filme(null, null, null, null, null, null);
 	
-	public DadosLogin buscarDados(String email){
+	public Filme buscarDados(String email){
 		bancoDados.Conecta();	
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");
+			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where email = '" + email +"'");
 			ResultSet rs = pst.executeQuery();	
 			
-			while (rs.next()) {
-								
-			    dadosLogin.setEmail(rs.getString("email"));
-			    dadosLogin.setSenha(rs.getString("senha"));
-			    dadosLogin.setNome(rs.getString("nome"));		    
-//			    JOptionPane.showMessageDialog(null, dadosLogin.getEmail() + "\n " + dadosLogin.getNome() + "\n" + dadosLogin.getSenha());
+			while (rs.next()) {				
+				findFilme.setNome(rs.getString("nome_filme"));
+				findFilme.setData(rs.getString("ano_lancamento"));
+				findFilme.setDescricao("descricao");
+				findFilme.setWordKeys("palavras_chaves");
+				findFilme.setGenero("genero");
+				findFilme.setDuracaoFilme("duracao_filme");
+			    JOptionPane.showMessageDialog(null, "procura ok");
 			}
 			
 		} catch (SQLException ex) {
-//			JOptionPane.showMessageDialog(null, "Erro Ao Buscar email: \n " + ex);
+			JOptionPane.showMessageDialog(null, "Erro Ao Buscar email: \n " + ex);
 			ex.printStackTrace();
 		}
 		
 		bancoDados.Desconecta();
-		return dadosLogin;
+		return findFilme;
 	}
 	
 	public boolean confereEmail(String email){

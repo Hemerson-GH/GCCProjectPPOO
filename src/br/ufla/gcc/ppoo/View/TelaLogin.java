@@ -72,7 +72,6 @@ public class TelaLogin {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				DadosLogin dadosLogin = new DadosLogin(controlDDados.buscarDados(textAreaUser.getText()));
-//				JOptionPane.showMessageDialog(null, dl.getEmail() + "\n " + dl.getNome() + "\n" + dl.getSenha());
 				
 				if (passwordField.getText().equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();
