@@ -20,7 +20,6 @@ public class ControleDadosFilmes {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("insert into filmes(id_user,nome_filme,ano_lancamento,"
 					+ "descricao,palavras_chaves,genero,duracao_filme) values(?,?,?,?,?,?,?)");
 			
-			System.out.println(id_user);
 			pst.setInt(1, id_user);
 			pst.setString(2, filme.getNome());		
 			pst.setString(3, filme.getData());

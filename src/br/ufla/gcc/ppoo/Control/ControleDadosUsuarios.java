@@ -7,8 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
-
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
