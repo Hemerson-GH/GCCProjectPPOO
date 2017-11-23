@@ -4,11 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Locale;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,10 +15,14 @@ import javax.swing.JTextField;
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
-
-@SuppressWarnings("unused")
-public class TelaCadastro {
 	
+public class TelaCadastro extends JFrame{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	JFrame myViewCadastro;
 
 	private JPasswordField passwordField;
@@ -47,7 +48,6 @@ public class TelaCadastro {
 	
 	public void ViewMain(){
 		
-		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewCadastro = new JFrame();
 		myViewCadastro.getContentPane().setBackground(new Color(51, 102, 153));
 		myViewCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

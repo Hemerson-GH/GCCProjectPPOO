@@ -29,7 +29,7 @@ import br.ufla.gcc.ppoo.Dados.Filme;
 public class TelaPrincipal {
 	
 	JFrame myViewMain;
-	JPanel myPanelCadastro;
+	JPanel myPanelCadastro, myPanelListagem;
 	BancoDeDados bancoDDados = new BancoDeDados();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
 	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
@@ -51,6 +51,18 @@ public class TelaPrincipal {
 		editorPaneDescricao.setText(null);
 	}
 	
+	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData,
+								JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao){
+		boolean ok = false;
+		
+		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 
+				&& textFieldDuracao.getText().length() > 0 && textFieldGenero.getText().length() > 0 && editorPaneDescricao.getText().length() > 0) {
+			ok = true;
+		}
+		
+		return ok;
+	}
+	
 	public TelaPrincipal(DadosLogin dadosLogin) {
 		bancoDDados.Conecta();
 		View(dadosLogin);
@@ -67,19 +79,30 @@ public class TelaPrincipal {
 		myViewMain.setTitle("Menu Principal");
 		myViewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewMain.getContentPane().setLayout(null);
-				
 		
 //		myViewMain.setLocationRelativeTo(null);
 		
 		myPanelCadastro = new JPanel();
 		myPanelCadastro.setBackground(new Color(255, 255, 255));
 		myPanelCadastro.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		myPanelCadastro.setLocation(70, 75);
+		myPanelCadastro.setLocation(90, 55);
 		myPanelCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myPanelCadastro.setVisible(false);
 		myPanelCadastro.setSize(485, 415);
 		myViewMain.getContentPane().add(myPanelCadastro);
 		myPanelCadastro.setLayout(null);
+		
+		myPanelCadastro.setVisible(false);
+		
+		myPanelListagem = new JPanel();
+		myPanelListagem.setBackground(new Color(255, 255, 255));
+		myPanelListagem.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		myPanelListagem.setLocation(90, 55);
+		myPanelListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		myPanelListagem.setVisible(false);
+		myPanelListagem.setSize(485, 415);
+		myViewMain.getContentPane().add(myPanelListagem);
+		myPanelListagem.setLayout(null);
 		
 		JButton btnExit = new JButton("");
 		btnExit.addActionListener(new ActionListener() {
@@ -99,7 +122,7 @@ public class TelaPrincipal {
 		
 		JLabel lblNewItem = new JLabel("");
 		lblNewItem.setVerticalAlignment(SwingConstants.TOP);
-		lblNewItem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo_item.png")));
+		lblNewItem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/Novo_Item.png")));
 		lblNewItem.setBounds(74, 22, 40, 40);
 		myPanelCadastro.add(lblNewItem);
 		
@@ -218,7 +241,7 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
-
+				
 				filme.setNome(textFieldNome.getText());
 				filme.setData(textFieldData.getText());
 				filme.setDescricao(editorPaneDescricao.getText());
@@ -226,10 +249,15 @@ public class TelaPrincipal {
 				filme.setGenero(textFieldGenero.getText());
 				filme.setDuracaoFilme(textFieldDuracao.getText());
 				
-				controlFilmes.CadastrarFilme(filme, dl.getId());
-					
-				JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
-				limpaCampos();
+				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao) ) {
+					controlFilmes.CadastrarFilme(filme, dl.getId());
+					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
+					limpaCampos();
+				} else {
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos para que seja possível salvar o filme.", "Erro Ao Salvar", JOptionPane.WARNING_MESSAGE);
+				}
+				
+				
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 0));
@@ -238,8 +266,6 @@ public class TelaPrincipal {
 		btnSalvar.setBackground(new Color(255, 255, 255));
 		btnSalvar.setBounds(55, 380, 150, 25);
 		myPanelCadastro.add(btnSalvar);
-		
-//		myPanelCadastro.setVisible(true);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBackground(new Color(255, 255, 255));
@@ -251,19 +277,24 @@ public class TelaPrincipal {
 		mnMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnMenu);
 		
-		JMenuItem mntmTipos = new JMenuItem("Cadastra novo Filme");
-		mntmTipos.setBackground(new Color(255, 255, 255));
-		mntmTipos.addActionListener(new ActionListener() {
+		JMenuItem mnCadastro = new JMenuItem("Cadastra Novo Filme");
+		mnCadastro.setBackground(new Color(255, 255, 255));
+		mnCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				myPanelCadastro.setVisible(true);
-//				JOptionPane.showMessageDialog(null, "Filme");
 			}
 		});
-		mnMenu.add(mntmTipos);
+		mnMenu.add(mnCadastro);
 		
-		JMenuItem mnDados = new JMenuItem("Meus Filmes");
-		mnDados.setBackground(new Color(255, 255, 255));
-		mnMenu.add(mnDados);
+		JMenuItem mnListagem = new JMenuItem("Listar Meus Filmes");
+		mnListagem.setBackground(new Color(255, 255, 255));
+		mnListagem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				myPanelListagem.setVisible(true);
+			}
+		});
+		mnListagem.setBackground(new Color(255, 255, 255));
+		mnMenu.add(mnListagem);
 		
 		JMenu mnSair = new JMenu("Sair");
 		mnSair.setBackground(new Color(255, 255, 255));

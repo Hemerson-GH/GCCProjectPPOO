@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Locale;
 
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,7 +36,6 @@ public class TelaLogin {
 
 	public void View(){
 
-		JComponent.setDefaultLocale(Locale.ENGLISH);
 		myViewLogin = new JFrame();
 		myViewLogin.getContentPane().setBackground(new Color(51, 102, 153));
 		myViewLogin.getContentPane().setForeground(new Color(255, 255, 255));
