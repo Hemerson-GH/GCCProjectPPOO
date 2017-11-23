@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -16,9 +17,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
@@ -68,6 +72,7 @@ public class TelaPrincipal {
 		View(dadosLogin);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void View(DadosLogin dadosLogin){
 
 		myViewMain = new JFrame();
@@ -323,7 +328,51 @@ public class TelaPrincipal {
 		mntmTela.setBackground(new Color(255, 255, 255));
 		mnSair.add(mntmTela);
 		
-		myViewMain.setSize(675, 550);
+		JSlider slider = new JSlider(JSlider.VERTICAL, 1, 5, 1);
+		slider.setBackground(Color.WHITE);
+		slider.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				JSlider source = (JSlider)e.getSource();
+			    
+			    if (!source.getValueIsAdjusting()) {
+			        int fps = (int)slider.getValue();
+			        if (fps == 1) {
+			            JOptionPane.showMessageDialog(null, "pessimo escolha");
+			        } else if (fps == 2){
+			        	slider.setToolTipText("BOM");
+//			        	JOptionPane.showMessageDialog(null, "escolha ruim");
+			        } else if (fps == 3){
+			        	slider.setToolTipText("REGULAR");
+//			        	JOptionPane.showMessageDialog(null, "escolha regular");
+			        }
+			    }
+			}
+		});
+		slider.setEnabled(true);
+//		slider.addChangeListener((ChangeListener) this);
+		
+		slider.setBounds(579, 442, 90, 92);
+		myViewMain.getContentPane().add(slider);
+		slider.setMajorTickSpacing(5);
+		slider.setMinorTickSpacing(1);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		
+
+		Font font = new Font("Arial", Font.PLAIN, 9);
+		slider.setFont(font);
+		
+		@SuppressWarnings("rawtypes")
+		Hashtable labelTable = new Hashtable();
+		labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-5.jpg"))) );
+		labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-4.jpg"))) );
+		labelTable.put( new Integer(3), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-3.jpg"))) );
+		labelTable.put( new Integer(4), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
+		labelTable.put( new Integer(5), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
+		slider.setLabelTable( labelTable );
+		
+//		myViewMain.setSize(675, 550);
+		myViewMain.setSize(708, 574);
 		myViewMain.setVisible(true);
 	}
 }	
