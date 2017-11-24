@@ -87,12 +87,12 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setTitle("Cadastrar Filme");
 		viewCadastroFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		viewCadastroFilme.setSize(618, 440);
+		
 		
 		JLabel lblCadastro = new JLabel("Cadastrar Filme");
-		lblCadastro.setBounds(130, 20, 240, 45);
+		lblCadastro.setBounds(130, 20, 300, 55);
 		lblCadastro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCadastro.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 30));
+		lblCadastro.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 40));
 		viewCadastroFilme.getContentPane().add(lblCadastro);
 		
 		JLabel lblNewItem = new JLabel("");
@@ -199,7 +199,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(editorPaneDescricao);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(285, 380, 150, 25);
+		btnCancelar.setBounds(444, 420, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaCampos();
@@ -212,7 +212,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(btnCancelar);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(55, 380, 150, 25);
+		btnSalvar.setBounds(74, 420, 150, 25);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -252,7 +252,7 @@ public class TelaCadastroFilme {
 		btnSalvar.setBackground(new Color(255, 255, 255));
 		viewCadastroFilme.getContentPane().add(btnSalvar);
 		
-		viewCadastroFilme.setSize(500, 500);
+		viewCadastroFilme.setSize(655, 495);
 		viewCadastroFilme.setVisible(true);		
 	}
 }
