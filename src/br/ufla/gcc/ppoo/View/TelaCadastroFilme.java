@@ -73,7 +73,6 @@ public class TelaCadastroFilme {
 		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.setBackground(new Color(0, 0, 255));
-		
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setVisible(false);
 		viewCadastroFilme.getContentPane().setLayout(null);
@@ -82,7 +81,6 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setTitle("Cadastrar Filme");
 		viewCadastroFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		
 		
 		JLabel lblCadastro = new JLabel("Cadastrar Filme");
 		lblCadastro.setForeground(new Color(255, 255, 255));
@@ -241,8 +239,6 @@ public class TelaCadastroFilme {
 					JOptionPane.showMessageDialog(null, "Preencha todos os campos para que seja possível salvar o filme.",
 							"Erro Ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
-				
-				
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 0));
