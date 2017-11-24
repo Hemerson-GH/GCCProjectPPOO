@@ -18,6 +18,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -31,12 +32,12 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
-import javax.swing.table.DefaultTableModel;
 
 public class TelaPrincipal {
 	
 	JFrame myViewMain;
-	JPanel myPanelCadastro, myPanelListagem;
+	JPanel myPanelCadastro;
+	JScrollPane myPanelListagem;
 	BancoDeDados bancoDDados = new BancoDeDados();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
 	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
@@ -48,7 +49,6 @@ public class TelaPrincipal {
 	private JTextField textFieldGenero;
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
-	private JTable table;
 	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
@@ -97,35 +97,41 @@ public class TelaPrincipal {
 		myViewMain.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myViewMain.setTitle("Menu Principal");
 		myViewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		myViewMain.getContentPane().setLayout(null);
-		
-//		myViewMain.setLocationRelativeTo(null);
 		
 		myPanelCadastro = new JPanel();
+		myPanelCadastro.setBounds(1111, 511115, 485, 415);
 		myPanelCadastro.setBackground(new Color(255, 255, 255));
 		myPanelCadastro.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-//		myPanelCadastro.setLocation(90, 55);
-		myPanelCadastro.setLocation(1111, 511115);
 		myPanelCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myPanelCadastro.setVisible(false);
-//		myPanelCadastro.setSize(485, 415);
-		myPanelCadastro.setSize(485, 415);
+		myViewMain.getContentPane().setLayout(null);
 		myPanelCadastro.setLayout(null);
 		myViewMain.getContentPane().add(myPanelCadastro);
 		
-		myPanelCadastro.setVisible(false);
+		Object[] titulosColuna = {"vxcvcxv", "xcvcxvxv"};
+        Object[][] dados = {
+            {"Like a Stone", "Audioslave"},
+            {"Alive", "Pearl Jam"},
+            {"Scorpions", "sdfsfsdfdsf "},
+            {"Bom Jovi", "fdsfdsfdsf"}
+        };
 		
-		myPanelListagem = new JPanel();
+		myPanelListagem = new JScrollPane();
+		myPanelListagem.setBounds(90, 55, 485, 415);
 		myPanelListagem.setBackground(new Color(255, 255, 255));
 		myPanelListagem.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		myPanelListagem.setLocation(90, 55);
 		myPanelListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myPanelListagem.setVisible(true);
-		myPanelListagem.setSize(485, 415);
 		myPanelListagem.setLayout(null);
+		
 		myViewMain.getContentPane().add(myPanelListagem);
 		
 		JButton button = new JButton("");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				myPanelListagem.setVisible(false);
+			}
+		});
 		button.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/iconeExit.jpg")));
 		button.setBounds(442, 22, 18, 15);
 		myPanelListagem.add(button);
@@ -142,46 +148,10 @@ public class TelaPrincipal {
 		lblIconLista.setBounds(110, 35, 40, 40);
 		myPanelListagem.add(lblIconLista);
 		
-//		table = new JTable();
-		
-		
-		Object[] titulosColunas = {"TESTE1", "TESTE2"};
-
-        Object[][] dados = {
-            {"Like a Stone", "Audioslave"},
-            {"Alive", "Pearl Jam"},
-            {"Scorpions", "sdfsfsdfdsf "},
-            {"Bom Jovi", "fdsfdsfdsf"}
-        };
-        
-//        DefaultTableModel modelo = new DefaultTableModel(dados, titulosColunas);
-
-        table = new JTable(dados, titulosColunas);
-        table.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{"Like a Stone", null, "Audioslave"},
-        		{"Alive", null, "Pearl Jam"},
-        		{null, null, null},
-        		{null, null, null},
-        	},
-        	new String[] {
-        		"Musica", "Teste", "Cantor"
-        	}
-        ));
-        table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-	    table.setPreferredScrollableViewportSize(new Dimension(500, 70));
-	    table.setFillsViewportHeight(true);
-	    table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 12));
-	    table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-	    table.setFillsViewportHeight(true);
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
-		table.setBounds(10, 100, 465, 305);
-		table.clearSelection();
-		
-		myPanelListagem.add(table);
+//		myPanelListagem.add(table);
 		
 		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 1);
+		slider.setBounds(617, 442, 75, 92);
 		slider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		slider.setBackground(Color.WHITE);
 //		slider.addChangeListener(new ChangeListener() {
@@ -213,9 +183,6 @@ public class TelaPrincipal {
 //			}
 //		});
 		slider.setEnabled(true);
-//		slider.addChangeListener((ChangeListener) this);
-		
-		slider.setBounds(617, 442, 75, 92);
 		myViewMain.getContentPane().add(slider);
 		slider.setMajorTickSpacing(5);
 		slider.setMinorTickSpacing(1);
@@ -409,8 +376,8 @@ public class TelaPrincipal {
 		myPanelCadastro.add(btnSalvar);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBackground(new Color(255, 255, 255));
 		menuBar.setBounds(0, 0, 75, 20);
+		menuBar.setBackground(new Color(255, 255, 255));
 //		menuBar.setBorder(true);
 		myViewMain.getContentPane().add(menuBar);
 		
