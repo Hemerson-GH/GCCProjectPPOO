@@ -24,8 +24,8 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
 public class TelaPrincipal {
 	
-	JFrame myViewMain;
-	JFrame myPanelListagem;
+	JFrame viewMain;
+	JFrame viewListagem;
 	
 	BancoDeDados bancoDDados = new BancoDeDados();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
@@ -41,40 +41,41 @@ public class TelaPrincipal {
 	@SuppressWarnings("unchecked")
 	public void View(DadosLogin dadosLogin){
 
-		myViewMain = new JFrame();
-		myViewMain.getContentPane().setBackground(new Color(51, 102, 153));
-		myViewMain.getContentPane().setForeground(new Color(255, 255, 255));
-		myViewMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		myViewMain.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		myViewMain.setTitle("Menu Principal");
-		myViewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewMain = new JFrame();
+		viewMain.getContentPane().setBackground(new Color(51, 102, 153));
+		viewMain.getContentPane().setForeground(new Color(255, 255, 255));
+		viewMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		viewMain.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		viewMain.setTitle("Menu Principal");
+		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		myPanelListagem = new JFrame();
-		myPanelListagem.setBounds(65, 31, 510, 439);
-		myPanelListagem.setBackground(new Color(255, 255, 255));
-		myPanelListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		myPanelListagem.setVisible(true);
-		myPanelListagem.getContentPane().setLayout(null);
+		viewListagem = new JFrame();
+		viewListagem.setBounds(65, 31, 510, 439);
+		viewListagem.setBackground(new Color(255, 255, 255));
+		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+//		viewListagem.setVisible(true);
+		viewListagem.getContentPane().setLayout(null);
 		
-//		myViewMain.getContentPane().add(myPanelListagem);
+//		viewMain.getContentPane().add(viewListagem);
 		
 		JLabel lblTituloListagem = new JLabel("Meus Filmes");
 		lblTituloListagem.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 30));
 		lblTituloListagem.setBounds(125, 30, 240, 45);
-		myPanelListagem.getContentPane().add(lblTituloListagem);
+		viewListagem.getContentPane().add(lblTituloListagem);
 		
 		JLabel lblIconLista = new JLabel("");
 		lblIconLista.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/Lista.jpg")));
 		lblIconLista.setVerticalAlignment(SwingConstants.TOP);
 		lblIconLista.setBounds(110, 35, 40, 40);
-		myPanelListagem.getContentPane().add(lblIconLista);
-		myViewMain.getContentPane().setLayout(null);
+		viewListagem.getContentPane().add(lblIconLista);
+		viewMain.getContentPane().setLayout(null);
 		
-//		myPanelListagem.add(table);
+//		viewListagem.add(table);
 		
-		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 1);
-		slider.setBounds(666, 155, 90, 130);
+		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 0);
+		slider.setMinorTickSpacing(1);
+		slider.setBounds(667, 166, 90, 130);
 		slider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		slider.setBackground(Color.WHITE);
 //		slider.addChangeListener(new ChangeListener() {
@@ -106,9 +107,8 @@ public class TelaPrincipal {
 //			}
 //		});
 		slider.setEnabled(true);
-		myViewMain.getContentPane().add(slider);
+		viewMain.getContentPane().add(slider);
 		slider.setMajorTickSpacing(5);
-		slider.setMinorTickSpacing(1);
 		slider.setPaintTicks(true);
 		slider.setPaintLabels(true);
 		
@@ -139,13 +139,14 @@ public class TelaPrincipal {
 		menuBar.setBounds(0, 0, 1389, 20);
 		menuBar.setBackground(new Color(255, 255, 255));
 //		menuBar.setBorder(true);
-		myViewMain.getContentPane().add(menuBar);
+		viewMain.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
 		mnMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnMenu);
 		
 		JMenuItem mnCadastro = new JMenuItem("Cadastra Novo Filme");
+		mnCadastro.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo.png")));
 		mnCadastro.setBackground(new Color(255, 255, 255));
 		mnCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -155,10 +156,11 @@ public class TelaPrincipal {
 		mnMenu.add(mnCadastro);
 		
 		JMenuItem mnListagem = new JMenuItem("Listar Meus Filmes");
+		mnListagem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		mnListagem.setBackground(new Color(255, 255, 255));
 		mnListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				myPanelListagem.setVisible(true);
+				viewListagem.setVisible(true);
 			}
 		});
 		mnListagem.setBackground(new Color(255, 255, 255));
@@ -169,22 +171,29 @@ public class TelaPrincipal {
 		menuBar.add(mnSair);
 		
 		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/sair.png")));
 		mntmSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				bancoDDados.Desconecta();
-				JOptionPane.showMessageDialog(null, "Até Mais...", "Sair", JOptionPane.CLOSED_OPTION);
-				myViewMain.dispose();
+				
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				
+				if (JOptionPane.YES_OPTION == confirm) {	
+					bancoDDados.Desconecta();
+					viewMain.dispose();
+				}
+				
 			}
 		});
 		mntmSair.setBackground(new Color(255, 255, 255));
 		mnSair.add(mntmSair);
 		
 		JMenuItem mntmTela = new JMenuItem("Logout");
+		mntmTela.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
 		mntmTela.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				bancoDDados.Desconecta();
 				JOptionPane.showMessageDialog(null, "Você será redirecionado para a tela de login.", "Tela de Login", JOptionPane.CLOSED_OPTION);
-				myViewMain.dispose();
+				viewMain.dispose();
 				new TelaLogin();
 			}
 		});
@@ -195,9 +204,10 @@ public class TelaPrincipal {
 //		int lar = (int) tela.getWidth();
 //		int alt = (int) tela.getHeight();
 		
-//		myViewMain.setSize(lar, alt);
-		myViewMain.setSize(1366, 768);
-		myViewMain.setVisible(true);
+//		viewMain.setSize(lar, alt);
+		viewMain.setSize(1366, 768);
+		viewMain.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		viewMain.setVisible(true);
 	}
 }	
 

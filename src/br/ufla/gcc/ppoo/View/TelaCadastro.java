@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -16,12 +17,7 @@ import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 	
-public class TelaCadastro extends JFrame{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class TelaCadastro {
 
 	JFrame myViewCadastro;
 
@@ -100,8 +96,8 @@ public class TelaCadastro extends JFrame{
 		txtrCadastrarUsurio.setBackground(new Color(255, 255, 255));
 		txtrCadastrarUsurio.setOpaque(false);
 		txtrCadastrarUsurio.setFont(new Font("Arial", Font.BOLD, 18));
-		txtrCadastrarUsurio.setText("Cadastrar usuário");
-		txtrCadastrarUsurio.setBounds(165, 11, 176, 38);
+		txtrCadastrarUsurio.setText("Cadastrar novo usu\u00E1rio");
+		txtrCadastrarUsurio.setBounds(155, 10, 205, 40);
 		myViewCadastro.getContentPane().add(txtrCadastrarUsurio);
 		
 		JButton btnSalvar = new JButton("Salvar");
@@ -173,10 +169,10 @@ public class TelaCadastro extends JFrame{
 		textFieldEmail.setBounds(80, 110, 390, 25);
 		myViewCadastro.getContentPane().add(textFieldEmail);
 		
-//		JLabel fundoCadastro = new JLabel("");
-//		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/gcc/ppoo/Imagens/xfce-teal.jpg")));
-//		fundoCadastro.setBounds(0, 421, 116, 84);
-//		myViewCadastro.getContentPane().add(fundoCadastro);
+		JLabel fundoCadastro = new JLabel("");
+		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-usuario.png")));
+		fundoCadastro.setBounds(100, 7, 50, 46);
+		myViewCadastro.getContentPane().add(fundoCadastro);
 		
 		myViewCadastro.setSize(500, 300);
 		myViewCadastro.setVisible(true);

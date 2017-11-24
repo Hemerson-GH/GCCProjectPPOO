@@ -12,6 +12,7 @@ import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -20,7 +21,6 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
-import javax.swing.JScrollPane;
 
 public class TelaCadastroFilme {
 
@@ -50,22 +50,18 @@ public class TelaCadastroFilme {
 	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData,
 								JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao){
 		boolean ok = false;
-		
 		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 
 				&& textFieldDuracao.getText().length() > 0 && textFieldGenero.getText().length() > 0 && editorPaneDescricao.getText().length() > 0) {
 			ok = true;
 		}
-		
 		return ok;
 	}
 	
 	public boolean contens(JTextField textFieldWorKeys){
 		boolean bool = false;
-		
 		if(textFieldWorKeys.getText().contains("-")) {
 			bool = true;
 		}
-		
 		return bool;
 	}
 	
@@ -77,14 +73,12 @@ public class TelaCadastroFilme {
 		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.setBackground(new Color(0, 0, 255));
-		viewCadastroFilme.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setVisible(false);
 		viewCadastroFilme.getContentPane().setLayout(null);
-		viewCadastroFilme.getContentPane().setBackground(new Color(0, 153, 255));
+		viewCadastroFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewCadastroFilme.getContentPane().setForeground(new Color(255, 255, 255));
-		viewCadastroFilme.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setTitle("Cadastrar Filme");
 		viewCadastroFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
@@ -98,9 +92,11 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblCadastro);
 		
 		JLabel lblNewItem = new JLabel("");
+		lblNewItem.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-lista.png")));
+		lblNewItem.setBackground(new Color(51, 51, 255));
 		lblNewItem.setBounds(105, 35, 40, 40);
 		lblNewItem.setVerticalAlignment(SwingConstants.TOP);
-		lblNewItem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/Novo_Item.png")));
+		
 		viewCadastroFilme.getContentPane().add(lblNewItem);
 		
 		JLabel lblNome = new JLabel("Nome");
@@ -112,7 +108,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblNome);
 		
 		textFieldNome = new JTextField();
-		textFieldNome.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 13));
+		textFieldNome.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldNome.setBounds(10, 125, 565, 30);
 		viewCadastroFilme.getContentPane().add(textFieldNome);
 		textFieldNome.setColumns(10);
@@ -126,7 +122,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblData);
 		
 		textFieldData = new JTextField();
-		textFieldData.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 13));
+		textFieldData.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldData.setBounds(238, 245, 165, 30);
 //		textFieldData.addKeyListener(new KeyAdapter() {
 //			@Override
@@ -155,7 +151,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblDuraoDoFilme);
 		
 		textFieldDuracao = new JTextField();
-		textFieldDuracao.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 13));
+		textFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDuracao.setBounds(455, 245, 119, 30);
 		textFieldDuracao.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
 		textFieldDuracao.setColumns(10);
@@ -170,7 +166,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblGnero);
 		
 		textFieldGenero = new JTextField();
-		textFieldGenero.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 13));
+		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldGenero.setBounds(10, 245, 165, 30);
 		textFieldGenero.setToolTipText("");
 		textFieldGenero.setColumns(10);
@@ -185,7 +181,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblPalavras);
 		
 		textFieldWorKeys = new JTextField();
-		textFieldWorKeys.setFont(new Font("Microsoft JhengHei Light", Font.PLAIN, 13));
+		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldWorKeys.setBounds(10, 190, 565, 30);
 		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
 		textFieldWorKeys.setColumns(10);
@@ -200,7 +196,8 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblDescrio);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(377, 445, 150, 25);
+		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		btnCancelar.setBounds(392, 445, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaCampos();
@@ -213,7 +210,8 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(btnCancelar);
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setBounds(45, 445, 150, 25);
+		btnSalvar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-ok.png")));
+		btnSalvar.setBounds(60, 445, 150, 25);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -259,9 +257,10 @@ public class TelaCadastroFilme {
 		
 		editorPaneDescricao = new JEditorPane();
 		scrollPane.setViewportView(editorPaneDescricao);
-		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
 		
+		viewCadastroFilme.setResizable(false);
 		viewCadastroFilme.setSize(600, 520);
 		viewCadastroFilme.setVisible(true);		
 	}
