@@ -1,6 +1,7 @@
 package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,17 +19,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.border.MatteBorder;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import javax.swing.table.DefaultTableModel;
 
 public class TelaPrincipal {
 	
@@ -45,6 +48,7 @@ public class TelaPrincipal {
 	private JTextField textFieldGenero;
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
+	private JTable table;
 	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
@@ -65,6 +69,16 @@ public class TelaPrincipal {
 		}
 		
 		return ok;
+	}
+	
+	public boolean contens(JTextField textFieldWorKeys){
+		boolean bool = false;
+		
+		if(textFieldWorKeys.getText().contains("-")) {
+			bool = true;
+		}
+		
+		return bool;
 	}
 	
 	public TelaPrincipal(DadosLogin dadosLogin) {
@@ -90,12 +104,14 @@ public class TelaPrincipal {
 		myPanelCadastro = new JPanel();
 		myPanelCadastro.setBackground(new Color(255, 255, 255));
 		myPanelCadastro.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		myPanelCadastro.setLocation(90, 55);
+//		myPanelCadastro.setLocation(90, 55);
+		myPanelCadastro.setLocation(1111, 511115);
 		myPanelCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myPanelCadastro.setVisible(false);
+//		myPanelCadastro.setSize(485, 415);
 		myPanelCadastro.setSize(485, 415);
-		myViewMain.getContentPane().add(myPanelCadastro);
 		myPanelCadastro.setLayout(null);
+		myViewMain.getContentPane().add(myPanelCadastro);
 		
 		myPanelCadastro.setVisible(false);
 		
@@ -104,10 +120,120 @@ public class TelaPrincipal {
 		myPanelListagem.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		myPanelListagem.setLocation(90, 55);
 		myPanelListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		myPanelListagem.setVisible(false);
+		myPanelListagem.setVisible(true);
 		myPanelListagem.setSize(485, 415);
-		myViewMain.getContentPane().add(myPanelListagem);
 		myPanelListagem.setLayout(null);
+		myViewMain.getContentPane().add(myPanelListagem);
+		
+		JButton button = new JButton("");
+		button.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/iconeExit.jpg")));
+		button.setBounds(442, 22, 18, 15);
+		myPanelListagem.add(button);
+		
+		JLabel lblTituloListagem = new JLabel("Meus Filmes");
+		lblTituloListagem.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 30));
+		lblTituloListagem.setBounds(125, 30, 240, 45);
+		myPanelListagem.add(lblTituloListagem);
+		
+		JLabel lblIconLista = new JLabel("");
+		lblIconLista.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/Lista.jpg")));
+		lblIconLista.setVerticalAlignment(SwingConstants.TOP);
+		lblIconLista.setBounds(110, 35, 40, 40);
+		myPanelListagem.add(lblIconLista);
+		
+//		table = new JTable();
+		
+		
+		Object[] titulosColunas = {"TESTE1", "TESTE2"};
+
+        Object[][] dados = {
+            {"Like a Stone", "Audioslave"},
+            {"Alive", "Pearl Jam"},
+            {"Scorpions", "sdfsfsdfdsf "},
+            {"Bom Jovi", "fdsfdsfdsf"}
+        };
+        
+//        DefaultTableModel modelo = new DefaultTableModel(dados, titulosColunas);
+
+        table = new JTable(dados, titulosColunas);
+        table.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{"Like a Stone", null, "Audioslave"},
+        		{"Alive", null, "Pearl Jam"},
+        		{null, null, null},
+        		{null, null, null},
+        	},
+        	new String[] {
+        		"Musica", "Teste", "Cantor"
+        	}
+        ));
+        table.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+	    table.setPreferredScrollableViewportSize(new Dimension(500, 70));
+	    table.setFillsViewportHeight(true);
+	    table.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 12));
+	    table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+	    table.setFillsViewportHeight(true);
+		table.setColumnSelectionAllowed(true);
+		table.setCellSelectionEnabled(true);
+		table.setBounds(10, 100, 465, 305);
+		table.clearSelection();
+		
+		myPanelListagem.add(table);
+		
+		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 1);
+		slider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+		slider.setBackground(Color.WHITE);
+//		slider.addChangeListener(new ChangeListener() {
+//			public void stateChanged(ChangeEvent e) {
+//				JSlider source = (JSlider)e.getSource();
+//			    
+//			    if (!source.getValueIsAdjusting()) {
+//			        int fps = (int)slider.getValue();
+//			        if (fps == 0) {
+//			        	slider.setToolTipText("Péssimo");
+//			        	System.out.println("Péssimo");
+//			        } else if (fps == 1) {
+//			        	slider.setToolTipText("Ruim");
+//			        	System.out.println("Ruim");
+//			        } else if (fps == 2){
+//			        	slider.setToolTipText("Regular");
+//			        	System.out.println("Regular");
+//			        } else if (fps == 3){
+//			        	slider.setToolTipText("Bom");
+//			        	System.out.println("Bom");
+//			        } else if (fps == 4) {
+//			        	slider.setToolTipText("Muito Bom");
+//			        	System.out.println("Muito Bom");
+//			        } else if (fps == 5) {
+//			        	slider.setToolTipText("Excelente");
+//			        	System.out.println("Excelente");
+//			        }
+//			    }
+//			}
+//		});
+		slider.setEnabled(true);
+//		slider.addChangeListener((ChangeListener) this);
+		
+		slider.setBounds(617, 442, 75, 92);
+		myViewMain.getContentPane().add(slider);
+		slider.setMajorTickSpacing(5);
+		slider.setMinorTickSpacing(1);
+		slider.setPaintTicks(true);
+		slider.setPaintLabels(true);
+		
+		Font font = new Font("Arial", Font.PLAIN, 9);
+		slider.setFont(font);
+		
+		@SuppressWarnings("rawtypes")
+		Hashtable labelTable = new Hashtable();
+		labelTable.put( new Integer(5), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-5.jpg"))) );
+		labelTable.put( new Integer(4), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-4.jpg"))) );
+		labelTable.put( new Integer(3), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-3.jpg"))) );
+		labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
+		labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
+		labelTable.put( new Integer(0), new JLabel( "0" ));
+		slider.setLabelTable( labelTable );
 		
 		JButton btnExit = new JButton("");
 		btnExit.addActionListener(new ActionListener() {
@@ -255,11 +381,21 @@ public class TelaPrincipal {
 				filme.setDuracaoFilme(textFieldDuracao.getText());
 				
 				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao) ) {
-					controlFilmes.CadastrarFilme(filme, dl.getId());
-					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
-					limpaCampos();
+					if (contens(textFieldWorKeys)) {
+						controlFilmes.CadastrarFilme(filme, dl.getId());
+						JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
+						limpaCampos();
+						
+//						JOptionPane.showMessageDialog(null, slider.getValue());
+						
+					} else {
+						JOptionPane.showMessageDialog(null, "Campo 'Palavras-chave' não está preenchido corretamente." 
+								+ "\n" + " Para salvar o filme as palavras-chave precisa ser separadas por '-'.",
+								"Campo Palavras-chave não corresponde ao padrão", JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos para que seja possível salvar o filme.", "Erro Ao Salvar", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Preencha todos os campos para que seja possível salvar o filme.",
+							"Erro Ao Salvar", JOptionPane.ERROR_MESSAGE);
 				}
 				
 				
@@ -327,49 +463,6 @@ public class TelaPrincipal {
 		});
 		mntmTela.setBackground(new Color(255, 255, 255));
 		mnSair.add(mntmTela);
-		
-		JSlider slider = new JSlider(JSlider.VERTICAL, 1, 5, 1);
-		slider.setBackground(Color.WHITE);
-		slider.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				JSlider source = (JSlider)e.getSource();
-			    
-			    if (!source.getValueIsAdjusting()) {
-			        int fps = (int)slider.getValue();
-			        if (fps == 1) {
-			            JOptionPane.showMessageDialog(null, "pessimo escolha");
-			        } else if (fps == 2){
-			        	slider.setToolTipText("BOM");
-//			        	JOptionPane.showMessageDialog(null, "escolha ruim");
-			        } else if (fps == 3){
-			        	slider.setToolTipText("REGULAR");
-//			        	JOptionPane.showMessageDialog(null, "escolha regular");
-			        }
-			    }
-			}
-		});
-		slider.setEnabled(true);
-//		slider.addChangeListener((ChangeListener) this);
-		
-		slider.setBounds(579, 442, 90, 92);
-		myViewMain.getContentPane().add(slider);
-		slider.setMajorTickSpacing(5);
-		slider.setMinorTickSpacing(1);
-		slider.setPaintTicks(true);
-		slider.setPaintLabels(true);
-		
-
-		Font font = new Font("Arial", Font.PLAIN, 9);
-		slider.setFont(font);
-		
-		@SuppressWarnings("rawtypes")
-		Hashtable labelTable = new Hashtable();
-		labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-5.jpg"))) );
-		labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-4.jpg"))) );
-		labelTable.put( new Integer(3), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-3.jpg"))) );
-		labelTable.put( new Integer(4), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
-		labelTable.put( new Integer(5), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
-		slider.setLabelTable( labelTable );
 		
 //		myViewMain.setSize(675, 550);
 		myViewMain.setSize(708, 574);

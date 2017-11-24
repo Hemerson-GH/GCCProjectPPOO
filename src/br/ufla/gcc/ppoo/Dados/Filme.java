@@ -8,6 +8,7 @@ public class Filme {
 	private String wordKeys;
 	private String genero;
 	private String duracaoFilme;
+	private Long pontos;
 	
 	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme){
 		this.nome = nome;
@@ -77,6 +78,14 @@ public class Filme {
 
 	public void setDuracaoFilme(String duracaoFilme) {
 		this.duracaoFilme = duracaoFilme;
+	}
+
+	public Long getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(Long pontos) {
+		this.pontos = pontos;
 	}
 
 }
