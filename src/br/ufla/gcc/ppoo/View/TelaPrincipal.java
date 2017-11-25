@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
@@ -40,6 +42,19 @@ public class TelaPrincipal {
 	public void View(DadosLogin dadosLogin){
 
 		viewMain = new JFrame();
+		
+		viewMain.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				
+				if (JOptionPane.YES_OPTION == confirm) {	
+					bancoDDados.Desconecta();
+					viewMain.dispose();
+				}
+			}
+		});
+		
 		viewMain.getContentPane().setBackground(new Color(51, 102, 153));
 		viewMain.getContentPane().setForeground(new Color(255, 255, 255));
 		viewMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

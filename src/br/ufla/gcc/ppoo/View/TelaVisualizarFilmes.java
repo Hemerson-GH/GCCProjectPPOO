@@ -8,11 +8,16 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.ListSelectionModel;
 
 public class TelaVisualizarFilmes {
 	
 	JFrame viewListagem;
 	static boolean status = false;
+	private JTable table;
 	
 	public boolean getStatus() { 
 		return status;
@@ -22,7 +27,7 @@ public class TelaVisualizarFilmes {
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-//	public TelaVisualizarFilmes() { }
+	public TelaVisualizarFilmes() { }
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
@@ -43,6 +48,40 @@ public class TelaVisualizarFilmes {
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewListagem.setTitle("Cadastrar Filme");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 68, 559, 138);
+		viewListagem.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		table.setColumnSelectionAllowed(true);
+		table.setCellSelectionEnabled(true);
+		table.setEnabled(false);
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+				{null, null, null},
+			},
+			new String[] {
+				"Teste 1", "Teste 2", "Teste 3"
+			}
+		));
+		scrollPane.setViewportView(table);
 		
 		status = true;
 		
