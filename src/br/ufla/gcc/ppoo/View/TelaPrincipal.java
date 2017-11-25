@@ -67,7 +67,6 @@ public class TelaPrincipal {
 		slider.setBounds(667, 166, 90, 130);
 		slider.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		slider.setBackground(Color.WHITE);
-	
 		slider.setEnabled(true);
 		viewMain.getContentPane().add(slider);
 		slider.setMajorTickSpacing(5);
@@ -86,16 +85,6 @@ public class TelaPrincipal {
 		labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
 		labelTable.put( new Integer(0), new JLabel( "0" ));
 		slider.setLabelTable( labelTable );
-		
-//		JButton btnExit = new JButton("");
-//		btnExit.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				myPanelCadastro.setVisible(false);
-//			}
-//		});
-//		btnExit.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/iconeExit.jpg")));
-//		btnExit.setBounds(455, 10, 18, 15);
-//		myPanelCadastro.add(btnExit);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1389, 20);

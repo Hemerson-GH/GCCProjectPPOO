@@ -31,4 +31,18 @@ public class ClasseComentarios {
 //			}
 //		});
 	
+	
+//	JButton btnExit = new JButton("");
+//	btnExit.addActionListener(new ActionListener() {
+//		public void actionPerformed(ActionEvent e) {
+//			myPanelCadastro.setVisible(false);
+//		}
+//	});
+//	btnExit.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/iconeExit.jpg")));
+//	btnExit.setBounds(455, 10, 18, 15);
+//	myPanelCadastro.add(btnExit);
+	
+	
+	
+	
 }
