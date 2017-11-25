@@ -61,6 +61,7 @@ public class TelaPrincipal {
 		viewMain.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewMain.setTitle("Menu Principal");
 		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewMain.getContentPane().setLayout(null);
 		
 		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 0);
 		slider.setMinorTickSpacing(1);

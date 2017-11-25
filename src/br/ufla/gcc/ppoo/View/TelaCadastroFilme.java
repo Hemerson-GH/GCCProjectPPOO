@@ -33,7 +33,7 @@ public class TelaCadastroFilme {
 		return status;
 	}
 	
-//	public TelaCadastroFilme() { }
+	public TelaCadastroFilme() { }
 	
 	Filme filme = new Filme();
 	BancoDeDados bancoDDados = new BancoDeDados();
