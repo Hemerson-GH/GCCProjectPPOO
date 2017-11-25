@@ -62,20 +62,6 @@ public class TelaVisualizarFilmes {
 			new Object[][] {
 				{null, null, null},
 				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
-				{null, null, null},
 			},
 			new String[] {
 				"Teste 1", "Teste 2", "Teste 3"

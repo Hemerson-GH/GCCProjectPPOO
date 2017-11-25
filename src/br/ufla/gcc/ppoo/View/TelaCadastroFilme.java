@@ -33,7 +33,7 @@ public class TelaCadastroFilme {
 		return status;
 	}
 	
-	public TelaCadastroFilme() { }
+//	public TelaCadastroFilme() { }
 	
 	Filme filme = new Filme();
 	BancoDeDados bancoDDados = new BancoDeDados();
@@ -108,7 +108,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(lblCadastro);
 		
 		JLabel lblNewItem = new JLabel("");
-		lblNewItem.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-lista.png")));
+		lblNewItem.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/Novo_Item.png")));
 		lblNewItem.setBackground(new Color(51, 51, 255));
 		lblNewItem.setBounds(105, 35, 40, 40);
 		lblNewItem.setVerticalAlignment(SwingConstants.TOP);
