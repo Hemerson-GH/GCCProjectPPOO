@@ -63,19 +63,6 @@ public class TelaPrincipal {
 		viewMain.setTitle("Menu Principal");
 		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-//		JLabel lblTituloListagem = new JLabel("Meus Filmes");
-//		lblTituloListagem.setHorizontalAlignment(SwingConstants.CENTER);
-//		lblTituloListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 30));
-//		lblTituloListagem.setBounds(125, 30, 240, 45);
-//		viewListagem.getContentPane().add(lblTituloListagem);
-		
-		JLabel lblIconLista = new JLabel("");
-		lblIconLista.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/Lista.jpg")));
-		lblIconLista.setVerticalAlignment(SwingConstants.TOP);
-		lblIconLista.setBounds(110, 35, 40, 40);
-//		viewListagem.getContentPane().add(lblIconLista);
-		viewMain.getContentPane().setLayout(null);
-		
 		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 0);
 		slider.setMinorTickSpacing(1);
 		slider.setBounds(667, 166, 90, 130);
