@@ -29,11 +29,11 @@ public class TelaCadastroFilme {
 	JFrame viewCadastroFilme;
 	static boolean status = false;
 	
-	public TelaCadastroFilme() { }
-	
 	public boolean getStatus() { 
 		return status;
 	}
+	
+	public TelaCadastroFilme() { }
 	
 	Filme filme = new Filme();
 	BancoDeDados bancoDDados = new BancoDeDados();

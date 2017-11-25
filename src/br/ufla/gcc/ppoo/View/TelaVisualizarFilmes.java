@@ -14,8 +14,6 @@ public class TelaVisualizarFilmes {
 	JFrame viewListagem;
 	static boolean status = false;
 	
-	public TelaVisualizarFilmes() { }
-	
 	public boolean getStatus() { 
 		return status;
 	}
@@ -23,6 +21,8 @@ public class TelaVisualizarFilmes {
 	public TelaVisualizarFilmes(DadosLogin dadosLogin){
 		viewListagemDeFilmes(dadosLogin);
 	}
+	
+//	public TelaVisualizarFilmes() { }
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
@@ -44,8 +44,6 @@ public class TelaVisualizarFilmes {
 		viewListagem.setTitle("Cadastrar Filme");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-//		if ) {
-			status = true;
-//		}
+		status = true;
 	}
 }
