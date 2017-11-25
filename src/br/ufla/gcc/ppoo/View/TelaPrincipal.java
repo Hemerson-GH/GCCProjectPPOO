@@ -42,36 +42,23 @@ public class TelaPrincipal {
 	public void View(DadosLogin dadosLogin){
 
 		viewMain = new JFrame();
-	
-		viewMain.addWindowListener(new java.awt.event.WindowAdapter() {
-			public void windowClosing(java.awt.event.WindowEvent e) {
-				if (e.getID() == WindowEvent.WINDOW_CLOSING){
-					int selectedOption = JOptionPane.showConfirmDialog(null,"Deseja Sair Realmente?", "Sistema informa:", JOptionPane.YES_NO_OPTION);
-					if(selectedOption == JOptionPane.YES_OPTION){
-						System.exit(0);  	                	
-					}	
-				}	
+		
+		viewMain.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				
+				if (JOptionPane.YES_OPTION == confirm) {	
+					bancoDDados.Desconecta();
+					viewMain.dispose();
+					System.exit(0);
+				}
 			}
-		});
-		
-//		viewMain.addWindowListener(new WindowAdapter() {
-//			@Override
-//			public void windowClosing(WindowEvent arg0) {
-//				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-//				
-//				if (JOptionPane.YES_OPTION == confirm) {	
-//					bancoDDados.Desconecta();
-//					viewMain.dispose();
-//				} else {
-//					
-//				}
-//			}
-//		});
-		
+		});		
 		
 		viewMain.getContentPane().setBackground(new Color(51, 102, 153));
 		viewMain.getContentPane().setForeground(new Color(255, 255, 255));
-		viewMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		viewMain.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		viewMain.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewMain.setTitle("Menu Principal");
 		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
@@ -220,13 +207,13 @@ public class TelaPrincipal {
 		mntmSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					bancoDDados.Desconecta();
 					viewMain.dispose();
+					System.exit(0);
 				}
-				
 			}
 		});
 		
