@@ -45,5 +45,9 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		status = true;
+		
+		viewListagem.setResizable(false);
+		viewListagem.setSize(600, 520);
+		viewListagem.setVisible(true);		
 	}
 }
