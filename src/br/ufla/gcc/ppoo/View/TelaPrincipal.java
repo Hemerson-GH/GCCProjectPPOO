@@ -141,6 +141,8 @@ public class TelaPrincipal {
 				
 				if (!(TDF.getStatus())) {
 					new TelaCadastroFilme(dadosLogin);
+				} else {
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -151,7 +153,14 @@ public class TelaPrincipal {
 		mnListagem.setBackground(new Color(255, 255, 255));
 		mnListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new TelaVisualizarFilmes(dadosLogin);
+				
+				TelaVisualizarFilmes TVF = new TelaVisualizarFilmes();
+				
+				if (!(TVF.getStatus())) {
+					new TelaVisualizarFilmes(dadosLogin);
+				} else {
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		

@@ -21,15 +21,15 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class TelaCadastroFilme {
 
 	JFrame viewCadastroFilme;
 	static boolean status = false;
 	
-	public TelaCadastroFilme(){
-		
-	}
+	public TelaCadastroFilme() { }
 	
 	public boolean getStatus() { 
 		return status;
@@ -81,6 +81,13 @@ public class TelaCadastroFilme {
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
 		viewCadastroFilme = new JFrame();
+		viewCadastroFilme.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				status = false;
+			}
+		});
+		viewCadastroFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewCadastroFilme.setBackground(new Color(0, 0, 255));
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setVisible(false);
