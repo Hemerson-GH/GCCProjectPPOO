@@ -27,7 +27,7 @@ public class TelaVisualizarFilmes {
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-	public TelaVisualizarFilmes() { }
+//	public TelaVisualizarFilmes() { }
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
@@ -46,7 +46,7 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().setBackground(new Color(51, 102, 153));
 		viewListagem.getContentPane().setForeground(new Color(255, 255, 255));
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewListagem.setTitle("Cadastrar Filme");
+		viewListagem.setTitle("Meus Filme");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JScrollPane scrollPane = new JScrollPane();
