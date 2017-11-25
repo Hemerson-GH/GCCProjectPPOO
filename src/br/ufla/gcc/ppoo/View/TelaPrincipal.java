@@ -15,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
@@ -23,7 +24,6 @@ import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import javax.swing.JSeparator;
 
 public class TelaPrincipal {
 	
@@ -42,18 +42,32 @@ public class TelaPrincipal {
 	public void View(DadosLogin dadosLogin){
 
 		viewMain = new JFrame();
-		
-		viewMain.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosed(WindowEvent arg0) {
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				
-				if (JOptionPane.YES_OPTION == confirm) {	
-					bancoDDados.Desconecta();
-					viewMain.dispose();
-				}
+	
+		viewMain.addWindowListener(new java.awt.event.WindowAdapter() {
+			public void windowClosing(java.awt.event.WindowEvent e) {
+				if (e.getID() == WindowEvent.WINDOW_CLOSING){
+					int selectedOption = JOptionPane.showConfirmDialog(null,"Deseja Sair Realmente?", "Sistema informa:", JOptionPane.YES_NO_OPTION);
+					if(selectedOption == JOptionPane.YES_OPTION){
+						System.exit(0);  	                	
+					}	
+				}	
 			}
 		});
+		
+//		viewMain.addWindowListener(new WindowAdapter() {
+//			@Override
+//			public void windowClosing(WindowEvent arg0) {
+//				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+//				
+//				if (JOptionPane.YES_OPTION == confirm) {	
+//					bancoDDados.Desconecta();
+//					viewMain.dispose();
+//				} else {
+//					
+//				}
+//			}
+//		});
+		
 		
 		viewMain.getContentPane().setBackground(new Color(51, 102, 153));
 		viewMain.getContentPane().setForeground(new Color(255, 255, 255));
@@ -179,8 +193,8 @@ public class TelaPrincipal {
 			}
 		});
 		
-		JSeparator separator_1 = new JSeparator();
-		mnMenu.add(separator_1);
+		JSeparator separatorMenu = new JSeparator();
+		mnMenu.add(separatorMenu);
 		mnListagem.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnListagem);
 		
@@ -198,9 +212,6 @@ public class TelaPrincipal {
 				new TelaLogin();
 			}
 		});
-		
-		JSeparator separator = new JSeparator();
-		mnSair.add(separator);
 		mntmTela.setBackground(new Color(255, 255, 255));
 		mnSair.add(mntmTela);
 		
@@ -218,6 +229,9 @@ public class TelaPrincipal {
 				
 			}
 		});
+		
+		JSeparator separatorSair = new JSeparator();
+		mnSair.add(separatorSair);
 		mntmSair.setBackground(new Color(255, 255, 255));
 		mnSair.add(mntmSair);
 		
