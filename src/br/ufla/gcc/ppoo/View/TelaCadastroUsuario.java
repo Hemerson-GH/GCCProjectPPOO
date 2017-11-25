@@ -35,11 +35,12 @@ public class TelaCadastro {
 	}
 	
 	public boolean confereSenhas(String senhaPri, String senhaSec){
+		boolean confirm = false;
+		
 		if (senhaPri.equals(senhaSec)) {
-			return true;
-		} else {
-			return false;
-		}
+			confirm = true;
+		} 
+		return confirm;
 	}
 	
 	public void ViewMain(){
