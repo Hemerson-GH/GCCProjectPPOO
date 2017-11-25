@@ -62,10 +62,10 @@ public class TelaVisualizarFilmes {
 		table.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.setColumnSelectionAllowed(true);
-		table.setCellSelectionEnabled(true);
+		table.clearSelection();
+		
 		table.setModel(new DefaultTableModel(
-			new Object[][] {
+			new String[][] {
 				{"sasaas", "124", "21"},
 				{"saa", "412", "241"},
 			},
@@ -77,7 +77,7 @@ public class TelaVisualizarFilmes {
 				false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
+				return columnEditables[row];
 			}
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
@@ -103,7 +103,7 @@ public class TelaVisualizarFilmes {
 		lblSelecione.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSelecione.setForeground(Color.WHITE);
 		lblSelecione.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
-		lblSelecione.setBounds(170, 100, 575, 26);
+		lblSelecione.setBounds(250, 100, 405, 25);
 		viewListagem.getContentPane().add(lblSelecione);
 		
 		JButton btnVisualizar = new JButton("Visualizar");
