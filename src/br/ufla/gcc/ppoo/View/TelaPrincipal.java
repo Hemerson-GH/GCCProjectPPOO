@@ -17,7 +17,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JSlider;
-import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
