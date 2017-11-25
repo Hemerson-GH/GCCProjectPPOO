@@ -54,60 +54,72 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 125, 575, 321);
+		scrollPane.setBounds(10, 125, 874, 362);
 		viewListagem.getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.setSurrendersFocusOnKeystroke(true);
+		table.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.setColumnSelectionAllowed(true);
 		table.setCellSelectionEnabled(true);
-		table.setEnabled(false);
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null},
-				{null, null, null},
+				{"sasaas", "124", "21"},
+				{"saa", "412", "241"},
 			},
 			new String[] {
-				"Teste 1", "Teste 2", "Teste 3"
+				"Filme", "#Pontos", "Teste 3"
 			}
-		));
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		table.getColumnModel().getColumn(0).setResizable(false);
+		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(2).setResizable(false);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMeusFilme.setForeground(Color.WHITE);
 		lblMeusFilme.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
-		lblMeusFilme.setBounds(185, 25, 230, 55);
+		lblMeusFilme.setBounds(337, 20, 230, 40);
 		viewListagem.getContentPane().add(lblMeusFilme);
 		
 		JLabel label = new JLabel("");
 		label.setIcon(new ImageIcon(TelaVisualizarFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-lista.png")));
 		label.setVerticalAlignment(SwingConstants.TOP);
 		label.setBackground(new Color(51, 51, 255));
-		label.setBounds(135, 30, 40, 40);
+		label.setBounds(290, 20, 40, 40);
 		viewListagem.getContentPane().add(label);
 		
 		JLabel lblSelecione = new JLabel("Selecione um filme para realizar alguma a\u00E7\u00E3o:");
 		lblSelecione.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSelecione.setForeground(Color.WHITE);
 		lblSelecione.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
-		lblSelecione.setBounds(10, 90, 575, 40);
+		lblSelecione.setBounds(170, 100, 575, 26);
 		viewListagem.getContentPane().add(lblSelecione);
 		
 		JButton btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setBounds(10, 457, 114, 23);
+		btnVisualizar.setBounds(10, 510, 131, 41);
 		viewListagem.getContentPane().add(btnVisualizar);
 		
 		JButton btnEditar = new JButton("Editar");
-		btnEditar.setBounds(154, 457, 105, 23);
+		btnEditar.setBounds(271, 510, 114, 41);
 		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
-		btnRemover.setBounds(293, 457, 114, 23);
+		btnRemover.setBounds(538, 510, 121, 41);
 		viewListagem.getContentPane().add(btnRemover);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(479, 457, 105, 23);
+		btnCancelar.setBounds(758, 510, 126, 41);
 		viewListagem.getContentPane().add(btnCancelar);
 		
 		status = true;
