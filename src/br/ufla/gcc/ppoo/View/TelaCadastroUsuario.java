@@ -17,7 +17,7 @@ import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 	
-public class TelaCadastro {
+public class TelaCadastroUsuario {
 
 	JFrame myViewCadastro;
 
@@ -29,7 +29,7 @@ public class TelaCadastro {
 	BancoDeDados bancoDDados = new BancoDeDados();
 	ControleDadosUsuarios controlDados = new ControleDadosUsuarios();
 
-	public TelaCadastro() {
+	public TelaCadastroUsuario() {
 		bancoDDados.Conecta();
 		ViewMain();
 	}
@@ -171,7 +171,7 @@ public class TelaCadastro {
 		myViewCadastro.getContentPane().add(textFieldEmail);
 		
 		JLabel fundoCadastro = new JLabel("");
-		fundoCadastro.setIcon(new ImageIcon(TelaCadastro.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-usuario.png")));
+		fundoCadastro.setIcon(new ImageIcon(TelaCadastroUsuario.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-usuario.png")));
 		fundoCadastro.setBounds(100, 7, 50, 46);
 		myViewCadastro.getContentPane().add(fundoCadastro);
 		

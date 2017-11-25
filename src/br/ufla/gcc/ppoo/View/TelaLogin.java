@@ -103,7 +103,7 @@ public class TelaLogin {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				@SuppressWarnings("unused")
-				TelaCadastro telaCadas = new TelaCadastro();
+				TelaCadastroUsuario telaCadas = new TelaCadastroUsuario();
 				myViewLogin.dispose();
 			}
 		});

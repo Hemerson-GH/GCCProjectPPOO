@@ -25,6 +25,15 @@ import br.ufla.gcc.ppoo.Dados.Filme;
 public class TelaCadastroFilme {
 
 	JFrame viewCadastroFilme;
+	static boolean status = false;
+	
+	public TelaCadastroFilme(){
+		
+	}
+	
+	public boolean getStatus() { 
+		return status;
+	}
 	
 	Filme filme = new Filme();
 	BancoDeDados bancoDDados = new BancoDeDados();
@@ -81,6 +90,8 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setTitle("Cadastrar Filme");
 		viewCadastroFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		
+		status = true;
 		
 		JLabel lblCadastro = new JLabel("Cadastrar Filme");
 		lblCadastro.setForeground(new Color(255, 255, 255));

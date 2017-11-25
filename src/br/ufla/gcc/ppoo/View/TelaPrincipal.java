@@ -21,17 +21,15 @@ import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import javax.swing.JSeparator;
 
 public class TelaPrincipal {
 	
 	JFrame viewMain;
-	JFrame viewListagem;
 	
 	BancoDeDados bancoDDados = new BancoDeDados();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
-	
-	
+	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();	
 	
 	public TelaPrincipal(DadosLogin dadosLogin) {
 		bancoDDados.Conecta();
@@ -49,29 +47,18 @@ public class TelaPrincipal {
 		viewMain.setTitle("Menu Principal");
 		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		viewListagem = new JFrame();
-		viewListagem.setBounds(65, 31, 510, 439);
-		viewListagem.setBackground(new Color(255, 255, 255));
-		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		viewListagem.setVisible(true);
-		viewListagem.getContentPane().setLayout(null);
-		
-//		viewMain.getContentPane().add(viewListagem);
-		
-		JLabel lblTituloListagem = new JLabel("Meus Filmes");
-		lblTituloListagem.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTituloListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 30));
-		lblTituloListagem.setBounds(125, 30, 240, 45);
-		viewListagem.getContentPane().add(lblTituloListagem);
+//		JLabel lblTituloListagem = new JLabel("Meus Filmes");
+//		lblTituloListagem.setHorizontalAlignment(SwingConstants.CENTER);
+//		lblTituloListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 30));
+//		lblTituloListagem.setBounds(125, 30, 240, 45);
+//		viewListagem.getContentPane().add(lblTituloListagem);
 		
 		JLabel lblIconLista = new JLabel("");
 		lblIconLista.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/Lista.jpg")));
 		lblIconLista.setVerticalAlignment(SwingConstants.TOP);
 		lblIconLista.setBounds(110, 35, 40, 40);
-		viewListagem.getContentPane().add(lblIconLista);
+//		viewListagem.getContentPane().add(lblIconLista);
 		viewMain.getContentPane().setLayout(null);
-		
-//		viewListagem.add(table);
 		
 		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 0);
 		slider.setMinorTickSpacing(1);
@@ -138,7 +125,6 @@ public class TelaPrincipal {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1389, 20);
 		menuBar.setBackground(new Color(255, 255, 255));
-//		menuBar.setBorder(true);
 		viewMain.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
@@ -150,7 +136,12 @@ public class TelaPrincipal {
 		mnCadastro.setBackground(new Color(255, 255, 255));
 		mnCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new TelaCadastroFilme(dadosLogin);
+				
+				TelaCadastroFilme TDF = new TelaCadastroFilme();
+				
+				if (!(TDF.getStatus())) {
+					new TelaCadastroFilme(dadosLogin);
+				}
 			}
 		});
 		mnMenu.add(mnCadastro);
@@ -160,15 +151,34 @@ public class TelaPrincipal {
 		mnListagem.setBackground(new Color(255, 255, 255));
 		mnListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				viewListagem.setVisible(true);
+				new TelaVisualizarFilmes(dadosLogin);
 			}
 		});
+		
+		JSeparator separator_1 = new JSeparator();
+		mnMenu.add(separator_1);
 		mnListagem.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnListagem);
 		
 		JMenu mnSair = new JMenu("Sair");
 		mnSair.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnSair);
+		
+		JMenuItem mntmTela = new JMenuItem("Logout");
+		mntmTela.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
+		mntmTela.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				bancoDDados.Desconecta();
+				JOptionPane.showMessageDialog(null, "Você será redirecionado para a tela de login.", "Tela de Login", JOptionPane.CLOSED_OPTION);
+				viewMain.dispose();
+				new TelaLogin();
+			}
+		});
+		
+		JSeparator separator = new JSeparator();
+		mnSair.add(separator);
+		mntmTela.setBackground(new Color(255, 255, 255));
+		mnSair.add(mntmTela);
 		
 		JMenuItem mntmSair = new JMenuItem("Sair");
 		mntmSair.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/sair.png")));
@@ -186,19 +196,6 @@ public class TelaPrincipal {
 		});
 		mntmSair.setBackground(new Color(255, 255, 255));
 		mnSair.add(mntmSair);
-		
-		JMenuItem mntmTela = new JMenuItem("Logout");
-		mntmTela.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
-		mntmTela.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				bancoDDados.Desconecta();
-				JOptionPane.showMessageDialog(null, "Você será redirecionado para a tela de login.", "Tela de Login", JOptionPane.CLOSED_OPTION);
-				viewMain.dispose();
-				new TelaLogin();
-			}
-		});
-		mntmTela.setBackground(new Color(255, 255, 255));
-		mnSair.add(mntmTela);
 		
 //		Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
 //		int lar = (int) tela.getWidth();
