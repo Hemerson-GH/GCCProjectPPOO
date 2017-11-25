@@ -33,6 +33,7 @@ public class TelaVisualizarFilmes {
 	
 	public TelaVisualizarFilmes() { }
 	
+	@SuppressWarnings("serial")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
 		viewListagem = new JFrame();
@@ -65,24 +66,23 @@ public class TelaVisualizarFilmes {
 		table.clearSelection();
 		
 		table.setModel(new DefaultTableModel(
-			new String[][] {
-				{"sasaas", "124", "21"},
-				{"saa", "412", "241"},
+			new Object[][] {
+				{null, null, null, null, null, null},
 			},
 			new String[] {
-				"Filme", "#Pontos", "Teste 3"
+				"Diretor", "Data Lançamento", "Filme", "Gênero", "Duração", "#Pontos"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false
+				true, true, false, true, true, false
 			};
 			public boolean isCellEditable(int row, int column) {
-				return columnEditables[row];
+				return columnEditables[column];
 			}
 		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		table.getColumnModel().getColumn(1).setResizable(false);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setResizable(false);
+		table.getColumnModel().getColumn(5).setResizable(false);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");

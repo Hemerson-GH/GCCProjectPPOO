@@ -8,15 +8,17 @@ public class Filme {
 	private String wordKeys;
 	private String genero;
 	private String duracaoFilme;
+	private String diretor;
 	private Long pontos;
 	
-	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme){
+	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme, String diretor){
 		this.nome = nome;
 		this.data = data;
 		this.descricao = descricao;
 		this.wordKeys = wordKeys;
 		this.genero = genero;
 		this.duracaoFilme = duracaoFilme;
+		this.diretor = diretor;
 	}
 	
 	public Filme(Filme filme){
@@ -26,6 +28,7 @@ public class Filme {
 		this.setWordKeys(filme.getWordKeys());
 		this.setGenero(filme.getGenero());
 		this.setDuracaoFilme(filme.getDuracaoFilme());
+		this.setDiretor(filme.getDiretor());
 	}
 	
 	public Filme(){
@@ -86,6 +89,14 @@ public class Filme {
 
 	public void setPontos(Long pontos) {
 		this.pontos = pontos;
+	}
+
+	public String getDiretor() {
+		return diretor;
+	}
+
+	public void setDiretor(String diretor) {
+		this.diretor = diretor;
 	}
 
 }

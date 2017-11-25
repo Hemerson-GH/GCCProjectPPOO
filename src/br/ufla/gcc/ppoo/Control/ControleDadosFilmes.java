@@ -18,7 +18,7 @@ public class ControleDadosFilmes {
 		
 		try {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("insert into filmes(id_user,nome_filme,ano_lancamento,"
-					+ "descricao,palavras_chaves,genero,duracao_filme) values(?,?,?,?,?,?,?)");
+					+ "descricao,palavras_chaves,genero,duracao_filme, diretor) values(?,?,?,?,?,?,?,?)");
 			
 			pst.setInt(1, id_user);
 			pst.setString(2, filme.getNome());		
@@ -27,6 +27,7 @@ public class ControleDadosFilmes {
 			pst.setString(5, filme.getWordKeys());	
 			pst.setString(6, filme.getGenero());	
 			pst.setString(7, filme.getDuracaoFilme());	
+			pst.setString(9, filme.getDiretor());	
 			pst.execute();
 			
 		} catch (SQLException ex) {
@@ -36,7 +37,7 @@ public class ControleDadosFilmes {
 		bancoDados.Desconecta();
 	}
 	
-	Filme findFilme = new Filme(null, null, null, null, null, null);
+	Filme findFilme = new Filme(null, null, null, null, null, null, null);
 	
 	public Filme buscarDados(String email){
 		bancoDados.Conecta();	
@@ -52,6 +53,7 @@ public class ControleDadosFilmes {
 				findFilme.setWordKeys("palavras_chaves");
 				findFilme.setGenero("genero");
 				findFilme.setDuracaoFilme("duracao_filme");
+				findFilme.setDiretor("diretor");
 			    JOptionPane.showMessageDialog(null, "procura ok");
 			}
 			

@@ -43,6 +43,19 @@ public class ClasseComentarios {
 //	myPanelCadastro.add(btnExit);
 	
 	
-	
+//	textFieldData.addKeyListener(new KeyAdapter() {
+//	@Override
+//	public void keyTyped(KeyEvent arg0) {
+//		if(textFieldData.getText().length() == 2) {
+//        	textFieldData.setText(textFieldData.getText() + '/');
+//        }				
+//        if(textFieldData.getText().length() == 5) {
+//			textFieldData.setText(textFieldData.getText() + '/');
+//		}
+//        if(textFieldData.getText().length() == 10) {
+//        	textFieldData.setEditable(false);
+//        }
+//	}
+//});
 	
 }

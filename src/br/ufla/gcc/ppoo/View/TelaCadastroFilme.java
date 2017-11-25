@@ -46,6 +46,7 @@ public class TelaCadastroFilme {
 	private JTextField textFieldGenero;
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
+	private JTextField textFieldDiretor;
 	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
@@ -53,13 +54,14 @@ public class TelaCadastroFilme {
 		textFieldDuracao.setText(null);
 		textFieldGenero.setText(null);
 		textFieldWorKeys.setText(null);
+		textFieldDiretor.setText(null);
 		editorPaneDescricao.setText(null);
 	}
 	
 	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData,
-								JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao){
+								JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor){
 		boolean ok = false;
-		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 
+		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 && textFieldDiretor.getText().length() > 0
 				&& textFieldDuracao.getText().length() > 0 && textFieldGenero.getText().length() > 0 && editorPaneDescricao.getText().length() > 0) {
 			ok = true;
 		}
@@ -130,7 +132,7 @@ public class TelaCadastroFilme {
 		textFieldNome.setColumns(10);
 		
 		JLabel lblData = new JLabel("Data de Lançamento");
-		lblData.setBounds(238, 220, 140, 25);
+		lblData.setBounds(155, 220, 140, 25);
 		lblData.setHorizontalAlignment(SwingConstants.CENTER);
 		lblData.setForeground(new Color(255, 255, 255));
 		lblData.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
@@ -139,27 +141,13 @@ public class TelaCadastroFilme {
 		
 		textFieldData = new JTextField();
 		textFieldData.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-		textFieldData.setBounds(238, 245, 165, 30);
-//		textFieldData.addKeyListener(new KeyAdapter() {
-//			@Override
-//			public void keyTyped(KeyEvent arg0) {
-//				if(textFieldData.getText().length() == 2) {
-//		        	textFieldData.setText(textFieldData.getText() + '/');
-//		        }				
-//		        if(textFieldData.getText().length() == 5) {
-//					textFieldData.setText(textFieldData.getText() + '/');
-//				}
-//		        if(textFieldData.getText().length() == 10) {
-//		        	textFieldData.setEditable(false);
-//		        }
-//			}
-//		});
+		textFieldData.setBounds(155, 245, 140, 30);
 		textFieldData.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
 		textFieldData.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldData);
 		
 		JLabel lblDuraoDoFilme = new JLabel("Duração");
-		lblDuraoDoFilme.setBounds(456, 220, 58, 25);
+		lblDuraoDoFilme.setBounds(325, 220, 58, 25);
 		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDuraoDoFilme.setForeground(new Color(255, 255, 255));
 		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
@@ -168,7 +156,7 @@ public class TelaCadastroFilme {
 		
 		textFieldDuracao = new JTextField();
 		textFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-		textFieldDuracao.setBounds(455, 245, 119, 30);
+		textFieldDuracao.setBounds(325, 245, 100, 30);
 		textFieldDuracao.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
 		textFieldDuracao.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldDuracao);
@@ -183,7 +171,7 @@ public class TelaCadastroFilme {
 		
 		textFieldGenero = new JTextField();
 		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-		textFieldGenero.setBounds(10, 245, 165, 30);
+		textFieldGenero.setBounds(10, 245, 115, 30);
 		textFieldGenero.setToolTipText("");
 		textFieldGenero.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldGenero);
@@ -213,7 +201,7 @@ public class TelaCadastroFilme {
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
-		btnCancelar.setBounds(392, 445, 150, 25);
+		btnCancelar.setBounds(390, 445, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaCampos();
@@ -239,8 +227,9 @@ public class TelaCadastroFilme {
 				filme.setWordKeys(textFieldWorKeys.getText());
 				filme.setGenero(textFieldGenero.getText());
 				filme.setDuracaoFilme(textFieldDuracao.getText());
+				filme.setDiretor(textFieldDiretor.getText());
 				
-				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao) ) {
+				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
 					if (contens(textFieldWorKeys)) {
 						controlFilmes.CadastrarFilme(filme, dl.getId());
 						JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
@@ -273,6 +262,21 @@ public class TelaCadastroFilme {
 		scrollPane.setViewportView(editorPaneDescricao);
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
+		
+		textFieldDiretor = new JTextField();
+		textFieldDiretor.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
+		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
+		textFieldDiretor.setColumns(10);
+		textFieldDiretor.setBounds(455, 245, 120, 30);
+		viewCadastroFilme.getContentPane().add(textFieldDiretor);
+		
+		JLabel lblDireto = new JLabel("Diretor");
+		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDireto.setForeground(Color.WHITE);
+		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
+		lblDireto.setBackground(Color.GRAY);
+		lblDireto.setBounds(455, 220, 50, 25);
+		viewCadastroFilme.getContentPane().add(lblDireto);
 		
 		viewCadastroFilme.setResizable(false);
 		viewCadastroFilme.setSize(600, 520);
