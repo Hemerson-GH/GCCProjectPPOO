@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
@@ -28,7 +29,7 @@ public class TelaVisualizarFilmes {
 	
 	JFrame viewListagem;
 	static boolean status = false;
-	private JTable table;
+	private JTable tableFilmes;
 	
 	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
@@ -43,7 +44,7 @@ public class TelaVisualizarFilmes {
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-	public TelaVisualizarFilmes() { }
+//	public TelaVisualizarFilmes() { }
 	
 	@SuppressWarnings({ "unused", "serial" })
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
@@ -92,10 +93,10 @@ public class TelaVisualizarFilmes {
 			i++;
 		}
 		
-		table = new JTable();
+		tableFilmes = new JTable();
 //		table = new JTable(filmes, titulosColunas);
 		
-		table.setModel(new DefaultTableModel(filmes, titulosColunas) {
+		tableFilmes.setModel(new DefaultTableModel(filmes, titulosColunas) {
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, false
 			};
@@ -110,12 +111,12 @@ public class TelaVisualizarFilmes {
 //		table.getColumnModel().getColumn(3).setResizable(false);
 //		table.getColumnModel().getColumn(4).setResizable(false);
 //		table.getColumnModel().getColumn(5).setResizable(false);
-		table.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		
-		table.setFillsViewportHeight(true);
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		tableFilmes.clearSelection();
+		tableFilmes.setFillsViewportHeight(true);
+		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		scrollPaneList.setViewportView(table);
+		scrollPaneList.setViewportView(tableFilmes);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
@@ -160,6 +161,18 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (tableFilmes.getSelectedRow() != -1) {
+					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
+					JOptionPane.showMessageDialog(null, tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0));
+					tableFilmes.clearSelection();
+				} else {
+					JOptionPane.showMessageDialog(null, "Seleção inválida...", "Para remover um filme selecione a linha dele.", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		btnRemover.setForeground(new Color(0, 0, 0));
 		btnRemover.setToolTipText("Remover item");
 		btnRemover.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -168,6 +181,12 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(btnRemover);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				viewListagem.dispose();
+			}
+		});
+		btnCancelar.setIcon(new ImageIcon(TelaVisualizarFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
 		btnCancelar.setForeground(new Color(0, 0, 0));
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));

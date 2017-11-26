@@ -72,26 +72,22 @@ public class ControleDadosFilmes {
 		return listFilm;
 	}
 	
-	public boolean confereEmail(String email){
+	public boolean confereFilme(String filme){
 		bancoDados.Conecta();	
-//		String emailBancoDDados = null;
 		boolean encontrei = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");
+			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where nome_filme = '" + filme +"'");
 			ResultSet rs = pst.executeQuery();	
 			
-			while (rs.next()) {
-//				emailBancoDDados = rs.getString("email");	
+			while (rs.next()) {	
 				encontrei = true;
 			}
-			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		
 		bancoDados.Desconecta();
-		
 		return encontrei;
 	}
 }

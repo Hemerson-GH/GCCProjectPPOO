@@ -68,7 +68,7 @@ public class TelaCadastroFilme {
 		return ok;
 	}
 	
-	public boolean contens(JTextField textFieldWorKeys){
+	public boolean contensHifen(JTextField textFieldWorKeys){
 		boolean bool = false;
 		if(textFieldWorKeys.getText().contains("-")) {
 			bool = true;
@@ -231,11 +231,18 @@ public class TelaCadastroFilme {
 				filme.setDiretor(textFieldDiretor.getText());
 				
 				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
-					if (contens(textFieldWorKeys)) {
-						controlFilmes.CadastrarFilme(filme, dl.getId());
-						JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
-						limpaCampos();
+					if (contensHifen(textFieldWorKeys)) {
+					
+						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
 						
+						if (!confere) {
+							controlFilmes.CadastrarFilme(filme, dl.getId());
+							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
+							limpaCampos();
+						} else {
+							JOptionPane.showMessageDialog(null, "Ops, esse filme já está cadastrado, tente cadastrar um outro filme que não esteja cadastrado.",
+									"Filme Já Cadastrado", JOptionPane.ERROR_MESSAGE);
+						}
 //						JOptionPane.showMessageDialog(null, slider.getValue());
 						
 					} else {
