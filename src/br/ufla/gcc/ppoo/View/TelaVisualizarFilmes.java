@@ -2,20 +2,26 @@ package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
-import javax.swing.JFrame;
-
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.ListSelectionModel;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+
+import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Dados.Filme;
 
 public class TelaVisualizarFilmes {
 	
@@ -23,18 +29,24 @@ public class TelaVisualizarFilmes {
 	static boolean status = false;
 	private JTable table;
 	
+	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
+	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
+	BancoDeDados bancoDDados = new BancoDeDados();
+	
 	public boolean getStatus() { 
 		return status;
 	}
 	
 	public TelaVisualizarFilmes(DadosLogin dadosLogin){
+		bancoDDados.Conecta();
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
 	public TelaVisualizarFilmes() { }
 	
-	@SuppressWarnings("serial")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
+		
+		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
 		
 		viewListagem = new JFrame();
 		viewListagem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -58,31 +70,36 @@ public class TelaVisualizarFilmes {
 		scrollPane.setBounds(10, 125, 874, 362);
 		viewListagem.getContentPane().add(scrollPane);
 		
-		table = new JTable();
+		ArrayList<Filme> listFilms = controlFilmes.buscarFilmes(dl.getId());
+		
+		int n = 0, i = 0;
+		for (@SuppressWarnings("unused") Filme filme : listFilms) {
+//			System.out.println(filme.getNome() +' '+ filme.getGenero() + " " + filme.getData() 
+//			+ " " + filme.getDuracaoFilme() + ' ' + filme.getDiretor() + " " +filme.getPontos());
+			n++;
+		}
+		
+		Object[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
+		Object [][]filmes = new Object[n][6];
+		
+		for (Filme filme : listFilms) {
+			filmes[i][0] = filme.getNome();
+			filmes[i][1] = filme.getGenero();
+			filmes[i][2] = filme.getData();
+			filmes[i][3] = filme.getDuracaoFilme();
+			filmes[i][4] = filme.getDiretor();
+			filmes[i][5] = filme.getPontos();
+			i++;
+		}
+		
+//		table = new JTable();
+		table = new JTable(filmes, titulosColunas);
 		table.setSurrendersFocusOnKeystroke(true);
 		table.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		table.clearSelection();
 		
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null, null},
-			},
-			new String[] {
-				"Diretor", "Data Lançamento", "Filme", "Gênero", "Duração", "#Pontos"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				true, true, false, true, true, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table.getColumnModel().getColumn(1).setPreferredWidth(100);
-		table.getColumnModel().getColumn(2).setResizable(false);
-		table.getColumnModel().getColumn(5).setResizable(false);
 		scrollPane.setViewportView(table);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
@@ -107,6 +124,11 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(lblSelecione);
 		
 		JButton btnVisualizar = new JButton("Visualizar");
+		btnVisualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
 		btnVisualizar.setBounds(10, 510, 131, 41);
 		viewListagem.getContentPane().add(btnVisualizar);
 		

@@ -60,18 +60,15 @@ public class ControleDadosUsuarios {
 	
 	public boolean confereEmail(String email){
 		bancoDados.Conecta();	
-//		String emailBancoDDados = null;
 		boolean encontrei = false;
 		
 		try {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");
 			ResultSet rs = pst.executeQuery();	
 			
-			while (rs.next()) {
-//				emailBancoDDados = rs.getString("email");	
+			while (rs.next()) {	
 				encontrei = true;
 			}
-			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}

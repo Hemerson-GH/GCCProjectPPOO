@@ -3,8 +3,7 @@ package br.ufla.gcc.ppoo.Control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
+import java.util.ArrayList;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.Filme;
@@ -35,35 +34,43 @@ public class ControleDadosFilmes {
 		}
 		
 		bancoDados.Desconecta();
-	}
+	}	
 	
-	Filme findFilme = new Filme(null, null, null, null, null, null, null);
+	Filme filme = new Filme(null, null, null, null, null, null, null, null);
 	
-	public Filme buscarDados(String email){
-		bancoDados.Conecta();	
+	public ArrayList<Filme> buscarFilmes(int id){
+		bancoDados.Conecta();
+		
+		ArrayList<Filme> listFilm = new ArrayList<>();
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where email = '" + email +"'");
+			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where id_user = '" + id +"'");
 			ResultSet rs = pst.executeQuery();	
 			
 			while (rs.next()) {				
-				findFilme.setNome(rs.getString("nome_filme"));
-				findFilme.setData(rs.getString("ano_lancamento"));
-				findFilme.setDescricao("descricao");
-				findFilme.setWordKeys("palavras_chaves");
-				findFilme.setGenero("genero");
-				findFilme.setDuracaoFilme("duracao_filme");
-				findFilme.setDiretor("diretor");
-			    JOptionPane.showMessageDialog(null, "procura ok");
+				filme.setNome(rs.getString("nome_filme"));
+				filme.setData(rs.getString("ano_lancamento"));
+				filme.setDescricao(rs.getString("descricao"));
+				filme.setWordKeys(rs.getString("palavras_chaves"));
+				filme.setGenero(rs.getString("genero"));
+				filme.setDuracaoFilme(rs.getString("duracao_filme"));
+				filme.setDiretor(rs.getString("diretor"));
+				filme.setPontos(rs.getLong("pontos_filme"));
+				listFilm.add(filme);
 			}
 			
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Erro Ao Buscar email: \n " + ex);
 			ex.printStackTrace();
 		}
 		
+		
+		for (Filme filme : listFilm) {
+			System.out.println(filme.getNome() +' '+ filme.getGenero() + " " + filme.getData() 
+			+ " " + filme.getDuracaoFilme() + ' ' + filme.getDiretor() + " " +filme.getPontos());
+		}
+		
 		bancoDados.Desconecta();
-		return findFilme;
+		return listFilm;
 	}
 	
 	public boolean confereEmail(String email){
