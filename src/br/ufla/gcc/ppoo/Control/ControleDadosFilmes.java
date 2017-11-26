@@ -27,7 +27,7 @@ public class ControleDadosFilmes {
 			pst.setString(5, filme.getWordKeys());	
 			pst.setString(6, filme.getGenero());	
 			pst.setString(7, filme.getDuracaoFilme());	
-			pst.setString(9, filme.getDiretor());	
+			pst.setString(8, filme.getDiretor());	
 			pst.execute();
 			
 		} catch (SQLException ex) {
