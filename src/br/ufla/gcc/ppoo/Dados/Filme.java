@@ -10,8 +10,10 @@ public class Filme {
 	private String duracaoFilme;
 	private String diretor;
 	private Long pontos;
+	private Long id_user;
+	private Long id_filme;
 	
-	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme, String diretor, Long pontos){
+	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme, String diretor, Long pontos, Long id_user, Long id_filme){
 		this.nome = nome;
 		this.data = data;
 		this.descricao = descricao;
@@ -20,6 +22,8 @@ public class Filme {
 		this.duracaoFilme = duracaoFilme;
 		this.diretor = diretor;
 		this.pontos = pontos;
+		this.id_filme = id_user;
+		this.id_filme = id_filme;
 	}
 	
 	public Filme(Filme filme){
@@ -31,6 +35,8 @@ public class Filme {
 		this.setDuracaoFilme(filme.getDuracaoFilme());
 		this.setDiretor(filme.getDiretor());
 		this.setPontos(filme.getPontos());
+		this.setId_filme(filme.getId_filme());
+		this.setId_user(filme.getId_user());
 	}
 	
 	public Filme(){
@@ -99,6 +105,22 @@ public class Filme {
 
 	public void setDiretor(String diretor) {
 		this.diretor = diretor;
+	}
+
+	public Long getId_user() {
+		return id_user;
+	}
+
+	public void setId_user(Long id_user) {
+		this.id_user = id_user;
+	}
+
+	public Long getId_filme() {
+		return id_filme;
+	}
+
+	public void setId_filme(Long id_filme) {
+		this.id_filme = id_filme;
 	}
 
 }

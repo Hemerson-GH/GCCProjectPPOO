@@ -205,6 +205,7 @@ public class TelaCadastroFilme {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaCampos();
+				viewCadastroFilme.dispose();
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));

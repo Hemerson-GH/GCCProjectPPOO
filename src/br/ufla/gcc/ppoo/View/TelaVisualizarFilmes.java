@@ -22,6 +22,7 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import javax.swing.table.DefaultTableModel;
 
 public class TelaVisualizarFilmes {
 	
@@ -44,7 +45,7 @@ public class TelaVisualizarFilmes {
 	
 	public TelaVisualizarFilmes() { }
 	
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "serial" })
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
 		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
@@ -67,18 +68,18 @@ public class TelaVisualizarFilmes {
 		viewListagem.setTitle("Meus Filme");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 125, 875, 360);
-		viewListagem.getContentPane().add(scrollPane);
+		JScrollPane scrollPaneList = new JScrollPane();
+		scrollPaneList.setBounds(10, 125, 875, 400);
+		viewListagem.getContentPane().add(scrollPaneList);
 		
 		ArrayList<Filme> listFilms = controlFilmes.buscarFilmes(dl.getId());
 		
 		int n = 0, i = 0;
-		for (@SuppressWarnings("unused") Filme filme : listFilms) {
+		for (Filme filme : listFilms) {
 			n++;
 		}
 		
-		Object[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
+		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
 		Object [][]filmes = new Object[n][6];
 		
 		for (Filme filme : listFilms) {
@@ -91,14 +92,30 @@ public class TelaVisualizarFilmes {
 			i++;
 		}
 		
-//		table = new JTable();
-		table = new JTable(filmes, titulosColunas);
+		table = new JTable();
+//		table = new JTable(filmes, titulosColunas);
+		
+		table.setModel(new DefaultTableModel(filmes, titulosColunas) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		
+//		table.getColumnModel().getColumn(0).setResizable(false);
+//		table.getColumnModel().getColumn(1).setResizable(false);
+//		table.getColumnModel().getColumn(2).setResizable(false);
+//		table.getColumnModel().getColumn(3).setResizable(false);
+//		table.getColumnModel().getColumn(4).setResizable(false);
+//		table.getColumnModel().getColumn(5).setResizable(false);
 		table.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
+		
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
-		scrollPane.setViewportView(table);
+		scrollPaneList.setViewportView(table);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
@@ -128,34 +145,34 @@ public class TelaVisualizarFilmes {
 			}
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 0));
-		btnVisualizar.setToolTipText("Entrar");
+		btnVisualizar.setToolTipText("Visualizar item");
 		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVisualizar.setBackground(new Color(255, 255, 255));
-		btnVisualizar.setBounds(10, 510, 131, 41);
+		btnVisualizar.setBounds(10, 535, 120, 25);
 		viewListagem.getContentPane().add(btnVisualizar);
 		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setForeground(new Color(0, 0, 0));
-		btnEditar.setToolTipText("Entrar");
+		btnEditar.setToolTipText("Editar item");
 		btnEditar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEditar.setBackground(new Color(255, 255, 255));
-		btnEditar.setBounds(271, 510, 114, 41);
+		btnEditar.setBounds(260, 535, 120, 25);
 		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setForeground(new Color(0, 0, 0));
-		btnRemover.setToolTipText("Entrar");
+		btnRemover.setToolTipText("Remover item");
 		btnRemover.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnRemover.setBackground(new Color(255, 255, 255));
-		btnRemover.setBounds(538, 510, 121, 41);
+		btnRemover.setBounds(520, 535, 120, 25);
 		viewListagem.getContentPane().add(btnRemover);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setForeground(new Color(0, 0, 0));
-		btnCancelar.setToolTipText("Entrar");
+		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
-		btnCancelar.setBounds(758, 510, 126, 41);
+		btnCancelar.setBounds(765, 535, 120, 25);
 		viewListagem.getContentPane().add(btnCancelar);
 		
 		status = true;

@@ -36,7 +36,7 @@ public class ControleDadosFilmes {
 		bancoDados.Desconecta();
 	}	
 	
-	Filme filme = new Filme(null, null, null, null, null, null, null, null);
+	Filme filme = new Filme(null, null, null, null, null, null, null, null, null, null);
 	
 	public ArrayList<Filme> buscarFilmes(int id){
 		bancoDados.Conecta();
@@ -58,6 +58,8 @@ public class ControleDadosFilmes {
 				filme.setDuracaoFilme(rs.getString("duracao_filme"));
 				filme.setDiretor(rs.getString("diretor"));
 				filme.setPontos(rs.getLong("pontos_filme"));
+				filme.setId_user(rs.getLong("id_user"));
+				filme.setId_filme(rs.getLong("id_filme"));
 				
 				listFilm.add(filme);
 			}
