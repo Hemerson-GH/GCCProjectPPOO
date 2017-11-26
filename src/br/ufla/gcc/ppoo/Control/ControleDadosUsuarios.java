@@ -33,10 +33,10 @@ public class ControleDadosUsuarios {
 		bancoDados.Desconecta();
 	}
 	
-	DadosLogin dadosLogin = new DadosLogin(null, null, null);
 	
 	public DadosLogin buscarDados(String email){
 		bancoDados.Conecta();	
+		DadosLogin dadosLogin = new DadosLogin();
 		
 		try {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");

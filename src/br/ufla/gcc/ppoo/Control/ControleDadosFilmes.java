@@ -47,7 +47,9 @@ public class ControleDadosFilmes {
 			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where id_user = '" + id +"'");
 			ResultSet rs = pst.executeQuery();	
 			
-			while (rs.next()) {				
+			while (rs.next()) {	
+				Filme filme = new Filme();
+				
 				filme.setNome(rs.getString("nome_filme"));
 				filme.setData(rs.getString("ano_lancamento"));
 				filme.setDescricao(rs.getString("descricao"));
@@ -56,17 +58,12 @@ public class ControleDadosFilmes {
 				filme.setDuracaoFilme(rs.getString("duracao_filme"));
 				filme.setDiretor(rs.getString("diretor"));
 				filme.setPontos(rs.getLong("pontos_filme"));
+				
 				listFilm.add(filme);
 			}
 			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		
-		
-		for (Filme filme : listFilm) {
-			System.out.println(filme.getNome() +' '+ filme.getGenero() + " " + filme.getData() 
-			+ " " + filme.getDuracaoFilme() + ' ' + filme.getDiretor() + " " +filme.getPontos());
 		}
 		
 		bancoDados.Desconecta();
