@@ -44,6 +44,7 @@ public class TelaVisualizarFilmes {
 	
 	public TelaVisualizarFilmes() { }
 	
+	@SuppressWarnings("unused")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
 		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
@@ -67,15 +68,13 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 125, 874, 362);
+		scrollPane.setBounds(10, 125, 875, 360);
 		viewListagem.getContentPane().add(scrollPane);
 		
 		ArrayList<Filme> listFilms = controlFilmes.buscarFilmes(dl.getId());
 		
 		int n = 0, i = 0;
 		for (@SuppressWarnings("unused") Filme filme : listFilms) {
-//			System.out.println(filme.getNome() +' '+ filme.getGenero() + " " + filme.getData() 
-//			+ " " + filme.getDuracaoFilme() + ' ' + filme.getDiretor() + " " +filme.getPontos());
 			n++;
 		}
 		
@@ -94,12 +93,11 @@ public class TelaVisualizarFilmes {
 		
 //		table = new JTable();
 		table = new JTable(filmes, titulosColunas);
-		table.setSurrendersFocusOnKeystroke(true);
 		table.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		boolean[] columnEditables = new boolean[] { false, false, false, false, false, false };
 		table.setFillsViewportHeight(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		table.clearSelection();
-		
+
 		scrollPane.setViewportView(table);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
@@ -129,18 +127,34 @@ public class TelaVisualizarFilmes {
 				
 			}
 		});
+		btnVisualizar.setForeground(new Color(0, 0, 0));
+		btnVisualizar.setToolTipText("Entrar");
+		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnVisualizar.setBackground(new Color(255, 255, 255));
 		btnVisualizar.setBounds(10, 510, 131, 41);
 		viewListagem.getContentPane().add(btnVisualizar);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.setForeground(new Color(0, 0, 0));
+		btnEditar.setToolTipText("Entrar");
+		btnEditar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnEditar.setBackground(new Color(255, 255, 255));
 		btnEditar.setBounds(271, 510, 114, 41);
 		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.setForeground(new Color(0, 0, 0));
+		btnRemover.setToolTipText("Entrar");
+		btnRemover.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnRemover.setBackground(new Color(255, 255, 255));
 		btnRemover.setBounds(538, 510, 121, 41);
 		viewListagem.getContentPane().add(btnRemover);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setForeground(new Color(0, 0, 0));
+		btnCancelar.setToolTipText("Entrar");
+		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setBounds(758, 510, 126, 41);
 		viewListagem.getContentPane().add(btnCancelar);
 		
