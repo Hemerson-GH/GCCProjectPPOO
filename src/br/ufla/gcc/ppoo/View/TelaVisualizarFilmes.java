@@ -28,12 +28,16 @@ import javax.swing.table.DefaultTableModel;
 public class TelaVisualizarFilmes {
 	
 	JFrame viewListagem;
+	JScrollPane scrollPaneList;
 	static boolean status = false;
 	private JTable tableFilmes;
+	int n = 0;
 	
 	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
 	BancoDeDados bancoDDados = new BancoDeDados();
+	Filme filme = new Filme();
+	ArrayList<Filme> listFilms;
 	
 	public boolean getStatus() { 
 		return status;
@@ -44,9 +48,61 @@ public class TelaVisualizarFilmes {
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-//	public TelaVisualizarFilmes() { }
+	public TelaVisualizarFilmes() { }
 	
-	@SuppressWarnings({ "unused", "serial" })
+	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+		return controlFilmes.buscarFilmes(dl.getId());
+	}
+	
+	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
+		n = 0;
+		for (@SuppressWarnings("unused") Filme filme : listFilms) {
+			n++;
+		}
+		return n;
+	}
+	
+	@SuppressWarnings("serial")
+	public void constroiTabela(JTable table, ArrayList<Filme> listFilms, int n){
+		
+		scrollPaneList = new JScrollPane();
+		scrollPaneList.setBounds(10, 125, 875, 400);
+		viewListagem.getContentPane().add(scrollPaneList);
+		
+		tableFilmes = new JTable();
+		
+		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
+		Object [][]filmes = new Object[n][6];
+		int i = 0;
+		
+		for (Filme filme : listFilms) {
+			filmes[i][0] = filme.getNome();
+			filmes[i][1] = filme.getGenero();
+			filmes[i][2] = filme.getData();
+			filmes[i][3] = filme.getDuracaoFilme();
+			filmes[i][4] = filme.getDiretor();
+			filmes[i][5] = filme.getPontos();
+			i++;
+		}
+		
+		tableFilmes.setModel(new DefaultTableModel(filmes, titulosColunas) {
+			boolean[] columnEditables = new boolean[] {
+				false, false, false, false, false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+			
+		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		tableFilmes.clearSelection();
+		tableFilmes.setFillsViewportHeight(true);
+		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
+		scrollPaneList.setViewportView(tableFilmes);
+
+	}
+	
+	@SuppressWarnings("unused")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
 		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
@@ -69,54 +125,9 @@ public class TelaVisualizarFilmes {
 		viewListagem.setTitle("Meus Filme");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		JScrollPane scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 125, 875, 400);
-		viewListagem.getContentPane().add(scrollPaneList);
-		
-		ArrayList<Filme> listFilms = controlFilmes.buscarFilmes(dl.getId());
-		
-		int n = 0, i = 0;
-		for (Filme filme : listFilms) {
-			n++;
-		}
-		
-		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
-		Object [][]filmes = new Object[n][6];
-		
-		for (Filme filme : listFilms) {
-			filmes[i][0] = filme.getNome();
-			filmes[i][1] = filme.getGenero();
-			filmes[i][2] = filme.getData();
-			filmes[i][3] = filme.getDuracaoFilme();
-			filmes[i][4] = filme.getDiretor();
-			filmes[i][5] = filme.getPontos();
-			i++;
-		}
-		
-		tableFilmes = new JTable();
-//		table = new JTable(filmes, titulosColunas);
-		
-		tableFilmes.setModel(new DefaultTableModel(filmes, titulosColunas) {
-			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		
-//		table.getColumnModel().getColumn(0).setResizable(false);
-//		table.getColumnModel().getColumn(1).setResizable(false);
-//		table.getColumnModel().getColumn(2).setResizable(false);
-//		table.getColumnModel().getColumn(3).setResizable(false);
-//		table.getColumnModel().getColumn(4).setResizable(false);
-//		table.getColumnModel().getColumn(5).setResizable(false);
-		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		tableFilmes.clearSelection();
-		tableFilmes.setFillsViewportHeight(true);
-		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-
-		scrollPaneList.setViewportView(tableFilmes);
+		listFilms = atualizaLista(dl);
+		n = atulizaQuantidadeFilmes(listFilms);		
+		constroiTabela(tableFilmes, listFilms, n);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
@@ -166,10 +177,27 @@ public class TelaVisualizarFilmes {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
 					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
-					JOptionPane.showMessageDialog(null, tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0));
-					tableFilmes.clearSelection();
+//					JOptionPane.showMessageDialog(null, tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0));
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
+					
+					filme = filme.comparaFilme(listFilms, filmeSelect);
+					
+					if (controlFilmes.deletaFilme(filme)) {
+						JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+//						listFilms = atualizaLista(dl);
+//						n = atulizaQuantidadeFilmes(listFilms);
+//						constroiTabela(tableFilmes, listFilms, n);
+						status = false;
+						viewListagem.setVisible(false);
+						new TelaVisualizarFilmes(dadosLogin);
+					} else {
+						JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
+					}
+					
+//					tableFilmes.clearSelection();
+					
 				} else {
-					JOptionPane.showMessageDialog(null, "Seleção inválida...", "Para remover um filme selecione a linha dele.", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Para remover um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

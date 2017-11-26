@@ -90,4 +90,30 @@ public class ControleDadosFilmes {
 		bancoDados.Desconecta();
 		return encontrei;
 	}
+	
+	public boolean deletaFilme(Filme filme){
+		boolean encontrou = false;
+		
+		bancoDados.Conecta();
+		
+		try {
+			 PreparedStatement pst = bancoDados.connection.prepareStatement("DELETE from filmes where nome_filme = ?");
+
+			 pst.setString(1, filme.getNome());
+	         pst.execute();
+	         pst.close();
+//    		 ResultSet rs = pst.executeQuery();	
+//			pst.executeQuery();
+//			pst.close();
+//			 while (rs.next()) {	
+				 encontrou = true;
+//			 }
+
+	    } catch (SQLException ex) {
+				ex.printStackTrace();
+		}
+		
+		bancoDados.Desconecta();
+		return encontrou;
+	}
 }

@@ -1,5 +1,7 @@
 package br.ufla.gcc.ppoo.Dados;
 
+import java.util.ArrayList;
+
 public class Filme {
 	
 	private String nome;
@@ -121,6 +123,18 @@ public class Filme {
 
 	public void setId_filme(Long id_filme) {
 		this.id_filme = id_filme;
+	}
+	
+	public Filme comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
+		Filme itemFilme = new Filme();
+		
+		for (Filme filme : listFilmes) {
+			if (filme.getNome().equals(nomeFilme)) {
+				itemFilme = filme;
+			}
+		}
+		
+		return itemFilme;
 	}
 
 }
