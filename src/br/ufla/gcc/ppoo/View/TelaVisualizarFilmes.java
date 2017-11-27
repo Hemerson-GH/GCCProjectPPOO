@@ -164,6 +164,22 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(btnVisualizar);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if (tableFilmes.getSelectedRow() != -1) {
+					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
+					filme = filme.comparaFilme(listFilms, filmeSelect);
+					new TelaEditaFilme(dl, filme);
+					status = false;
+					viewListagem.setVisible(false);
+//					new TelaVisualizarFilmes(dadosLogin);
+				} else {
+					JOptionPane.showMessageDialog(null, "Para editar um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
 		btnEditar.setForeground(new Color(0, 0, 0));
 		btnEditar.setToolTipText("Editar item");
 		btnEditar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -177,25 +193,25 @@ public class TelaVisualizarFilmes {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
 					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
-//					JOptionPane.showMessageDialog(null, tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0));
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
 					filme = filme.comparaFilme(listFilms, filmeSelect);
 					
-					if (controlFilmes.deletaFilme(filme)) {
-						JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
-//						listFilms = atualizaLista(dl);
-//						n = atulizaQuantidadeFilmes(listFilms);
-//						constroiTabela(tableFilmes, listFilms, n);
-						status = false;
-						viewListagem.setVisible(false);
-						new TelaVisualizarFilmes(dadosLogin);
-					} else {
-						JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
-					}
+					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
-//					tableFilmes.clearSelection();
-					
+					if (JOptionPane.YES_OPTION == confirm) {	
+						if (controlFilmes.deletaFilme(filme)) {
+							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+//							listFilms = atualizaLista(dl);
+//							n = atulizaQuantidadeFilmes(listFilms);
+//							constroiTabela(tableFilmes, listFilms, n);
+							status = false;
+							viewListagem.setVisible(false);
+							new TelaVisualizarFilmes(dadosLogin);
+						} else {
+							JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
+						}
+					}					
 				} else {
 					JOptionPane.showMessageDialog(null, "Para remover um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
 				}

@@ -23,6 +23,7 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 public class TelaCadastroFilme {
 
@@ -127,7 +128,7 @@ public class TelaCadastroFilme {
 		
 		textFieldNome = new JTextField();
 		textFieldNome.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-		textFieldNome.setBounds(10, 125, 565, 30);
+		textFieldNome.setBounds(10, 125, 575, 30);
 		viewCadastroFilme.getContentPane().add(textFieldNome);
 		textFieldNome.setColumns(10);
 		
@@ -186,7 +187,7 @@ public class TelaCadastroFilme {
 		
 		textFieldWorKeys = new JTextField();
 		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
-		textFieldWorKeys.setBounds(10, 190, 565, 30);
+		textFieldWorKeys.setBounds(10, 190, 575, 30);
 		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
 		textFieldWorKeys.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldWorKeys);
@@ -233,7 +234,9 @@ public class TelaCadastroFilme {
 				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
 					if (contensHifen(textFieldWorKeys)) {
 					
-						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
+						ArrayList<Filme> listFilms = controlFilmes.buscarFilmes(dl.getId());;
+//						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
+						boolean confere = filme.comparaFilmeBoolean(listFilms, textFieldNome.getText());
 						
 						if (!confere) {
 							controlFilmes.CadastrarFilme(filme, dl.getId());
@@ -263,7 +266,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(btnSalvar);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 305, 564, 129);
+		scrollPane.setBounds(10, 305, 575, 130);
 		viewCadastroFilme.getContentPane().add(scrollPane);
 		
 		editorPaneDescricao = new JEditorPane();
@@ -275,7 +278,7 @@ public class TelaCadastroFilme {
 		textFieldDiretor.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDiretor.setColumns(10);
-		textFieldDiretor.setBounds(455, 245, 120, 30);
+		textFieldDiretor.setBounds(455, 245, 130, 30);
 		viewCadastroFilme.getContentPane().add(textFieldDiretor);
 		
 		JLabel lblDireto = new JLabel("Diretor");

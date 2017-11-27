@@ -43,6 +43,15 @@ public class TelaCadastroUsuario {
 		return confirm;
 	}
 	
+	public boolean confereCampoEmail(JTextField textFieldEmail){
+		boolean confirm = false;
+		
+		if (textFieldEmail.getText().contains("@") && textFieldEmail.getText().contains(".com")) {
+			confirm = true;
+		} 
+		return confirm;
+	}
+	
 	public void ViewMain(){
 		
 		myViewCadastro = new JFrame();
@@ -113,30 +122,36 @@ public class TelaCadastroUsuario {
 				boolean confereEmail = controlDados.confereEmail(textFieldEmail.getText());
 				boolean confereSenha = confereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 				
-				if (!confereEmail) {					
-					if (confereSenha) {
-						if (passwordField.getText().length() > 3  && passwordFieldConfir.getText().length() > 3) {
-							dadosLogin.setNome(textFieldNome.getText());
-							dadosLogin.setEmail(textFieldEmail.getText());
-							dadosLogin.setSenha(passwordField.getText());
-							controlDados.CadastrarUsuario(dadosLogin);
-							myViewCadastro.dispose();
-							bancoDDados.Desconecta();
-							JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
-									+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
-							new TelaLogin();
+				if (confereCampoEmail(textFieldEmail)) {
+					if (!confereEmail) {					
+						if (confereSenha) {
+							if (passwordField.getText().length() > 3  && passwordFieldConfir.getText().length() > 3) {
+								dadosLogin.setNome(textFieldNome.getText());
+								dadosLogin.setEmail(textFieldEmail.getText());
+								dadosLogin.setSenha(passwordField.getText());
+								controlDados.CadastrarUsuario(dadosLogin);
+								myViewCadastro.dispose();
+								bancoDDados.Desconecta();
+								JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
+										+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+								new TelaLogin();
+							} else {
+								JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "
+										+ "por favor digite uma nova senha válida.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "
-									+ "por favor digite uma nova senha válida.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "As senha digitadas não conferem, "
+									+ "digite novamente.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
 						}
 					} else {
-						JOptionPane.showMessageDialog(null, "As senha digitadas não conferem, "
-								+ "digite novamente.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
-					}
+						JOptionPane.showMessageDialog(null, "Este email já está sendo utilizado, "
+								+ "por favor utilize outro email.", "Email já cadastrado", JOptionPane.ERROR_MESSAGE);
+					}		
 				} else {
-					JOptionPane.showMessageDialog(null, "Este email já está sendo utilizado, "
-							+ "por favor utilize outro email.", "Email já cadastrado", JOptionPane.ERROR_MESSAGE);
-				}				
+					JOptionPane.showMessageDialog(null, "O campo email está preenchido incorretamente, lembre-se"
+							+ " de inserir um email válido exemplo: nome@dominio.com", "Campo Email Incorreto", JOptionPane.ERROR_MESSAGE);
+				}
+						
 			}
 		});
 		btnSalvar.setBounds(80, 210, 105, 35);

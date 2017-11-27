@@ -116,4 +116,32 @@ public class ControleDadosFilmes {
 		bancoDados.Desconecta();
 		return encontrou;
 	}
+	
+	public boolean alteraFilme(Filme filme){
+		boolean encontrou = false;
+		
+		bancoDados.Conecta();
+		
+		try {
+			 PreparedStatement pst = bancoDados.connection.prepareStatement("UPDATE filmes set nome_filme=?, ano_lancamento=?, "
+			 		+ "descricao=?, palavras_chaves=?, genero=?, duracao_filme=?, diretor=? WHERE id_filme=?");
+
+			 pst.setString(1, filme.getNome());
+			 pst.setString(2, filme.getData());
+			 pst.setString(3, filme.getDescricao());
+			 pst.setString(4, filme.getWordKeys());
+			 pst.setString(5, filme.getGenero());
+			 pst.setString(6, filme.getDuracaoFilme());
+			 pst.setString(7, filme.getDiretor());
+			 pst.setLong(8, filme.getId_filme());
+	         pst.execute();
+	         encontrou = true;
+
+	    } catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		bancoDados.Desconecta();
+		return encontrou;
+	}
 }

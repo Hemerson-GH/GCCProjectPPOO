@@ -136,5 +136,26 @@ public class Filme {
 		
 		return itemFilme;
 	}
+	
+	public boolean comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
+		for (Filme filme : listFilmes) {
+			if (filme.getNome().equals(nomeFilme) && !filme.getNome().equals(filmeContido)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public boolean comparaFilmeBoolean(ArrayList<Filme> listFilmes, String nomeFilme){
+		
+		for (Filme filme : listFilmes) {
+			if (filme.getNome().equals(nomeFilme)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 }
