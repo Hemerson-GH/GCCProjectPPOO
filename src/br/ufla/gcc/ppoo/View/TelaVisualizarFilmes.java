@@ -99,7 +99,6 @@ public class TelaVisualizarFilmes {
 		tableFilmes.setFillsViewportHeight(true);
 		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
 		scrollPaneList.setViewportView(tableFilmes);
-
 	}
 	
 	@SuppressWarnings("unused")
@@ -188,6 +187,7 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
+		btnRemover.setIcon(new ImageIcon(TelaVisualizarFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/deletar.png")));
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				

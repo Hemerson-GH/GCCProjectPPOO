@@ -218,7 +218,6 @@ public class TelaEditaFilme {
 				filme.setDiretor(textFieldDiretor.getText());
 				
 				ArrayList<Filme> listFilmes =  atualizaLista(dl);
-//				Filme itemComparacao = filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme);
 				
 				if (!filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
 					if (controlFilmes.alteraFilme(filme)) {
@@ -231,33 +230,6 @@ public class TelaEditaFilme {
 				} else {
 					JOptionPane.showMessageDialog(null, "Um filme com esse nome já está cadastrado", "Filme Existente", JOptionPane.ERROR_MESSAGE);
 				}
-				
-				
-//				
-//				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
-//					if (contensHifen(textFieldWorKeys)) {
-//					
-//						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
-//						
-//						if (!confere) {
-//							controlFilmes.CadastrarFilme(filme, dl.getId());
-//							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
-//							limpaCampos();
-//						} else {
-//							JOptionPane.showMessageDialog(null, "Ops, esse filme já está cadastrado, tente cadastrar um outro filme que não esteja cadastrado.",
-//									"Filme Já Cadastrado", JOptionPane.ERROR_MESSAGE);
-//						}
-////						JOptionPane.showMessageDialog(null, slider.getValue());
-//						
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Campo 'Palavras-chave' não está preenchido corretamente." 
-//								+ "\n" + " Para salvar o filme as palavras-chave precisa ser separadas por '-'.",
-//								"Campo Palavras-chave não corresponde ao padrão", JOptionPane.ERROR_MESSAGE);
-//					}
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Preencha todos os campos para que seja possível salvar o filme.",
-//							"Erro Ao Salvar", JOptionPane.ERROR_MESSAGE);
-//				}
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 0));
@@ -276,6 +248,5 @@ public class TelaEditaFilme {
 		viewEditaFilme.setResizable(false);
 		viewEditaFilme.setSize(600, 520);
 		viewEditaFilme.setVisible(true);		
-		
 	}
 }

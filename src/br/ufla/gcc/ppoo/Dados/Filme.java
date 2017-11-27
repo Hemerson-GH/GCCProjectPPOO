@@ -133,7 +133,6 @@ public class Filme {
 				itemFilme = filme;
 			}
 		}
-		
 		return itemFilme;
 	}
 	
@@ -143,7 +142,6 @@ public class Filme {
 				return true;
 			}
 		}
-		
 		return false;
 	}
 	
@@ -154,8 +152,6 @@ public class Filme {
 				return true;
 			}
 		}
-		
 		return false;
 	}
-
 }

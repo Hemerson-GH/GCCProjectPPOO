@@ -36,8 +36,6 @@ public class ControleDadosFilmes {
 		bancoDados.Desconecta();
 	}	
 	
-	Filme filme = new Filme(null, null, null, null, null, null, null, null, null, null);
-	
 	public ArrayList<Filme> buscarFilmes(int id){
 		bancoDados.Conecta();
 		
@@ -63,7 +61,6 @@ public class ControleDadosFilmes {
 				
 				listFilm.add(filme);
 			}
-			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -97,18 +94,12 @@ public class ControleDadosFilmes {
 		bancoDados.Conecta();
 		
 		try {
-			 PreparedStatement pst = bancoDados.connection.prepareStatement("DELETE from filmes where nome_filme = ?");
-
-			 pst.setString(1, filme.getNome());
-	         pst.execute();
-	         pst.close();
-//    		 ResultSet rs = pst.executeQuery();	
-//			pst.executeQuery();
-//			pst.close();
-//			 while (rs.next()) {	
-				 encontrou = true;
-//			 }
-
+			PreparedStatement pst = bancoDados.connection.prepareStatement("DELETE from filmes where nome_filme = ?");
+			
+			pst.setString(1, filme.getNome());
+			pst.execute();
+			pst.close();	
+			encontrou = true;
 	    } catch (SQLException ex) {
 				ex.printStackTrace();
 		}
@@ -135,8 +126,8 @@ public class ControleDadosFilmes {
 			 pst.setString(7, filme.getDiretor());
 			 pst.setLong(8, filme.getId_filme());
 	         pst.execute();
+	         
 	         encontrou = true;
-
 	    } catch (SQLException ex) {
 			ex.printStackTrace();
 		}

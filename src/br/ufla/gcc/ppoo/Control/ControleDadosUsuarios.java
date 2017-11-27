@@ -24,7 +24,6 @@ public class ControleDadosUsuarios {
 			pst.setString(3, dados.getSenha());	
 			pst.execute();
 //			JOptionPane.showMessageDialog(null, "Salvo Com Sucesso");
-			
 		} catch (SQLException ex) {
 //			JOptionPane.showMessageDialog(null, "Erro Ao Salvar Dado: \n " + ex);
 			ex.printStackTrace();
@@ -32,7 +31,6 @@ public class ControleDadosUsuarios {
 		
 		bancoDados.Desconecta();
 	}
-	
 	
 	public DadosLogin buscarDados(String email){
 		bancoDados.Conecta();	
@@ -49,7 +47,6 @@ public class ControleDadosUsuarios {
 			    dadosLogin.setNome(rs.getString("nome"));	
 			    dadosLogin.setId(rs.getInt("id_user"));
 			}
-			
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -74,24 +71,20 @@ public class ControleDadosUsuarios {
 		}
 		
 		bancoDados.Desconecta();
-		
 		return encontrei;
 	}
 	
-	public String convertMD5(){
-		String s = "teste";
-		MessageDigest m = null;
+	public String convertMD5(String wordConvert){
+		MessageDigest md = null;
 		
 		try {
-			m = MessageDigest.getInstance("MD5");
+			md = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException e) {
 			e.printStackTrace();
 		}
 	    
-		m.update(s.getBytes(),0,s.length());
-	       
+		md.update(wordConvert.getBytes(),0,wordConvert.length()); 
 //	       System.out.println("MD5: "+ new BigInteger(1,m.digest()).toString(16));
-	       return new BigInteger(1,m.digest()).toString(16);
+		return new BigInteger(1,md.digest()).toString(16);
 	}
-	
 }

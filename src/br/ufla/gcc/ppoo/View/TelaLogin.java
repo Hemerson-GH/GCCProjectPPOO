@@ -74,7 +74,7 @@ public class TelaLogin {
 					myViewLogin.dispose();
 					new TelaPrincipal(dadosLogin);
 				} else {					
-					JOptionPane.showMessageDialog(null, "Email ou senha incorretos...", "Usuário invalidos", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, " Usuário e/ou senha errada ...", "Usuário invalidos", JOptionPane.ERROR_MESSAGE);
 				}				
 			}
 		});
