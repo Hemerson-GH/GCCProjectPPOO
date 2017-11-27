@@ -141,7 +141,6 @@ public class TelaLogin {
 //		llbFundo.setBounds(0, 0, 477, 211);
 //		myViewLogin.getContentPane().add(llbFundo); // adicionar caso for colocar papel de parede
 		
-//		More configuration of JFrame
 //		myViewLogin.setLocationRelativeTo(null);
 		myViewLogin.setSize(485, 240);
 		myViewLogin.setVisible(true);
