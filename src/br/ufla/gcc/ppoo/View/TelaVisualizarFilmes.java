@@ -117,8 +117,37 @@ public class TelaVisualizarFilmes {
 	    return listFilmes;
 	}
 	
-	public int compareTo(Filme filme1, Filme filme2) {
+	public static int compareTo(Filme filme1, Filme filme2) {
 		return filme1.getNome().toUpperCase().compareToIgnoreCase(filme2.getNome().toUpperCase());
+	}
+	
+	public static void  quickSort(ArrayList<Filme> listFilmes, int esquerda, int direita){
+		int esq = esquerda;
+		int dir = direita;
+		Filme pivo = listFilmes.get((esq + dir) % 2);
+		Filme troca;
+		
+		while (esq <= dir) {
+			while ( compareTo(listFilmes.get(esq), pivo) <= -1) {
+				esq = esq + 1;
+			}
+			while ( compareTo(listFilmes.get(dir), pivo) >= 0) {
+				dir = dir - 1;
+			}
+			if (esq <= dir) {
+				troca = listFilmes.get(esq);
+				listFilmes.set(esq, listFilmes.get(dir));
+				listFilmes.set(dir, troca);
+				esq = esq + 1;
+				dir = dir - 1;
+			}
+		}
+		if (dir > esquerda) {
+			quickSort(listFilmes, esquerda, dir);
+		}
+		if(esq < direita) {
+			quickSort(listFilmes, esq, direita);
+		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -145,7 +174,8 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		listFilms = atualizaLista(dl);
-		listFilms = ordenaLista(listFilms);
+//		listFilms = ordenaLista(listFilms);
+		quickSort(listFilms, 0, listFilms.size()-1);
 		n = atulizaQuantidadeFilmes(listFilms);		
 		constroiTabela(tableFilmes, listFilms, n);
 		
