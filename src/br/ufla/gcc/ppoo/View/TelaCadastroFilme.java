@@ -34,8 +34,6 @@ public class TelaCadastroFilme {
 		return status;
 	}
 	
-	public TelaCadastroFilme() { }
-	
 	Filme filme = new Filme();
 	BancoDeDados bancoDDados = new BancoDeDados();
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
@@ -173,7 +171,7 @@ public class TelaCadastroFilme {
 		textFieldGenero = new JTextField();
 		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldGenero.setBounds(10, 245, 115, 30);
-		textFieldGenero.setToolTipText("");
+		textFieldGenero.setToolTipText("Caso voc\u00EA for adicionar mais de um g\u00EAnero acrescentar virgula no pr\u00F3ximo g\u00EAnero, exemplo: G\u00EAnero 1, G\u00EAnero 2...");
 		textFieldGenero.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldGenero);
 		
@@ -188,7 +186,7 @@ public class TelaCadastroFilme {
 		textFieldWorKeys = new JTextField();
 		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldWorKeys.setBounds(10, 190, 575, 30);
-		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
+		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, palavra1-palavra2...");
 		textFieldWorKeys.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldWorKeys);
 		
@@ -210,7 +208,7 @@ public class TelaCadastroFilme {
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));
-		btnCancelar.setToolTipText("Entrar");
+		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		viewCadastroFilme.getContentPane().add(btnCancelar);
@@ -260,7 +258,7 @@ public class TelaCadastroFilme {
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 0));
-		btnSalvar.setToolTipText("Entrar");
+		btnSalvar.setToolTipText("Salvar filme");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBackground(new Color(255, 255, 255));
 		viewCadastroFilme.getContentPane().add(btnSalvar);
@@ -270,12 +268,13 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(scrollPane);
 		
 		editorPaneDescricao = new JEditorPane();
+		editorPaneDescricao.setToolTipText("Coloque aqui a descri\u00E7\u00E3o do filme");
 		scrollPane.setViewportView(editorPaneDescricao);
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
 		
 		textFieldDiretor = new JTextField();
-		textFieldDiretor.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
+		textFieldDiretor.setToolTipText("Caso voc\u00EA for adicionar mais de um diretor");
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDiretor.setColumns(10);
 		textFieldDiretor.setBounds(455, 245, 130, 30);

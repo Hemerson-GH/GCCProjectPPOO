@@ -101,6 +101,26 @@ public class TelaVisualizarFilmes {
 		scrollPaneList.setViewportView(tableFilmes);
 	}
 	
+	public ArrayList<Filme> ordenaLista(ArrayList<Filme> listFilmes) {
+	    Filme aux;
+	    
+	    for (int i = 0; i < listFilmes.size()-1; i++) {
+			for (int j = 0; j < listFilmes.size()-1-i; j++) {					
+				if (compareTo(listFilmes.get(j), listFilmes.get(j+1)) >= 1) {
+					aux = listFilmes.get(j+1);
+					listFilmes.set(j+1,  listFilmes.get(j));
+					listFilmes.set(j, aux);
+				} 
+			}
+		}
+	    
+	    return listFilmes;
+	}
+	
+	public int compareTo(Filme filme1, Filme filme2) {
+		return filme1.getNome().toUpperCase().compareToIgnoreCase(filme2.getNome().toUpperCase());
+	}
+	
 	@SuppressWarnings("unused")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
@@ -125,6 +145,7 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		listFilms = atualizaLista(dl);
+		listFilms = ordenaLista(listFilms);
 		n = atulizaQuantidadeFilmes(listFilms);		
 		constroiTabela(tableFilmes, listFilms, n);
 		
@@ -203,6 +224,7 @@ public class TelaVisualizarFilmes {
 						if (controlFilmes.deletaFilme(filme)) {
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 //							listFilms = atualizaLista(dl);
+//							listFilms = ordenaLista(listFilms);
 //							n = atulizaQuantidadeFilmes(listFilms);
 //							constroiTabela(tableFilmes, listFilms, n);
 							status = false;
