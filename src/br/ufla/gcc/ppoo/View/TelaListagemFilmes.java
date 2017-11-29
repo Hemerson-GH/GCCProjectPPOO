@@ -25,7 +25,7 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import javax.swing.table.DefaultTableModel;
 
-public class TelaVisualizarFilmes {
+public class TelaListagemFilmes {
 	
 	JFrame viewListagem;
 	JScrollPane scrollPaneList;
@@ -43,12 +43,12 @@ public class TelaVisualizarFilmes {
 		return status;
 	}
 	
-	public TelaVisualizarFilmes(DadosLogin dadosLogin){
+	public TelaListagemFilmes(DadosLogin dadosLogin){
 		bancoDDados.Conecta();
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-	public TelaVisualizarFilmes() { }
+	public TelaListagemFilmes() { }
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
 		return controlFilmes.buscarFilmesUmUsuario(dl.getId());
@@ -187,7 +187,7 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(lblMeusFilme);
 		
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(TelaVisualizarFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-lista.png")));
+		label.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-lista.png")));
 		label.setVerticalAlignment(SwingConstants.TOP);
 		label.setBackground(new Color(51, 51, 255));
 		label.setBounds(290, 20, 40, 40);
@@ -238,7 +238,7 @@ public class TelaVisualizarFilmes {
 		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
-		btnRemover.setIcon(new ImageIcon(TelaVisualizarFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/deletar.png")));
+		btnRemover.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/deletar.png")));
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -259,7 +259,7 @@ public class TelaVisualizarFilmes {
 //							constroiTabela(tableFilmes, listFilms, n);
 							status = false;
 							viewListagem.setVisible(false);
-							new TelaVisualizarFilmes(dadosLogin);
+							new TelaListagemFilmes(dadosLogin);
 						} else {
 							JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
 						}
@@ -282,7 +282,7 @@ public class TelaVisualizarFilmes {
 				viewListagem.dispose();
 			}
 		});
-		btnCancelar.setIcon(new ImageIcon(TelaVisualizarFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		btnCancelar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
 		btnCancelar.setForeground(new Color(0, 0, 0));
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));

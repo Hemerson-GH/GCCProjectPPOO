@@ -42,7 +42,7 @@ public class ControleDadosFilmes {
 		ArrayList<Filme> listFilm = new ArrayList<>();
 		
 		try {
-//			 PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where id_user = '" + id +"'");
+//			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where id_user = '" + id +"'");
 //			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT id_user = '" + id + "' FROM filmes ORDER BY nome_filme ASC");
 			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes WHERE id_user = '" + id + "' ORDER BY nome_filme ASC");
 			ResultSet rs = pst.executeQuery();	

@@ -223,7 +223,7 @@ public class TelaEditaFilme {
 					if (controlFilmes.alteraFilme(filme)) {
 						JOptionPane.showMessageDialog(null, "Filme Editado no banco de dados com sucesso.", "Filme Editado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 						viewEditaFilme.dispose();
-						new TelaVisualizarFilmes(dl);
+						new TelaListagemFilmes(dl);
 					} else {
 						JOptionPane.showMessageDialog(null, "Erro ao editar filme no banco de dados.", "Erro Ao Editar Filme", JOptionPane.ERROR_MESSAGE);
 					}	
