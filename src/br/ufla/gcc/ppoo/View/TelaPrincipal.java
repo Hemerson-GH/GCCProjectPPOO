@@ -134,16 +134,15 @@ public class TelaPrincipal {
 		mnItemListagem.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnItemListagem);
 		
-		JSeparator separatorBuscar = new JSeparator();
-		mnMenu.add(separatorBuscar);
-		
 		JMenuItem mnItemBuscarFilmes = new JMenuItem("Buscar Filmes");
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				viewMain.dispose();
 				new TelaBuscarFilme(dadosLogin);
 			}
 		});
+		
+		JSeparator separatorBuscar = new JSeparator();
+		mnMenu.add(separatorBuscar);
 		mnItemBuscarFilmes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/procurar.png")));
 		mnItemBuscarFilmes.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnItemBuscarFilmes);
@@ -170,7 +169,7 @@ public class TelaPrincipal {
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					bancoDDados.Desconecta();
