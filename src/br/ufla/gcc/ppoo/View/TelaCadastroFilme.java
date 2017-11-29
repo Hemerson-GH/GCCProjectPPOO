@@ -30,6 +30,8 @@ public class TelaCadastroFilme {
 	JFrame viewCadastroFilme;
 	static boolean status = false;
 	
+	public TelaCadastroFilme() { }
+	
 	public boolean getStatus() { 
 		return status;
 	}
