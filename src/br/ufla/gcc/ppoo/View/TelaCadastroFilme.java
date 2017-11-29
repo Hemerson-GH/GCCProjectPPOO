@@ -234,7 +234,7 @@ public class TelaCadastroFilme {
 				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
 					if (contensHifen(textFieldWorKeys)) {
 					
-						ArrayList<Filme> listFilms = controlFilmes.buscarFilmes(dl.getId());;
+						ArrayList<Filme> listFilms = controlFilmes.buscarFilmesUmUsuario(dl.getId());;
 //						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
 						boolean confere = filme.comparaFilmeBoolean(listFilms, textFieldNome.getText());
 						

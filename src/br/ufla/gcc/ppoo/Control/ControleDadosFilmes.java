@@ -36,14 +36,48 @@ public class ControleDadosFilmes {
 		bancoDados.Desconecta();
 	}	
 	
-	public ArrayList<Filme> buscarFilmes(int id){
+	public ArrayList<Filme> buscarFilmesUmUsuario(int id){
 		bancoDados.Conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
 		
 		try {
-			// PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where id_user = '" + id +"'");
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT id_user ='" + id + "' FROM filmes ORDER BY nome_filme ASC");
+//			 PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes Where id_user = '" + id +"'");
+//			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT id_user = '" + id + "' FROM filmes ORDER BY nome_filme ASC");
+			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes WHERE id_user = '" + id + "' ORDER BY nome_filme ASC");
+			ResultSet rs = pst.executeQuery();	
+			
+			while (rs.next()) {	
+				Filme filme = new Filme();
+				
+				filme.setNome(rs.getString("nome_filme"));
+				filme.setData(rs.getString("ano_lancamento"));
+				filme.setDescricao(rs.getString("descricao"));
+				filme.setWordKeys(rs.getString("palavras_chaves"));
+				filme.setGenero(rs.getString("genero"));
+				filme.setDuracaoFilme(rs.getString("duracao_filme"));
+				filme.setDiretor(rs.getString("diretor"));
+				filme.setPontos(rs.getLong("pontos_filme"));
+				filme.setId_user(rs.getLong("id_user"));
+				filme.setId_filme(rs.getLong("id_filme"));
+				
+				listFilm.add(filme);
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		bancoDados.Desconecta();
+		return listFilm;
+	}
+	
+	public ArrayList<Filme> buscarFilmesTodosUsuarios(int id){
+		bancoDados.Conecta();
+		
+		ArrayList<Filme> listFilm = new ArrayList<>();
+		
+		try {
+			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM filmes ORDER BY nome_filme ASC");
 			ResultSet rs = pst.executeQuery();	
 			
 			while (rs.next()) {	

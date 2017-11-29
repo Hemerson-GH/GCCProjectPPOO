@@ -51,7 +51,7 @@ public class TelaVisualizarFilmes {
 	public TelaVisualizarFilmes() { }
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.buscarFilmes(dl.getId());
+		return controlFilmes.buscarFilmesUmUsuario(dl.getId());
 	}
 	
 	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
@@ -124,14 +124,14 @@ public class TelaVisualizarFilmes {
 	public static void  quickSort(ArrayList<Filme> listFilmes, int esquerda, int direita){
 		int esq = esquerda;
 		int dir = direita;
-		Filme pivo = listFilmes.get((esq + dir) % 2);
+		Filme pivo = listFilmes.get((esq + dir) /2);
 		Filme troca;
 		
 		while (esq <= dir) {
 			while ( compareTo(listFilmes.get(esq), pivo) <= -1) {
 				esq = esq + 1;
 			}
-			while ( compareTo(listFilmes.get(dir), pivo) >= 0) {
+			while ( compareTo(listFilmes.get(dir), pivo) > 0) {
 				dir = dir - 1;
 			}
 			if (esq <= dir) {
@@ -175,7 +175,7 @@ public class TelaVisualizarFilmes {
 		
 		listFilms = atualizaLista(dl);
 //		listFilms = ordenaLista(listFilms);
-		quickSort(listFilms, 0, listFilms.size()-1);
+//		quickSort(listFilms, 0, listFilms.size());
 		n = atulizaQuantidadeFilmes(listFilms);		
 		constroiTabela(tableFilmes, listFilms, n);
 		

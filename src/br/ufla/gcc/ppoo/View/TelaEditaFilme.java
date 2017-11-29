@@ -45,7 +45,7 @@ public class TelaEditaFilme {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.buscarFilmes(dl.getId());
+		return controlFilmes.buscarFilmesUmUsuario(dl.getId());
 	}
 	
 	public void limpaCampos(){
