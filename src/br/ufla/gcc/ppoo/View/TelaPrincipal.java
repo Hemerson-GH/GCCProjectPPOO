@@ -119,9 +119,9 @@ public class TelaPrincipal {
 		mnItemListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaListagemFilmes TVF = new TelaListagemFilmes();
+				TelaListagemFilmes TLF = new TelaListagemFilmes();
 				
-				if (!(TVF.getStatus())) {
+				if (!(TLF.getStatus())) {
 					new TelaListagemFilmes(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
@@ -137,7 +137,14 @@ public class TelaPrincipal {
 		JMenuItem mnItemBuscarFilmes = new JMenuItem("Buscar Filmes");
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				new TelaBuscarFilme(dadosLogin);
+				
+				TelaBuscarFilme TBF = new TelaBuscarFilme();
+				
+				if (!TBF.getStatus()) {
+					new TelaBuscarFilme(dadosLogin);
+				} else {
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+				}
 			}
 		});
 		
@@ -169,7 +176,7 @@ public class TelaPrincipal {
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	  Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					bancoDDados.Desconecta();

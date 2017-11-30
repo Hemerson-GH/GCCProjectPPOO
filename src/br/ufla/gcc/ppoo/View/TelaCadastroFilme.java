@@ -83,6 +83,8 @@ public class TelaCadastroFilme {
 	
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
+		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.addWindowListener(new WindowAdapter() {
 			@Override
@@ -221,7 +223,7 @@ public class TelaCadastroFilme {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+//				DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail()); // Já declarei no inicio do construtor
 				
 				filme.setNome(textFieldNome.getText());
 				filme.setData(textFieldData.getText());

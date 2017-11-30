@@ -63,7 +63,7 @@ public class TelaListagemFilmes {
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(JTable table, ArrayList<Filme> listFilms, int n){
+	public void constroiTabela(ArrayList<Filme> listFilms, int n){
 		
 		scrollPaneList = new JScrollPane();
 		scrollPaneList.setBounds(10, 125, 875, 400);
@@ -177,7 +177,7 @@ public class TelaListagemFilmes {
 //		listFilms = ordenaLista(listFilms);
 //		quickSort(listFilms, 0, listFilms.size());
 		n = atulizaQuantidadeFilmes(listFilms);		
-		constroiTabela(tableFilmes, listFilms, n);
+		constroiTabela(listFilms, n);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
@@ -218,10 +218,12 @@ public class TelaListagemFilmes {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
-					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
+//					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					filme = filme.comparaFilme(listFilms, filmeSelect);
+					
 					new TelaEditaFilme(dl, filme);
+					
 					status = false;
 					viewListagem.setVisible(false);
 //					new TelaVisualizarFilmes(dadosLogin);

@@ -154,4 +154,34 @@ public class Filme {
 		}
 		return false;
 	}
+	
+	public ArrayList<String> SeparaStrings(String wordKeyCompleta){
+		String[] wordKeyHifen = wordKeyCompleta.split("-");
+		ArrayList<String> listWordKeys = new ArrayList<>();
+		
+		for (String wordKey : wordKeyHifen) {
+			listWordKeys.add(wordKey);
+		}
+		
+		return listWordKeys;
+	}
+	
+	public ArrayList<Filme> pesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
+		ArrayList<Filme> filmeEncontrado = new ArrayList<>();
+		ArrayList<String> wordKeys = new ArrayList<>();
+		
+		for (Filme filme : listaFilme) {
+			
+			wordKeys = SeparaStrings(filme.getWordKeys());
+			wordKeys.add(filme.getNome());
+			
+			for (String string : wordKeys) {
+				if (string.equals(wordKey)) {
+					filmeEncontrado.add(filme);
+				}
+			}
+		}
+		
+		return filmeEncontrado;
+	}
 }

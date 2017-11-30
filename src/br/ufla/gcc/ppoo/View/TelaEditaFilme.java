@@ -77,7 +77,7 @@ public class TelaEditaFilme {
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNome.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblNome.setBackground(Color.GRAY);
+		lblNome.setBackground(Color.WHITE);
 		viewEditaFilme.getContentPane().add(lblNome);
 		
 		textFieldNome = new JTextField();
@@ -94,7 +94,7 @@ public class TelaEditaFilme {
 		lblData.setHorizontalAlignment(SwingConstants.CENTER);
 		lblData.setForeground(new Color(255, 255, 255));
 		lblData.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblData.setBackground(Color.GRAY);
+		lblData.setBackground(Color.WHITE);
 		viewEditaFilme.getContentPane().add(lblData);
 		
 		textFieldData = new JTextField();
@@ -110,7 +110,7 @@ public class TelaEditaFilme {
 		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDuraoDoFilme.setForeground(new Color(255, 255, 255));
 		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblDuraoDoFilme.setBackground(Color.GRAY);
+		lblDuraoDoFilme.setBackground(Color.WHITE);
 		viewEditaFilme.getContentPane().add(lblDuraoDoFilme);
 		
 		textFieldDuracao = new JTextField();
@@ -126,7 +126,7 @@ public class TelaEditaFilme {
 		lblGnero.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGnero.setForeground(new Color(255, 255, 255));
 		lblGnero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblGnero.setBackground(Color.GRAY);
+		lblGnero.setBackground(Color.WHITE);
 		viewEditaFilme.getContentPane().add(lblGnero);
 		
 		textFieldGenero = new JTextField();
@@ -142,7 +142,7 @@ public class TelaEditaFilme {
 		lblPalavras.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPalavras.setForeground(new Color(255, 255, 255));
 		lblPalavras.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblPalavras.setBackground(Color.GRAY);
+		lblPalavras.setBackground(Color.WHITE);
 		viewEditaFilme.getContentPane().add(lblPalavras);
 		
 		textFieldWorKeys = new JTextField();
@@ -158,7 +158,7 @@ public class TelaEditaFilme {
 		lblDescrio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescrio.setForeground(new Color(255, 255, 255));
 		lblDescrio.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblDescrio.setBackground(Color.GRAY);
+		lblDescrio.setBackground(Color.WHITE);
 		viewEditaFilme.getContentPane().add(lblDescrio);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -175,7 +175,7 @@ public class TelaEditaFilme {
 		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDireto.setForeground(Color.WHITE);
 		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblDireto.setBackground(Color.GRAY);
+		lblDireto.setBackground(Color.WHITE);
 		lblDireto.setBounds(455, 220, 50, 25);
 		viewEditaFilme.getContentPane().add(lblDireto);
 		
@@ -186,20 +186,6 @@ public class TelaEditaFilme {
 		textFieldDiretor.setColumns(10);
 		textFieldDiretor.setBounds(455, 245, 130, 30);
 		viewEditaFilme.getContentPane().add(textFieldDiretor);
-		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
-		btnCancelar.setBounds(390, 445, 150, 25);
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				viewEditaFilme.dispose();
-			}
-		});
-		btnCancelar.setForeground(new Color(0, 0, 0));
-		btnCancelar.setToolTipText("Entrar");
-		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnCancelar.setBackground(new Color(255, 255, 255));
-		viewEditaFilme.getContentPane().add(btnCancelar);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-ok.png")));
@@ -237,6 +223,20 @@ public class TelaEditaFilme {
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnSalvar.setBackground(new Color(255, 255, 255));
 		viewEditaFilme.getContentPane().add(btnSalvar);
+		
+		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		btnCancelar.setBounds(390, 445, 150, 25);
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				viewEditaFilme.dispose();
+			}
+		});
+		btnCancelar.setForeground(new Color(0, 0, 0));
+		btnCancelar.setToolTipText("Entrar");
+		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCancelar.setBackground(new Color(255, 255, 255));
+		viewEditaFilme.getContentPane().add(btnCancelar);
 		
 		JLabel lblEditarFilme = new JLabel("Editar Filme");
 		lblEditarFilme.setHorizontalAlignment(SwingConstants.CENTER);
