@@ -58,7 +58,7 @@ public class TelaPrincipal {
 		viewMain.getContentPane().setBackground(new Color(51, 102, 153));
 		viewMain.getContentPane().setForeground(new Color(255, 255, 255));
 		viewMain.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		viewMain.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		viewMain.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
 		viewMain.setTitle("Menu Principal");
 		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		viewMain.getContentPane().setLayout(null);
@@ -88,15 +88,18 @@ public class TelaPrincipal {
 		slider.setLabelTable( labelTable );
 		
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		menuBar.setBounds(0, 0, 1389, 20);
 		menuBar.setBackground(new Color(255, 255, 255));
 		viewMain.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
+		mnMenu.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnMenu);
 		
 		JMenuItem mnItemCadastro = new JMenuItem("Cadastra Novo Filme");
+		mnItemCadastro.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnItemCadastro.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo.png")));
 		mnItemCadastro.setBackground(new Color(255, 255, 255));
 		mnItemCadastro.addActionListener(new ActionListener() {
@@ -114,6 +117,7 @@ public class TelaPrincipal {
 		mnMenu.add(mnItemCadastro);
 		
 		JMenuItem mnItemListagem = new JMenuItem("Listar Meus Filmes");
+		mnItemListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnItemListagem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		mnItemListagem.setBackground(new Color(255, 255, 255));
 		mnItemListagem.addActionListener(new ActionListener() {
@@ -135,6 +139,7 @@ public class TelaPrincipal {
 		mnMenu.add(mnItemListagem);
 		
 		JMenuItem mnItemBuscarFilmes = new JMenuItem("Buscar Filmes");
+		mnItemBuscarFilmes.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -155,10 +160,12 @@ public class TelaPrincipal {
 		mnMenu.add(mnItemBuscarFilmes);
 		
 		JMenu mnSair = new JMenu("Sair");
+		mnSair.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnSair.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnSair);
 		
 		JMenuItem mnItemLogout = new JMenuItem("Logout");
+		mnItemLogout.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnItemLogout.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
 		mnItemLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -172,6 +179,7 @@ public class TelaPrincipal {
 		mnSair.add(mnItemLogout);
 		
 		JMenuItem mnItemSair = new JMenuItem("Sair");
+		mnItemSair.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
 		mnItemSair.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/sair.png")));
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

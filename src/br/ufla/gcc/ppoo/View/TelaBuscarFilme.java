@@ -35,6 +35,7 @@ public class TelaBuscarFilme {
 	private JTextField textFieldBusca;
 	private int n = 0;
 	ArrayList<Filme> listFilms;
+	boolean initTable = true;
 	
 	Filme filme = new Filme();
 	BancoDeDados bancoDDados = new BancoDeDados();
@@ -109,7 +110,7 @@ public class TelaBuscarFilme {
 		
 		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
 		
-		tableFilmes.setModel(new DefaultTableModel(	new Object[][] {}, titulosColunas) {
+		tableFilmes.setModel(new DefaultTableModel(	new Object[][] {{0,0,0,0,0,0}}, titulosColunas) {
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, false
 			};
@@ -166,6 +167,7 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
+				initTable = true;
 				status = false;
 			}
 		});
@@ -182,7 +184,9 @@ public class TelaBuscarFilme {
 		
 		status = true;
 		
-		iniciarTabela();
+		if (initTable) {
+			iniciarTabela();
+		}
 		
 		JLabel lblSelecionar = new JLabel("Selecione um filme para realizar alguma ação:");
 		lblSelecionar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -201,11 +205,17 @@ public class TelaBuscarFilme {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				listFilms = atualizaLista(dl);
-				listFilms = filme.pesquisaFilme(listFilms, textFieldBusca.getText());
-				n = atulizaQuantidadeFilmes(listFilms);		
+				initTable = false;
+				try {
+					listFilms = atualizaLista(dl);
+					listFilms = filme.pesquisaFilme(listFilms, textFieldBusca.getText());
+					n = atulizaQuantidadeFilmes(listFilms);	
+				} catch (Exception e2) {
+					JOptionPane.showConfirmDialog(null, "Erro: " + e2, "Erro", JOptionPane.ERROR_MESSAGE);
+				}
+					
 //				quickSort(listFilms, 0, n);
-
+				
 				if (n != 0) {
 					constroiTabela(listFilms, n);
 				} else {
