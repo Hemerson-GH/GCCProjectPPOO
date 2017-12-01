@@ -33,8 +33,7 @@ public class TelaBuscarFilme {
 	private JTable tableFilmes;
 	private JScrollPane scrollPaneList;
 	private JTextField textFieldBusca;
-	private int n = 0;
-	ArrayList<Filme> listFilms;
+	ArrayList<Filme> listFilms = new ArrayList<>();
 	boolean initTable = true;
 	
 	Filme filme = new Filme();
@@ -42,9 +41,9 @@ public class TelaBuscarFilme {
 	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
 	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
 	
-	public TelaBuscarFilme() { }
+//	public TelaBuscarFilme() { }
 	
-	public boolean getStatus() { 
+	public static boolean getStatus() { 
 		return status;
 	}
 	
@@ -53,33 +52,25 @@ public class TelaBuscarFilme {
 	}
 	
 	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
-		n = 0;
-		for (@SuppressWarnings("unused") Filme filme : listFilms) {
-			n++;
-		}
-		return n;
+		return listFilms.size();
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms, int n){
+	public void constroiTabela(ArrayList<Filme> listFilms){
 		
-		scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 175, 875, 320);
-		viewBuscarFilme.getContentPane().add(scrollPaneList);
-		
-		tableFilmes = new JTable();
-		
-		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
-		Object [][]filmes = new Object[n][6];
+		int n = listFilms.size();
+		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
+		Object [][]filmes = new Object[n][7];
 		int i = 0;	
 		
 		for (Filme filme : listFilms) {
-			filmes[i][0] = filme.getNome();
-			filmes[i][1] = filme.getGenero();
-			filmes[i][2] = filme.getData();
-			filmes[i][3] = filme.getDuracaoFilme();
-			filmes[i][4] = filme.getDiretor();
-			filmes[i][5] = filme.getPontos();
+			filmes[i][0] = controlUser.buscaNomeUser(filme.getId_user());
+			filmes[i][1] = filme.getNome();
+			filmes[i][2] = filme.getGenero();
+			filmes[i][3] = filme.getData();
+			filmes[i][4] = filme.getDuracaoFilme();
+			filmes[i][5] = filme.getDiretor();
+			filmes[i][6] = filme.getPontos();
 			i++;
 		}
 		
@@ -91,39 +82,21 @@ public class TelaBuscarFilme {
 				return columnEditables[column];
 			}
 		});
-		
-		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		tableFilmes.clearSelection();
-		tableFilmes.setFillsViewportHeight(true);
-		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
-		scrollPaneList.setViewportView(tableFilmes);
 	}
 	
 	@SuppressWarnings("serial")
 	public void iniciarTabela(){
+	
+		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
 		
-		scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 175, 875, 320);
-		viewBuscarFilme.getContentPane().add(scrollPaneList);
-		
-		tableFilmes = new JTable();
-		
-		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
-		
-		tableFilmes.setModel(new DefaultTableModel(	new Object[][] {{0,0,0,0,0,0}}, titulosColunas) {
+		tableFilmes.setModel(new DefaultTableModel(	new Object[][] {{}}, titulosColunas) {
 			boolean[] columnEditables = new boolean[] {
 				false, false, false, false, false, false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
-		});
-		
-		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		tableFilmes.clearSelection();
-		tableFilmes.setFillsViewportHeight(true);
-		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
-		scrollPaneList.setViewportView(tableFilmes);	
+		});	
 	}
 	
 	public static void  quickSort(ArrayList<Filme> listFilmes, int esquerda, int direita){
@@ -157,6 +130,10 @@ public class TelaBuscarFilme {
 	
 	public TelaBuscarFilme(DadosLogin dadosLogin){
 		viewTelaBuscarFilme(dadosLogin);
+//		if (initTable) {
+//			initTable = false;
+//			iniciarTabela();
+//		}
 	}
 	
 	public void viewTelaBuscarFilme(DadosLogin dadosLogin){
@@ -167,7 +144,6 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
-				initTable = true;
 				status = false;
 			}
 		});
@@ -184,9 +160,20 @@ public class TelaBuscarFilme {
 		
 		status = true;
 		
-		if (initTable) {
-			iniciarTabela();
-		}
+		scrollPaneList = new JScrollPane();
+		scrollPaneList.setBounds(10, 175, 875, 320);
+		viewBuscarFilme.getContentPane().add(scrollPaneList);
+		
+		tableFilmes = new JTable();	
+		
+		iniciarTabela();
+		
+		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		tableFilmes.clearSelection();
+		tableFilmes.setFillsViewportHeight(true);
+		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
+		scrollPaneList.setViewportView(tableFilmes);
+			
 		
 		JLabel lblSelecionar = new JLabel("Selecione um filme para realizar alguma ação:");
 		lblSelecionar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -205,22 +192,21 @@ public class TelaBuscarFilme {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				initTable = false;
-				try {
+				if ((textFieldBusca.getText().equals(""))) {
+					JOptionPane.showMessageDialog(null, "Digite uma palavra para que possa ser feita a busca.", "Campo Busca Vazio", JOptionPane.INFORMATION_MESSAGE);
+				} else { 
+					
 					listFilms = atualizaLista(dl);
 					listFilms = filme.pesquisaFilme(listFilms, textFieldBusca.getText());
-					n = atulizaQuantidadeFilmes(listFilms);	
-				} catch (Exception e2) {
-					JOptionPane.showConfirmDialog(null, "Erro: " + e2, "Erro", JOptionPane.ERROR_MESSAGE);
-				}
+//					quickSort(listFilms, 0, listFilms.size());
 					
-//				quickSort(listFilms, 0, n);
-				
-				if (n != 0) {
-					constroiTabela(listFilms, n);
-				} else {
-					JOptionPane.showMessageDialog(null, "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado", JOptionPane.INFORMATION_MESSAGE);
-				}				
+					if (!listFilms.isEmpty()) {
+						constroiTabela(listFilms);
+					} else {
+						JOptionPane.showMessageDialog(null, "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado", JOptionPane.INFORMATION_MESSAGE);
+					}	
+				}
+	
 			}
 		});
 		btnBuscar.setBounds(545, 85, 115, 45);
@@ -234,11 +220,10 @@ public class TelaBuscarFilme {
 			public void actionPerformed(ActionEvent e) {
 				
 				listFilms = atualizaLista(dl);
-				n = atulizaQuantidadeFilmes(listFilms);		
 //				quickSort(listFilms, 0, n);
 
-				if (n != 0) {
-					constroiTabela(listFilms, n);
+				if (!listFilms.isEmpty()) {
+					constroiTabela(listFilms);
 				} else {
 					JOptionPane.showMessageDialog(null, "Nenhum filme foi encontrado", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);
 				}				

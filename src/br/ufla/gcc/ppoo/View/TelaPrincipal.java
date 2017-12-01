@@ -60,7 +60,7 @@ public class TelaPrincipal {
 		viewMain.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		viewMain.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
 		viewMain.setTitle("Menu Principal");
-		viewMain.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewMain.getContentPane().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
 		viewMain.getContentPane().setLayout(null);
 		
 		JSlider slider = new JSlider(JSlider.VERTICAL, 0, 5, 0);
@@ -94,20 +94,18 @@ public class TelaPrincipal {
 		viewMain.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
-		mnMenu.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnMenu.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnMenu);
 		
 		JMenuItem mnItemCadastro = new JMenuItem("Cadastra Novo Filme");
-		mnItemCadastro.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnItemCadastro.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemCadastro.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo.png")));
 		mnItemCadastro.setBackground(new Color(255, 255, 255));
 		mnItemCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaCadastroFilme TDF = new TelaCadastroFilme();
-				
-				if (!(TDF.getStatus())) {
+				if (!(TelaCadastroFilme.getStatus())) {
 					new TelaCadastroFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
@@ -117,15 +115,13 @@ public class TelaPrincipal {
 		mnMenu.add(mnItemCadastro);
 		
 		JMenuItem mnItemListagem = new JMenuItem("Listar Meus Filmes");
-		mnItemListagem.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnItemListagem.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemListagem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		mnItemListagem.setBackground(new Color(255, 255, 255));
 		mnItemListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaListagemFilmes TLF = new TelaListagemFilmes();
-				
-				if (!(TLF.getStatus())) {
+				if (!(TelaListagemFilmes.getStatus())) {
 					new TelaListagemFilmes(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
@@ -139,13 +135,11 @@ public class TelaPrincipal {
 		mnMenu.add(mnItemListagem);
 		
 		JMenuItem mnItemBuscarFilmes = new JMenuItem("Buscar Filmes");
-		mnItemBuscarFilmes.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnItemBuscarFilmes.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				TelaBuscarFilme TBF = new TelaBuscarFilme();
-				
-				if (!TBF.getStatus()) {
+				if (!(TelaBuscarFilme.getStatus())) {
 					new TelaBuscarFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
@@ -160,12 +154,12 @@ public class TelaPrincipal {
 		mnMenu.add(mnItemBuscarFilmes);
 		
 		JMenu mnSair = new JMenu("Sair");
-		mnSair.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnSair.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnSair.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnSair);
 		
 		JMenuItem mnItemLogout = new JMenuItem("Logout");
-		mnItemLogout.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnItemLogout.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemLogout.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
 		mnItemLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -179,12 +173,12 @@ public class TelaPrincipal {
 		mnSair.add(mnItemLogout);
 		
 		JMenuItem mnItemSair = new JMenuItem("Sair");
-		mnItemSair.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		mnItemSair.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemSair.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/sair.png")));
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	  Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					bancoDDados.Desconecta();

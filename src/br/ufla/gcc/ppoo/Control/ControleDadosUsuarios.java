@@ -55,6 +55,27 @@ public class ControleDadosUsuarios {
 		return dadosLogin;
 	}
 	
+	public String buscaNomeUser(Long id){
+		bancoDados.Conecta();	
+		String nomeUser = null;
+		
+		try {
+			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where id_user = ?");
+//			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where id_user = '" + id + "'");
+			ResultSet rs = pst.executeQuery();	
+			pst.setLong(1, id);
+			pst.execute();
+			
+			nomeUser = (rs.getString("nome"));	
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		bancoDados.Desconecta();
+		return nomeUser;
+	}
+	
 	public boolean confereEmail(String email){
 		bancoDados.Conecta();	
 		boolean encontrei = false;

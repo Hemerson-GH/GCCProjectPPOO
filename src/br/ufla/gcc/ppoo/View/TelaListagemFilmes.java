@@ -27,19 +27,18 @@ import javax.swing.table.DefaultTableModel;
 
 public class TelaListagemFilmes {
 	
-	JFrame viewListagem;
-	JScrollPane scrollPaneList;
-	static boolean status = false;
+	private JFrame viewListagem;
 	private JTable tableFilmes;
-	int n = 0;
+	private JScrollPane scrollPaneList;
 	
-	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
-	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	BancoDeDados bancoDDados = new BancoDeDados();
-	Filme filme = new Filme();
-	ArrayList<Filme> listFilms;
+	private static boolean status = false;
+	private ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
+	private ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
+	private BancoDeDados bancoDDados = new BancoDeDados();
+	private Filme filme = new Filme();
+	private ArrayList<Filme> listFilms;
 	
-	public boolean getStatus() { 
+	public static boolean getStatus() { 
 		return status;
 	}
 	
@@ -48,32 +47,16 @@ public class TelaListagemFilmes {
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-	public TelaListagemFilmes() { }
-	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
 		return controlFilmes.buscarFilmesUmUsuario(dl.getId());
 	}
 	
-	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
-		n = 0;
-		for (@SuppressWarnings("unused") Filme filme : listFilms) {
-			n++;
-		}
-		return n;
-	}
-	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms, int n){
+	public void constroiTabela(ArrayList<Filme> listFilms){
 		
-		scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 125, 875, 400);
-		viewListagem.getContentPane().add(scrollPaneList);
-		
-		tableFilmes = new JTable();
-		
+		int i = 0, n = listFilms.size();
 		String[] titulosColunas = { "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
 		Object [][]filmes = new Object[n][6];
-		int i = 0;
 		
 		for (Filme filme : listFilms) {
 			filmes[i][0] = filme.getNome();
@@ -93,12 +76,6 @@ public class TelaListagemFilmes {
 				return columnEditables[column];
 			}
 		});
-			
-		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
-		tableFilmes.clearSelection();
-		tableFilmes.setFillsViewportHeight(true);
-		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
-		scrollPaneList.setViewportView(tableFilmes);
 	}
 	
 	public ArrayList<Filme> ordenaLista(ArrayList<Filme> listFilmes) {
@@ -119,35 +96,6 @@ public class TelaListagemFilmes {
 	
 	public static int compareTo(Filme filme1, Filme filme2) {
 		return filme1.getNome().toUpperCase().compareToIgnoreCase(filme2.getNome().toUpperCase());
-	}
-	
-	public static void  quickSort(ArrayList<Filme> listFilmes, int esquerda, int direita){
-		int esq = esquerda;
-		int dir = direita;
-		Filme pivo = listFilmes.get((esq + dir) /2);
-		Filme troca;
-		
-		while (esq <= dir) {
-			while ( compareTo(listFilmes.get(esq), pivo) <= -1) {
-				esq = esq + 1;
-			}
-			while ( compareTo(listFilmes.get(dir), pivo) > 0) {
-				dir = dir - 1;
-			}
-			if (esq <= dir) {
-				troca = listFilmes.get(esq);
-				listFilmes.set(esq, listFilmes.get(dir));
-				listFilmes.set(dir, troca);
-				esq = esq + 1;
-				dir = dir - 1;
-			}
-		}
-		if (dir > esquerda) {
-			quickSort(listFilmes, esquerda, dir);
-		}
-		if(esq < direita) {
-			quickSort(listFilmes, esq, direita);
-		}
 	}
 	
 	@SuppressWarnings("unused")
@@ -173,11 +121,19 @@ public class TelaListagemFilmes {
 		viewListagem.setTitle("Meus Filme");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		listFilms = atualizaLista(dl);
-//		listFilms = ordenaLista(listFilms);
-//		quickSort(listFilms, 0, listFilms.size());
-		n = atulizaQuantidadeFilmes(listFilms);		
-		constroiTabela(listFilms, n);
+		scrollPaneList = new JScrollPane();
+		scrollPaneList.setBounds(10, 125, 875, 400);
+		viewListagem.getContentPane().add(scrollPaneList);
+		
+		tableFilmes = new JTable();
+		listFilms = atualizaLista(dl);	
+		constroiTabela(listFilms);
+		
+		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		tableFilmes.clearSelection();
+		tableFilmes.setFillsViewportHeight(true);
+		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
+		scrollPaneList.setViewportView(tableFilmes);
 		
 		JLabel lblMeusFilme = new JLabel("Meus Filmes");
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
@@ -255,13 +211,13 @@ public class TelaListagemFilmes {
 					if (JOptionPane.YES_OPTION == confirm) {	
 						if (controlFilmes.deletaFilme(filme)) {
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
-//							listFilms = atualizaLista(dl);
-//							listFilms = ordenaLista(listFilms);
+							listFilms = atualizaLista(dl);
+							listFilms = ordenaLista(listFilms);
 //							n = atulizaQuantidadeFilmes(listFilms);
-//							constroiTabela(tableFilmes, listFilms, n);
-							status = false;
-							viewListagem.setVisible(false);
-							new TelaListagemFilmes(dadosLogin);
+							constroiTabela(listFilms);
+//							status = false;
+//							viewListagem.setVisible(false);
+//							new TelaListagemFilmes(dadosLogin);
 						} else {
 							JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
 						}

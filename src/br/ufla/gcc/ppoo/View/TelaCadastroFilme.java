@@ -32,14 +32,14 @@ public class TelaCadastroFilme {
 	
 	public TelaCadastroFilme() { }
 	
-	public boolean getStatus() { 
+	public static boolean getStatus() { 
 		return status;
 	}
 	
-	Filme filme = new Filme();
-	BancoDeDados bancoDDados = new BancoDeDados();
-	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
+	private Filme filme = new Filme();
+	private BancoDeDados bancoDDados = new BancoDeDados();
+	private ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
+	private ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
 	
 	private JTextField textFieldNome;
 	private JTextField textFieldData;
@@ -75,6 +75,14 @@ public class TelaCadastroFilme {
 			bool = true;
 		}
 		return bool;
+	}
+	
+	public BancoDeDados getBancoDDados() {
+		return bancoDDados;
+	}
+
+	public void setBancoDDados(BancoDeDados bancoDDados) {
+		this.bancoDDados = bancoDDados;
 	}
 	
 	public TelaCadastroFilme(DadosLogin dadosLogin){
@@ -175,7 +183,7 @@ public class TelaCadastroFilme {
 		textFieldGenero = new JTextField();
 		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldGenero.setBounds(10, 245, 115, 30);
-		textFieldGenero.setToolTipText("Caso voc\u00EA for adicionar mais de um g\u00EAnero acrescentar virgula no pr\u00F3ximo g\u00EAnero, exemplo: G\u00EAnero 1, G\u00EAnero 2...");
+		textFieldGenero.setToolTipText("Caso você for adicionar mais de um gênero acrescentar virgula no próximo gênero, exemplo: Gênero 1, Gênero 2...");
 		textFieldGenero.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldGenero);
 		
@@ -272,7 +280,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(scrollPane);
 		
 		editorPaneDescricao = new JEditorPane();
-		editorPaneDescricao.setToolTipText("Coloque aqui a descri\u00E7\u00E3o do filme");
+		editorPaneDescricao.setToolTipText("Coloque aqui a descrição do filme");
 		scrollPane.setViewportView(editorPaneDescricao);
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));

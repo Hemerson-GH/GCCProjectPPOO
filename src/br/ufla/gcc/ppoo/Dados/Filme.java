@@ -176,7 +176,8 @@ public class Filme {
 			wordKeys.add(filme.getNome());
 			
 			for (String string : wordKeys) {
-				if (string.equals(wordKey)) {
+//				if (string.equals(wordKey)) {
+				if (string.contains(wordKey)) {
 					filmeEncontrado.add(filme);
 				}
 			}
