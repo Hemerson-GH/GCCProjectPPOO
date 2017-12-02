@@ -48,7 +48,7 @@ public class TelaListagemFilmes {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.buscarFilmesUmUsuario(dl.getId());
+		return controlFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
 	@SuppressWarnings("serial")
@@ -101,7 +101,7 @@ public class TelaListagemFilmes {
 	@SuppressWarnings("unused")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
-		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+		DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
 		
 		viewListagem = new JFrame();
 		viewListagem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -176,7 +176,7 @@ public class TelaListagemFilmes {
 				if (tableFilmes.getSelectedRow() != -1) {
 //					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					filme = filme.comparaFilme(listFilms, filmeSelect);
+					filme = filme.ComparaFilme(listFilms, filmeSelect);
 					
 					new TelaEditaFilme(dl, filme);
 					
@@ -204,12 +204,12 @@ public class TelaListagemFilmes {
 					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
-					filme = filme.comparaFilme(listFilms, filmeSelect);
+					filme = filme.ComparaFilme(listFilms, filmeSelect);
 					
 					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (JOptionPane.YES_OPTION == confirm) {	
-						if (controlFilmes.deletaFilme(filme)) {
+						if (controlFilmes.DeletaFilme(filme)) {
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 							listFilms = atualizaLista(dl);
 							listFilms = ordenaLista(listFilms);

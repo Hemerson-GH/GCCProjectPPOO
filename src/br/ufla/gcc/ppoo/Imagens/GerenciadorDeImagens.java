@@ -14,6 +14,7 @@ public class GerenciadorDeImagens {
     public static final ImageIcon OK = carregarImagem("btn-ok.png");
     public static final ImageIcon CANCELAR = carregarImagem("btn-cancelar.png");
     public static final ImageIcon PROCURAR = carregarImagem("procurar.png");
+    public static final ImageIcon PROCURAR_GRANDE = carregarImagem("icon-procurar-grande.png");
     public static final ImageIcon USUARIO = carregarImagem("icone-usuario.png");
     public static final ImageIcon EXIT = carregarImagem("icone-exit.png");
     public static final ImageIcon DELETAR = carregarImagem("deletar.png");

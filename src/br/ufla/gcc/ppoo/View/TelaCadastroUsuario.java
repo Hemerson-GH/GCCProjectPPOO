@@ -34,7 +34,7 @@ public class TelaCadastroUsuario {
 		ViewMain();
 	}
 	
-	public boolean confereSenhas(String senhaPri, String senhaSec){
+	public boolean ConfereSenhas(String senhaPri, String senhaSec){
 		boolean confirm = false;
 		
 		if (senhaPri.equals(senhaSec)) {
@@ -43,7 +43,7 @@ public class TelaCadastroUsuario {
 		return confirm;
 	}
 	
-	public boolean confereCampoEmail(JTextField textFieldEmail){
+	public boolean ConfereCampoEmail(JTextField textFieldEmail){
 		boolean confirm = false;
 		
 		if (textFieldEmail.getText().contains("@") && textFieldEmail.getText().contains(".com")) {
@@ -106,7 +106,7 @@ public class TelaCadastroUsuario {
 		txtrCadastrarUsurio.setBackground(new Color(255, 255, 255));
 		txtrCadastrarUsurio.setOpaque(false);
 		txtrCadastrarUsurio.setFont(new Font("Arial", Font.BOLD, 18));
-		txtrCadastrarUsurio.setText("Cadastrar novo usu\u00E1rio");
+		txtrCadastrarUsurio.setText("Cadastrar novo usuário");
 		txtrCadastrarUsurio.setBounds(155, 10, 205, 40);
 		myViewCadastro.getContentPane().add(txtrCadastrarUsurio);
 		
@@ -119,10 +119,10 @@ public class TelaCadastroUsuario {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
 				
-				boolean confereEmail = controlDados.confereEmail(textFieldEmail.getText());
-				boolean confereSenha = confereSenhas(passwordField.getText(), passwordFieldConfir.getText());
+				boolean confereEmail = controlDados.ConfereEmail(textFieldEmail.getText());
+				boolean confereSenha = ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 				
-				if (confereCampoEmail(textFieldEmail)) {
+				if (ConfereCampoEmail(textFieldEmail)) {
 					if (!confereEmail) {					
 						if (confereSenha) {
 							if (passwordField.getText().length() > 3  && passwordFieldConfir.getText().length() > 3) {
@@ -132,8 +132,6 @@ public class TelaCadastroUsuario {
 								controlDados.CadastrarUsuario(dadosLogin);
 								myViewCadastro.dispose();
 								bancoDDados.Desconecta();
-								JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
-										+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
 								new TelaLogin();
 							} else {
 								JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "

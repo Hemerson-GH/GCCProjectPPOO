@@ -9,48 +9,118 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
 public class RecuperaSenha {
-    //hostmail do servidor de email que será usado para envio
-    static String hostName = "smtp.gmail.com";
-    static String nomeRemetente = "AnnotFilm's";
-    static String remetente = "gcc178project@gmail.com";
-    static String destinatarios = "raydsonferreira@gmail.com"; 
-    static String assuntoEmail = "teste email";
-    static String mensagemRmail = "Aprendi enviar email e agora consigo linkar isso para recurar sua senha no meu sistema";//"testando envio de email utilizando o JAVA";
-    static String usuarioEmail = "gcc178project@gmail.com";
-    static String senhaEmail = "PauloGcc178";
-    static int portaEnvio = 465;
+	
+//  Host mail of server from email that be used to send
+    private String hostName = "smtp.gmail.com";
+    private String nomeRemetente = "AnnotFilm's";
+    private String remetente = "gcc178project@gmail.com";
+    private String destinatarios = "raydsonferreira@gmail.com"; 
+    private String assuntoEmail = "teste email";
+    private String mensagemEmail = "Aprendi enviar email e agora consigo linkar isso para recurar sua senha no meu sistema";
+    private String usuarioEmail = "gcc178project@gmail.com";
+    private String senhaEmail = "PauloGcc178";
+    private int portaEnvio = 465;
+	
+    public String getHostName() {
+		return hostName;
+	}
+	public void setHostName(String hostName) {
+		this.hostName = hostName;
+	}
+	public String getNomeRemetente() {
+		return nomeRemetente;
+	}
+	public void setNomeRemetente(String nomeRemetente) {
+		this.nomeRemetente = nomeRemetente;
+	}
+	public String getRemetente() {
+		return remetente;
+	}
+	public void setRemetente(String remetente) {
+		this.remetente = remetente;
+	}
+	public String getDestinatarios() {
+		return destinatarios;
+	}
+	public void setDestinatarios(String destinatarios) {
+		this.destinatarios = destinatarios;
+	}
+	public String getAssuntoEmail() {
+		return assuntoEmail;
+	}
+	public void setAssuntoEmail(String assuntoEmail) {
+		this.assuntoEmail = assuntoEmail;
+	}
+	public String getMensagemEmail() {
+		return mensagemEmail;
+	}
+	public void setMensagemEmail(String mensagemRmail) {
+		this.mensagemEmail = mensagemRmail;
+	}
+	public String getUsuarioEmail() {
+		return usuarioEmail;
+	}
+	public void setUsuarioEmail(String usuarioEmail) {
+		this.usuarioEmail = usuarioEmail;
+	}
+	public String getSenhaEmail() {
+		return senhaEmail;
+	}
+	public void setSenhaEmail(String senhaEmail) {
+		this.senhaEmail = senhaEmail;
+	}
+	public int getPortaEnvio() {
+		return portaEnvio;
+	}
+	public void setPortaEnvio(int portaEnvio) {
+		this.portaEnvio = portaEnvio;
+	}
+	
+	public RecuperaSenha(String destinatario, String assunto, String mensagem) {
+		this.destinatarios = destinatario;
+        this.assuntoEmail = assunto;
+        this.mensagemEmail = mensagem;
+	}
     
-    @SuppressWarnings("deprecation")
-	public static void enviarEmail(String destinatario, String assunto, String mensagem) throws EmailException{
-        SimpleEmail email = new SimpleEmail();
-//        configura o hostname
-        email.setHostName(hostName);
-//        configura porta de envio
-        email.setSmtpPort(portaEnvio);
-//        configura o email do remetente
-        email.setFrom(remetente, nomeRemetente);
-//      adiciona os emails de destino
-//        email.addTo(destinatarios);
-        email.addTo(destinatario);
-//        adiciona o assunto
-//        email.setSubject(assuntoEmail);
-        email.setSubject(assunto);
-//        mensagem do email
-//        email.setMsg(mensagemRmail);
-        email.setMsg(mensagem);
-//        autenticacao no servidor
-        email.setSSL(true);
-//        email.setTLS(true);
-        //usuario e senha do remetente
-        email.setAuthentication(usuarioEmail, senhaEmail);
-        email.send();
-        System.out.println("Enviado");
-        JOptionPane.showMessageDialog(null, "Email enviado com sucesso.");
+	@SuppressWarnings("deprecation")
+	public void enviarEmail(String destinatario, String assunto, String mensagem) throws EmailException{
+		SimpleEmail email = new SimpleEmail();
+		
+//    Settings o host name
+      email.setHostName(getHostName());
+      
+//    Settings shipping port
+      email.setSmtpPort(portaEnvio);
+      
+//    Settings o email do sender
+      email.setFrom(remetente, nomeRemetente);
+      
+//    Add the e-mails of destination
+      email.addTo(destinatario);
+      
+//    Add o subject matter
+      email.setSubject(assunto);
+      
+//    Message do email
+      email.setMsg(mensagem);
+      
+//    Authentic no server
+      email.setSSL(true);
+      
+//    User and password from sender
+      email.setAuthentication(usuarioEmail, senhaEmail);
+      email.send();
+
+      JOptionPane.showMessageDialog(null, "Email enviado com sucesso.");
     }
     public static void main(String args[]) throws InterruptedException, FileNotFoundException, IOException, EmailException {
-        String destinatario = "hemersonel@gmail.com";
+        
+    	String destinatario = "hemersonel@gmail.com";
         String assunto = "Recuperação de Senha";
         String mensagem = "Este email serve para recuperar sua senha.";
-    	RecuperaSenha.enviarEmail(destinatario, assunto, mensagem);
+        
+        RecuperaSenha RP = new RecuperaSenha(destinatario, assunto, mensagem);
+        
+    	RP.enviarEmail(destinatario, assunto, mensagem);
     }
 }

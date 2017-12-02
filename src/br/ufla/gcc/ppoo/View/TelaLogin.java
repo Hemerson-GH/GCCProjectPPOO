@@ -68,7 +68,7 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dadosLogin = new DadosLogin(controlDDados.buscarDados(textAreaUser.getText()));
+				DadosLogin dadosLogin = new DadosLogin(controlDDados.BuscarDados(textAreaUser.getText()));
 				
 				if (passwordField.getText().equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();

@@ -48,7 +48,7 @@ public class TelaBuscarFilme {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.buscarFilmesTodosUsuarios(dl.getId());
+		return controlFilmes.BuscarFilmesTodosUsuarios(dl.getId());
 	}
 	
 	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
@@ -64,7 +64,7 @@ public class TelaBuscarFilme {
 		int i = 0;	
 		
 		for (Filme filme : listFilms) {
-			filmes[i][0] = controlUser.buscaNomeUser(filme.getId_user());
+			filmes[i][0] = controlUser.BuscaNomeUser(filme.getId_user());
 			filmes[i][1] = filme.getNome();
 			filmes[i][2] = filme.getGenero();
 			filmes[i][3] = filme.getData();
@@ -138,7 +138,7 @@ public class TelaBuscarFilme {
 	
 	public void viewTelaBuscarFilme(DadosLogin dadosLogin){
 		
-		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+		DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
 		
 		viewBuscarFilme = new JFrame();
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
@@ -197,7 +197,7 @@ public class TelaBuscarFilme {
 				} else { 
 					
 					listFilms = atualizaLista(dl);
-					listFilms = filme.pesquisaFilme(listFilms, textFieldBusca.getText());
+					listFilms = filme.PesquisaFilme(listFilms, textFieldBusca.getText());
 //					quickSort(listFilms, 0, listFilms.size());
 					
 					if (!listFilms.isEmpty()) {

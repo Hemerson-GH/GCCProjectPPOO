@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JOptionPane;
+
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
@@ -18,94 +20,104 @@ public class ControleDadosUsuarios {
 		bancoDados.Conecta();
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
 			pst.setString(1, dados.getNome());		
 			pst.setString(2, dados.getEmail());
 			pst.setString(3, dados.getSenha());	
 			pst.execute();
-//			JOptionPane.showMessageDialog(null, "Salvo Com Sucesso");
+			
+			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
+					+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
 		} catch (SQLException ex) {
-//			JOptionPane.showMessageDialog(null, "Erro Ao Salvar Dado: \n " + ex);
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			bancoDados.Desconecta();
 		}
-		
-		bancoDados.Desconecta();
 	}
 	
-	public DadosLogin buscarDados(String email){
+	public DadosLogin BuscarDados(String email){
 		bancoDados.Conecta();	
 		DadosLogin dadosLogin = new DadosLogin();
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
+			pst.setString(1, email);
 			ResultSet rs = pst.executeQuery();	
 			
-			while (rs.next()) {
-								
+			if (rs.next()) {	
 			    dadosLogin.setEmail(rs.getString("email"));
 			    dadosLogin.setSenha(rs.getString("senha"));
 			    dadosLogin.setNome(rs.getString("nome"));	
 			    dadosLogin.setId(rs.getInt("id_user"));
 			}
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao buscar usuário:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Erro na busca", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			bancoDados.Desconecta();
 		}
 		
-		bancoDados.Desconecta();
 		return dadosLogin;
 	}
 	
-	public String buscaNomeUser(Long id){
+	public String BuscaNomeUser(Long id){
 		bancoDados.Conecta();	
 		String nomeUser = null;
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where id_user = ?");
-//			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where id_user = '" + id + "'");
-			ResultSet rs = pst.executeQuery();	
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where id_user = ?");
 			pst.setLong(1, id);
-			pst.execute();
+			ResultSet rs = pst.executeQuery();	
 			
-			nomeUser = (rs.getString("nome"));	
-			
+			if (rs.next()) {
+				nomeUser = (rs.getString("nome"));	
+			}
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao buscar nome do usuário:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Erro na busca", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			bancoDados.Desconecta();
 		}
 		
-		bancoDados.Desconecta();
 		return nomeUser;
 	}
 	
-	public boolean confereEmail(String email){
+	public boolean ConfereEmail(String email){
 		bancoDados.Conecta();	
 		boolean encontrei = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.connection.prepareStatement("SELECT * FROM dados_user Where email = '" + email +"'");
-			ResultSet rs = pst.executeQuery();	
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
+			pst.setString(1, email);
+			ResultSet rs = pst.executeQuery();		
 			
-			while (rs.next()) {	
+			if (rs.next()) {	
 				encontrei = true;
 			}
 		} catch (SQLException ex) {
-			ex.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Falha ao conferir email:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Erro ao conferir", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			bancoDados.Desconecta();
 		}
 		
-		bancoDados.Desconecta();
 		return encontrei;
 	}
 	
-	public String convertMD5(String wordConvert){
+	public String ConvertMD5(String wordConvert){
 		MessageDigest md = null;
 		
 		try {
 			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+		} catch (NoSuchAlgorithmException ex) {
+			JOptionPane.showMessageDialog(null, "Falha ao converte senha:\n" + ex.getMessage() + 
+				"\nEntre em contato com o administrador do sistema.", "Erro na conversão", JOptionPane.ERROR_MESSAGE);
+		} 
 	    
 		md.update(wordConvert.getBytes(),0,wordConvert.length()); 
-//	       System.out.println("MD5: "+ new BigInteger(1,m.digest()).toString(16));
-		return new BigInteger(1,md.digest()).toString(16);
+		
+//	    System.out.println("MD5: "+ new BigInteger(1, m.digest()).toString(16));
+		return new BigInteger(1, md.digest()).toString(16);
 	}
 }

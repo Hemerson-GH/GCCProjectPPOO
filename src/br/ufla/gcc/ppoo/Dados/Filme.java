@@ -41,9 +41,7 @@ public class Filme {
 		this.setId_user(filme.getId_user());
 	}
 	
-	public Filme(){
-		
-	}
+	public Filme(){ }
 
 	public String getNome() {
 		return nome;
@@ -125,7 +123,7 @@ public class Filme {
 		this.id_filme = id_filme;
 	}
 	
-	public Filme comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
+	public Filme ComparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
 		Filme itemFilme = new Filme();
 		
 		for (Filme filme : listFilmes) {
@@ -136,7 +134,7 @@ public class Filme {
 		return itemFilme;
 	}
 	
-	public boolean comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
+	public boolean ComparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme) && !filme.getNome().equals(filmeContido)) {
 				return true;
@@ -145,7 +143,7 @@ public class Filme {
 		return false;
 	}
 	
-	public boolean comparaFilmeBoolean(ArrayList<Filme> listFilmes, String nomeFilme){
+	public boolean ComparaFilmeBoolean(ArrayList<Filme> listFilmes, String nomeFilme){
 		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme)) {
@@ -166,7 +164,7 @@ public class Filme {
 		return listWordKeys;
 	}
 	
-	public ArrayList<Filme> pesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
+	public ArrayList<Filme> PesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
 		ArrayList<Filme> filmeEncontrado = new ArrayList<>();
 		ArrayList<String> wordKeys = new ArrayList<>();
 		
@@ -176,8 +174,7 @@ public class Filme {
 			wordKeys.add(filme.getNome());
 			
 			for (String string : wordKeys) {
-//				if (string.equals(wordKey)) {
-				if (string.contains(wordKey)) {
+				if (string.equalsIgnoreCase(wordKey) || string.toUpperCase().contains(wordKey.toUpperCase())) {
 					filmeEncontrado.add(filme);
 				}
 			}

@@ -45,7 +45,7 @@ public class TelaEditaFilme {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.buscarFilmesUmUsuario(dl.getId());
+		return controlFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
 	public void limpaCampos(){
@@ -193,7 +193,7 @@ public class TelaEditaFilme {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+				DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
 				
 				filme.setNome(textFieldNome.getText());
 				filme.setData(textFieldData.getText());
@@ -205,8 +205,8 @@ public class TelaEditaFilme {
 				
 				ArrayList<Filme> listFilmes =  atualizaLista(dl);
 				
-				if (!filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
-					if (controlFilmes.alteraFilme(filme)) {
+				if (!filme.ComparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
+					if (controlFilmes.AlteraFilme(filme)) {
 						JOptionPane.showMessageDialog(null, "Filme Editado no banco de dados com sucesso.", "Filme Editado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 						viewEditaFilme.dispose();
 						new TelaListagemFilmes(dl);

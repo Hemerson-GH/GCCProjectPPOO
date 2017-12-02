@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class TelaCadastroFilme {
 
 	JFrame viewCadastroFilme;
-	static boolean status = false;
+	private static boolean status = false;
 	
 	public TelaCadastroFilme() { }
 	
@@ -91,7 +91,7 @@ public class TelaCadastroFilme {
 	
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
-		DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail());
+		DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
 		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.addWindowListener(new WindowAdapter() {
@@ -244,9 +244,9 @@ public class TelaCadastroFilme {
 				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
 					if (contensHifen(textFieldWorKeys)) {
 					
-						ArrayList<Filme> listFilms = controlFilmes.buscarFilmesUmUsuario(dl.getId());;
+						ArrayList<Filme> listFilms = controlFilmes.BuscarFilmesUmUsuario(dl.getId());;
 //						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
-						boolean confere = filme.comparaFilmeBoolean(listFilms, textFieldNome.getText());
+						boolean confere = filme.ComparaFilmeBoolean(listFilms, textFieldNome.getText());
 						
 						if (!confere) {
 							controlFilmes.CadastrarFilme(filme, dl.getId());
