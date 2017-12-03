@@ -192,4 +192,20 @@ public class Filme {
 		
 		return filmeEncontrado;
 	}
+
+	public static String converteTexto(String wordKeys) {
+		
+		String[] wordKeyHifen = wordKeys.split("-");
+		String listWordKeys = null;
+		
+		for (int i = 0; i < wordKeyHifen.length; i++) {
+			if (i < wordKeyHifen.length-1) {
+				listWordKeys += wordKeyHifen[i] + ", ";
+			} else {
+				listWordKeys += wordKeyHifen[i];
+			}
+		}
+		
+		return listWordKeys;
+	}
 }

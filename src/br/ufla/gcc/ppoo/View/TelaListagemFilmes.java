@@ -158,6 +158,19 @@ public class TelaListagemFilmes {
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
+				if (tableFilmes.getSelectedRow() != -1) {
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
+					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+					
+					status = false;
+					viewListagem.setVisible(false);
+					
+					new TelaVisualizaFilme(dadosLogin, filme);
+				} else {
+					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
+							JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 0));
@@ -172,15 +185,13 @@ public class TelaListagemFilmes {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
-//					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
 					
-					new TelaEditaFilme(dl, filme);
-					
 					status = false;
 					viewListagem.setVisible(false);
-//					new TelaVisualizarFilmes(dadosLogin);
+					
+					new TelaEditaFilme(dl, filme);
 				} else {
 					JOptionPane.showMessageDialog(null, "Para editar um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
 				}
@@ -211,11 +222,7 @@ public class TelaListagemFilmes {
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 							listFilms = atualizaLista(dl);
 							listFilms = ordenaLista(listFilms);
-//							n = atulizaQuantidadeFilmes(listFilms);
 							constroiTabela(listFilms);
-//							status = false;
-//							viewListagem.setVisible(false);
-//							new TelaListagemFilmes(dadosLogin);
 						} else {
 							JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
 						}

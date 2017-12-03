@@ -58,6 +58,8 @@ public class TelaEditaFilme {
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin, Filme filme) {
 		
+		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		
 		viewEditaFilme = new JFrame();
 		viewEditaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewEditaFilme.setBackground(new Color(0, 0, 255));
@@ -191,8 +193,6 @@ public class TelaEditaFilme {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
-				
 				filme.setNome(textFieldNome.getText());
 				filme.setData(textFieldData.getText());
 				filme.setDescricao(editorPaneDescricao.getText());
@@ -228,6 +228,7 @@ public class TelaEditaFilme {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				viewEditaFilme.dispose();
+				new TelaListagemFilmes(dl);
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));
@@ -240,7 +241,7 @@ public class TelaEditaFilme {
 		lblEditarFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarFilme.setForeground(Color.WHITE);
 		lblEditarFilme.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
-		lblEditarFilme.setBounds(120, 35, 325, 55);
+		lblEditarFilme.setBounds(125, 20, 325, 55);
 		viewEditaFilme.getContentPane().add(lblEditarFilme);
 		
 		viewEditaFilme.setResizable(false);
