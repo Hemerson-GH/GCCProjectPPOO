@@ -134,14 +134,13 @@ public class Filme {
 	}
 	
 	public static Filme comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
-		Filme itemFilme = new Filme(null, null, null, null, null, null, null);
 		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme)) {
-				itemFilme = filme;
+				return filme;
 			}
 		}
-		return itemFilme;
+		return null;
 	}
 	
 	public boolean comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		

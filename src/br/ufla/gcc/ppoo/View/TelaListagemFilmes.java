@@ -35,10 +35,14 @@ public class TelaListagemFilmes {
 	private static boolean status = false;
 	
 	private BancoDeDados bancoDDados = new BancoDeDados();
-	private ArrayList<Filme> listFilms;
+	private ArrayList<Filme> listFilms = new ArrayList<>();
 	
 	public static boolean getStatus() { 
 		return status;
+	}
+	
+	public static void setStatus(boolean bool) {
+		status = bool;
 	}
 	
 	public TelaListagemFilmes(DadosLogin dadosLogin){
@@ -107,7 +111,7 @@ public class TelaListagemFilmes {
 		viewListagem.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
-				status = false;
+				setStatus(false);
 			}
 		});
 		viewListagem.setBackground(new Color(0, 0, 255));
@@ -148,7 +152,7 @@ public class TelaListagemFilmes {
 		label.setBounds(290, 20, 40, 40);
 		viewListagem.getContentPane().add(label);
 		
-		JLabel lblSelecione = new JLabel("Selecione um filme para realizar alguma a\u00E7\u00E3o:");
+		JLabel lblSelecione = new JLabel("Selecione um filme para realizar alguma ação:");
 		lblSelecione.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSelecione.setForeground(Color.WHITE);
 		lblSelecione.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
@@ -156,22 +160,20 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().add(lblSelecione);
 		
 		JButton btnVisualizar = new JButton("Visualizar");
+		btnVisualizar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
-					
-					status = false;
-					viewListagem.setVisible(false);
-					
+					setStatus(false);
+					viewListagem.dispose();
 					new TelaVisualizaFilme(dadosLogin, filme);
 				} else {
 					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
 							JOptionPane.ERROR_MESSAGE);
 				}
-				
 			}
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 0));
@@ -182,6 +184,7 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().add(btnVisualizar);
 		
 		JButton btnEditar = new JButton("Editar");
+		btnEditar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/editar.png")));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -189,7 +192,7 @@ public class TelaListagemFilmes {
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
 					
-					status = false;
+					setStatus(false);
 					viewListagem.setVisible(false);
 					
 					new TelaEditaFilme(dl, filme);
@@ -255,7 +258,7 @@ public class TelaListagemFilmes {
 		btnCancelar.setBounds(765, 535, 120, 25);
 		viewListagem.getContentPane().add(btnCancelar);
 		
-		status = true;
+		setStatus(true);
 		
 		viewListagem.setResizable(false);
 		viewListagem.setSize(900, 600);

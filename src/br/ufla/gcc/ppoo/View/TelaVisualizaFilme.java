@@ -31,7 +31,19 @@ public class TelaVisualizaFilme {
 	
 	private JFrame viewVisualizaFilme;
 	
-	BancoDeDados bancoDDados = new BancoDeDados();
+	private BancoDeDados bancoDDados = new BancoDeDados();
+	private ArrayList<Filme> listFilms = new ArrayList<>();
+	
+	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
+	}
+	
+	public boolean contemFilme(Filme filme, DadosLogin dadosLogin) {	
+		if (filme.getId_user().equals(dadosLogin.getId())) {
+				return true;
+		}		
+		return false;
+	}
 	
 	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme){
 		bancoDDados.Conecta();
@@ -42,6 +54,8 @@ public class TelaVisualizaFilme {
 	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme) {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		listFilms = atualizaLista(dl);	
+		boolean avaibleAvaliation = contemFilme(filme, dl);
 		
 		viewVisualizaFilme = new JFrame();
 		viewVisualizaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -62,32 +76,63 @@ public class TelaVisualizaFilme {
 		lblVisualizarFilme.setBounds(188, 11, 185, 30);
 		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
-		JSlider sliderAvaliacao = new JSlider(JSlider.VERTICAL, 0, 5, 0);
-		sliderAvaliacao.setMinorTickSpacing(1);
-		sliderAvaliacao.setBounds(485, 10, 75, 115);
-		sliderAvaliacao.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		sliderAvaliacao.setBackground(Color.WHITE);
-		sliderAvaliacao.setEnabled(true);
-		sliderAvaliacao.setMajorTickSpacing(5);
-		sliderAvaliacao.setPaintTicks(true);
-		sliderAvaliacao.setPaintLabels(true);
+		if (!avaibleAvaliation) {
+			JSlider sliderAvaliacao = new JSlider(JSlider.VERTICAL, 0, 5, 0);
+			sliderAvaliacao.setMinorTickSpacing(1);
+			sliderAvaliacao.setBounds(485, 10, 75, 115);
+			sliderAvaliacao.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
+			sliderAvaliacao.setBackground(Color.WHITE);
+			sliderAvaliacao.setEnabled(true);
+			sliderAvaliacao.setMajorTickSpacing(5);
+			sliderAvaliacao.setPaintTicks(true);
+			sliderAvaliacao.setPaintLabels(true);
+			
+			Font font = new Font("Arial", Font.PLAIN, 9);
+			sliderAvaliacao.setFont(font);
+			
+			@SuppressWarnings("rawtypes")
+			Hashtable labelTable = new Hashtable();
+			labelTable.put( new Integer(5), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-5.jpg"))) );
+			labelTable.put( new Integer(4), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-4.jpg"))) );
+			labelTable.put( new Integer(3), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-3.jpg"))) );
+			labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
+			labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
+			labelTable.put( new Integer(0), new JLabel( "0" ));
+			sliderAvaliacao.setLabelTable(labelTable);
+			
+			viewVisualizaFilme.getContentPane().add(sliderAvaliacao);	
+			
+			JButton btnAvaliacao = new JButton("Salvar Avaliação");
+			btnAvaliacao.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					Long pontAnt = filme.getPontos();
+					
+					filme.setPontos((long) sliderAvaliacao.getValue() + pontAnt);
+					
+					ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
+					
+					if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
+						ControleDadosFilmes.AvaliaFilme(filme);
+						Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+						ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
+						
+						JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
+					}
+					
+					pontAnt = (long) 0;
+					
+				}
+			});
+			btnAvaliacao.setBounds(460, 135, 125, 25);
+			btnAvaliacao.setFont(new Font("Arial", Font.PLAIN, 12));
+			btnAvaliacao.setBackground(new Color(255, 255, 255));	
+			viewVisualizaFilme.getContentPane().add(btnAvaliacao);			
+		}		
 		
-		Font font = new Font("Arial", Font.PLAIN, 9);
-		sliderAvaliacao.setFont(font);
-		
-		@SuppressWarnings("rawtypes")
-		Hashtable labelTable = new Hashtable();
-		labelTable.put( new Integer(5), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-5.jpg"))) );
-		labelTable.put( new Integer(4), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-4.jpg"))) );
-		labelTable.put( new Integer(3), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-3.jpg"))) );
-		labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
-		labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
-		labelTable.put( new Integer(0), new JLabel( "0" ));
-		sliderAvaliacao.setLabelTable(labelTable);
-		
-		viewVisualizaFilme.getContentPane().add(sliderAvaliacao);
-		
-		JLabel lblTitulo = new JLabel("T\u00EDtulo:");
+		JLabel lblTitulo = new JLabel("Título:");
 		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitulo.setForeground(Color.BLACK);
 		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
@@ -131,7 +176,6 @@ public class TelaVisualizaFilme {
 		lblTGenero.setBounds(9, 215, 115, 30);
 		lblTGenero.setToolTipText(filme.getGenero());
 		viewVisualizaFilme.getContentPane().add(lblTGenero);
-		
 		
 		JLabel lblData = new JLabel("Lançamento:");
 		lblData.setBounds(297, 190, 110, 25);
@@ -200,8 +244,14 @@ public class TelaVisualizaFilme {
 		btnCancelar.setBounds(385, 590, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				viewVisualizaFilme.dispose();
-				new TelaListagemFilmes(dl);
+				
+				if (!TelaBuscarFilme.getStatus()) {
+					new TelaBuscarFilme(dl);
+				} else if (!TelaListagemFilmes.getStatus()) {
+					new TelaListagemFilmes(dl);
+				}				
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));
@@ -209,35 +259,6 @@ public class TelaVisualizaFilme {
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		viewVisualizaFilme.getContentPane().add(btnCancelar);
-		
-		JButton btnAvaliacao = new JButton("Salvar Avaliação");
-		btnAvaliacao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				Long pontAnt = filme.getPontos();
-				
-				filme.setPontos((long) sliderAvaliacao.getValue() + pontAnt);
-				
-				ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
-				
-				if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
-					ControleDadosFilmes.AvaliaFilme(filme);
-					Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-					ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
-					
-					JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", JOptionPane.INFORMATION_MESSAGE);
-				} else {
-					JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
-				}
-				
-				pontAnt = (long) 0;
-				
-			}
-		});
-		btnAvaliacao.setBounds(460, 135, 125, 25);
-		btnAvaliacao.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnAvaliacao.setBackground(new Color(255, 255, 255));	
-		viewVisualizaFilme.getContentPane().add(btnAvaliacao);
 		
 		JButton btnComentar = new JButton("Comentar");
 		btnComentar.setFont(new Font("Arial", Font.PLAIN, 13));

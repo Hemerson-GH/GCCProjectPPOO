@@ -40,6 +40,10 @@ public class TelaBuscarFilme {
 		return status;
 	}
 	
+	public static void setStatus(boolean bool) {
+		status = bool;
+	}
+	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
 		return ControleDadosFilmes.BuscarFilmesTodosUsuarios(dl.getId());
 	}
@@ -69,7 +73,7 @@ public class TelaBuscarFilme {
 		
 		tableFilmes.setModel(new DefaultTableModel(filmes, titulosColunas) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false
+				false, false, false, false, false, false, false,
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -92,9 +96,9 @@ public class TelaBuscarFilme {
 	
 		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
 		
-		tableFilmes.setModel(new DefaultTableModel(	new Object[][] {{}}, titulosColunas) {
+		tableFilmes.setModel(new DefaultTableModel(	new Object[][] {}, titulosColunas) {
 			boolean[] columnEditables = new boolean[] {
-				false, false, false, false, false, false
+					false, false, false, false, false, false, false,
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
@@ -109,10 +113,10 @@ public class TelaBuscarFilme {
 		Filme troca;
 		
 		while (esq <= dir) {
-			while ( listFilmes.get(esq).getPontos() < pivo.getPontos()) {
+			while ( listFilmes.get(esq).getPontos() > pivo.getPontos()) {
 				esq = esq + 1;
 			}
-			while ( listFilmes.get(dir).getPontos() > pivo.getPontos()) {
+			while ( listFilmes.get(dir).getPontos() < pivo.getPontos()) {
 				dir = dir - 1;
 			}
 			if (esq <= dir) {
@@ -139,11 +143,11 @@ public class TelaBuscarFilme {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
-		viewBuscarFilme = new JFrame();
+		viewBuscarFilme = new JFrame();	
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosed(WindowEvent arg0) {
-				status = false;
+				setStatus(false);
 			}
 		});
 		viewBuscarFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -156,8 +160,6 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewBuscarFilme.setTitle("Buscar Filmes");
 		viewBuscarFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		
-		status = true;
 		
 		scrollPaneList = new JScrollPane();
 		scrollPaneList.setBounds(10, 175, 875, 320);
@@ -192,14 +194,16 @@ public class TelaBuscarFilme {
 			public void actionPerformed(ActionEvent e) {
 				
 				if ((textFieldBusca.getText().equals(""))) {
+					iniciarTabela();
 					JOptionPane.showMessageDialog(null, "Digite uma palavra para que possa ser feita a busca.", "Campo Busca Vazio", JOptionPane.INFORMATION_MESSAGE);
 				} else { 
 					
+					iniciarTabela();
 					listFilms = atualizaLista(dl);
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
-//					quickSort(listFilms, 0, listFilms.size());
 					
 					if (!listFilms.isEmpty()) {
+						quickSort(listFilms, 0, listFilms.size()-1);
 						constroiTabela(listFilms, dadosLogin);
 					} else {
 						JOptionPane.showMessageDialog(null, "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado", JOptionPane.INFORMATION_MESSAGE);
@@ -219,9 +223,9 @@ public class TelaBuscarFilme {
 			public void actionPerformed(ActionEvent e) {
 				
 				listFilms = atualizaLista(dl);
-//				quickSort(listFilms, 0, n);
 
 				if (!listFilms.isEmpty()) {
+					quickSort(listFilms, 0, listFilms.size()-1);
 					constroiTabela(listFilms, dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Nenhum filme foi encontrado", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);
@@ -249,26 +253,25 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.getContentPane().add(lblIconSearch);
 		
 		JButton btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-ok.png")));
+		btnVisualizar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		btnVisualizar.setBounds(135, 520, 135, 30);
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-//				usar dl
 				if (tableFilmes.getSelectedRow() != -1) {
-//					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
-//					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-//					filme = filme.comparaFilme(listFilms, filmeSelect);
-//					
-//					new TelaEditaFilme(dl, filme);
-					
-//					status = false;
-//					viewListagem.setVisible(false);
-//					new TelaVisualizarFilmes(dadosLogin);
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);					
+					try {
+						Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+						setStatus(false);
+						viewBuscarFilme.dispose();
+						new TelaVisualizaFilme(dl, filme);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Filme seleciona é " + e.getCause()+ "\nEntre em contato com o administrador do sistema.", "Filme não encontrado", JOptionPane.ERROR_MESSAGE);
+					}
 				} else {
-					JOptionPane.showMessageDialog(null, "Para editar um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
 				
 			}
 		});
@@ -283,6 +286,7 @@ public class TelaBuscarFilme {
 		btnCancelar.setBounds(620, 520, 135, 30);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setStatus(false);
 				viewBuscarFilme.dispose();
 			}
 		});
@@ -291,6 +295,8 @@ public class TelaBuscarFilme {
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		viewBuscarFilme.getContentPane().add(btnCancelar);
+		
+		setStatus(true);
 		
 		viewBuscarFilme.setResizable(false);
 		viewBuscarFilme.setSize(900, 600);

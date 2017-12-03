@@ -41,7 +41,7 @@ public class Avaliacao {
 	public static boolean confereAvaliacao(ArrayList<Avaliacao> listAvaliacao, Filme filme, DadosLogin dadosLogin) {
 		
 		for (Avaliacao avaliacao : listAvaliacao) {
-			if (avaliacao.getId_filme() == filme.getId_filme() && avaliacao.getId_user() == dadosLogin.getId() && avaliacao.getAvaliacao() == true) {
+			if (avaliacao.getId_filme().equals(filme.getId_filme()) && avaliacao.getId_user().equals(dadosLogin.getId()) && avaliacao.getAvaliacao() == true) {
 				return true;
 			}
 		}
