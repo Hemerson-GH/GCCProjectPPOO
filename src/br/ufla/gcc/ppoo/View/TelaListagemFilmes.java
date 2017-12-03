@@ -19,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
@@ -219,6 +220,7 @@ public class TelaListagemFilmes {
 					
 					if (JOptionPane.YES_OPTION == confirm) {	
 						if (ControleDadosFilmes.DeletaFilme(filme)) {
+							ControleDadosAvaliacao.DeletaFilme(filme.getId_filme());
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 							listFilms = atualizaLista(dl);
 							listFilms = ordenaLista(listFilms);

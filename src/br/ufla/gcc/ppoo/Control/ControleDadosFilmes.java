@@ -189,4 +189,27 @@ public class ControleDadosFilmes {
 		
 		return encontrou;
 	}
+	
+	public static boolean AvaliaFilme(Filme filme){
+		boolean encontrou = false;
+		
+		bancoDados.Conecta();
+		
+		try {
+			 PreparedStatement pst = bancoDados.getConnection().prepareStatement("UPDATE filmes set pontos_filme = ? WHERE id_filme = ?");
+
+			 pst.setLong(1, filme.getPontos());
+			 pst.setLong(2, filme.getId_filme());
+	         pst.execute();
+	         
+	         encontrou = true;
+	    } catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Erro ao avaliar filme selecionado:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Erro ao avaliar filme", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			bancoDados.Desconecta();
+		}
+		
+		return encontrou;
+	}
 }

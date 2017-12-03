@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
@@ -12,14 +13,17 @@ import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
+import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.Dados.Avaliacao;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 
@@ -37,6 +41,8 @@ public class TelaVisualizaFilme {
 	@SuppressWarnings("unchecked")
 	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme) {
 		
+		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		
 		viewVisualizaFilme = new JFrame();
 		viewVisualizaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewVisualizaFilme.setBackground(new Color(0, 0, 255));
@@ -49,7 +55,12 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.setTitle("Visualiza Filme");
 		viewVisualizaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		JLabel lblVisualizarFilme = new JLabel("Visualizar Filme");
+		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
+		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
+		lblVisualizarFilme.setForeground(Color.WHITE);
+		lblVisualizarFilme.setBounds(188, 11, 185, 30);
+		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		JSlider sliderAvaliacao = new JSlider(JSlider.VERTICAL, 0, 5, 0);
 		sliderAvaliacao.setMinorTickSpacing(1);
@@ -57,7 +68,6 @@ public class TelaVisualizaFilme {
 		sliderAvaliacao.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
 		sliderAvaliacao.setBackground(Color.WHITE);
 		sliderAvaliacao.setEnabled(true);
-		viewVisualizaFilme.getContentPane().add(sliderAvaliacao);
 		sliderAvaliacao.setMajorTickSpacing(5);
 		sliderAvaliacao.setPaintTicks(true);
 		sliderAvaliacao.setPaintLabels(true);
@@ -73,7 +83,17 @@ public class TelaVisualizaFilme {
 		labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
 		labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
 		labelTable.put( new Integer(0), new JLabel( "0" ));
-		sliderAvaliacao.setLabelTable( labelTable );
+		sliderAvaliacao.setLabelTable(labelTable);
+		
+		viewVisualizaFilme.getContentPane().add(sliderAvaliacao);
+		
+		JLabel lblTitulo = new JLabel("T\u00EDtulo:");
+		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setForeground(Color.BLACK);
+		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
+		lblTitulo.setBackground(Color.WHITE);
+		lblTitulo.setBounds(5, 55, 60, 25);
+		viewVisualizaFilme.getContentPane().add(lblTitulo);
 		
 		JLabel lblNome = new JLabel(filme.getNome());
 		lblNome.setBounds(7, 85, 400, 25);
@@ -81,50 +101,7 @@ public class TelaVisualizaFilme {
 		lblNome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
 		lblNome.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblNome);
-		
-		JLabel lblData = new JLabel("Lan\u00E7amento:");
-		lblData.setBounds(297, 190, 110, 25);
-		lblData.setHorizontalAlignment(SwingConstants.CENTER);
-		lblData.setForeground(new Color(0, 0, 0));
-		lblData.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
-		lblData.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblData);
-		
-		JLabel textFieldData = new JLabel(filme.getData());
-		textFieldData.setForeground(Color.WHITE);
-		textFieldData.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldData.setBounds(309, 215, 90, 30);
-		viewVisualizaFilme.getContentPane().add(textFieldData);
-		
-		JLabel lblDuraoDoFilme = new JLabel("Dura\u00E7\u00E3o:");
-		lblDuraoDoFilme.setBounds(154, 190, 75, 25);
-		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDuraoDoFilme.setForeground(new Color(0, 0, 0));
-		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
-		lblDuraoDoFilme.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblDuraoDoFilme);
-		
-		JLabel textFieldDuracao = new JLabel(filme.getDuracaoFilme());
-		textFieldDuracao.setForeground(Color.WHITE);
-		textFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldDuracao.setBounds(154, 215, 85, 30);
-		viewVisualizaFilme.getContentPane().add(textFieldDuracao);
-		
-		JLabel lblGnero = new JLabel("G\u00EAnero:");
-		lblGnero.setBounds(7, 190, 70, 25);
-		lblGnero.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGnero.setForeground(new Color(0, 0, 0));
-		lblGnero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
-		lblGnero.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblGnero);
-		
-		JLabel textFieldGenero = new JLabel(filme.getGenero());
-		textFieldGenero.setForeground(Color.WHITE);
-		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldGenero.setBounds(9, 215, 115, 30);
-		textFieldGenero.setToolTipText(filme.getGenero());
-		viewVisualizaFilme.getContentPane().add(textFieldGenero);
+		viewVisualizaFilme.getContentPane().add(lblNome);	
 		
 		JLabel lblPalavras = new JLabel("Palavras-chave:");
 		lblPalavras.setBounds(5, 120, 140, 25);
@@ -134,12 +111,71 @@ public class TelaVisualizaFilme {
 		lblPalavras.setBackground(Color.WHITE);
 		viewVisualizaFilme.getContentPane().add(lblPalavras);
 		
-		JLabel textFieldWorKeys = new JLabel(Filme.converteTexto(filme.getWordKeys()));
-		textFieldWorKeys.setForeground(Color.WHITE);
-		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-		textFieldWorKeys.setBounds(8, 150, 475, 30);
-		viewVisualizaFilme.getContentPane().add(textFieldWorKeys);
+		JLabel lblFieldWorKeys = new JLabel(Filme.converteTexto(filme.getWordKeys()));
+		lblFieldWorKeys.setForeground(Color.WHITE);
+		lblFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
+		lblFieldWorKeys.setBounds(8, 150, 475, 30);
+		viewVisualizaFilme.getContentPane().add(lblFieldWorKeys);
 		
+		JLabel lblGenero = new JLabel("Gênero:");
+		lblGenero.setBounds(7, 190, 70, 25);
+		lblGenero.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGenero.setForeground(new Color(0, 0, 0));
+		lblGenero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
+		lblGenero.setBackground(Color.WHITE);
+		viewVisualizaFilme.getContentPane().add(lblGenero);
+		
+		JLabel lblTGenero = new JLabel(filme.getGenero());
+		lblTGenero.setForeground(Color.WHITE);
+		lblTGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
+		lblTGenero.setBounds(9, 215, 115, 30);
+		lblTGenero.setToolTipText(filme.getGenero());
+		viewVisualizaFilme.getContentPane().add(lblTGenero);
+		
+		
+		JLabel lblData = new JLabel("Lançamento:");
+		lblData.setBounds(297, 190, 110, 25);
+		lblData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblData.setForeground(new Color(0, 0, 0));
+		lblData.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
+		lblData.setBackground(Color.WHITE);
+		viewVisualizaFilme.getContentPane().add(lblData);
+		
+		JLabel lblFieldData = new JLabel(filme.getData());
+		lblFieldData.setForeground(Color.WHITE);
+		lblFieldData.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
+		lblFieldData.setBounds(309, 215, 90, 30);
+		viewVisualizaFilme.getContentPane().add(lblFieldData);
+		
+		JLabel lblDuraoDoFilme = new JLabel("Duração:");
+		lblDuraoDoFilme.setBounds(154, 190, 75, 25);
+		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDuraoDoFilme.setForeground(new Color(0, 0, 0));
+		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
+		lblDuraoDoFilme.setBackground(Color.WHITE);
+		viewVisualizaFilme.getContentPane().add(lblDuraoDoFilme);
+		
+		JLabel lblTFieldDuracao = new JLabel(filme.getDuracaoFilme());
+		lblTFieldDuracao.setForeground(Color.WHITE);
+		lblTFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
+		lblTFieldDuracao.setBounds(154, 215, 85, 30);
+		viewVisualizaFilme.getContentPane().add(lblTFieldDuracao);
+		
+		JLabel lblDireto = new JLabel("Diretor:");
+		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDireto.setForeground(new Color(0, 0, 0));
+		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
+		lblDireto.setBackground(Color.WHITE);
+		lblDireto.setBounds(470, 190, 65, 25);
+		viewVisualizaFilme.getContentPane().add(lblDireto);
+		
+		JLabel lblTDiretor = new JLabel(filme.getDiretor());
+		lblTDiretor.setToolTipText(filme.getDiretor());
+		lblTDiretor.setForeground(Color.WHITE);
+		lblTDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
+		lblTDiretor.setBounds(475, 215, 110, 30);
+		viewVisualizaFilme.getContentPane().add(lblTDiretor);
+
 		JLabel lblDescrio = new JLabel("Descrição:");
 		lblDescrio.setBounds(7, 255, 90, 25);
 		lblDescrio.setHorizontalAlignment(SwingConstants.CENTER);
@@ -159,21 +195,6 @@ public class TelaVisualizaFilme {
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
 		
-		JLabel lblDireto = new JLabel("Diretor:");
-		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDireto.setForeground(new Color(0, 0, 0));
-		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
-		lblDireto.setBackground(Color.WHITE);
-		lblDireto.setBounds(470, 190, 65, 25);
-		viewVisualizaFilme.getContentPane().add(lblDireto);
-		
-		JLabel textFieldDiretor = new JLabel(filme.getDiretor());
-		textFieldDiretor.setToolTipText(filme.getDiretor());
-		textFieldDiretor.setForeground(Color.WHITE);
-		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldDiretor.setBounds(475, 215, 110, 30);
-		viewVisualizaFilme.getContentPane().add(textFieldDiretor);
-		
 		JButton btnCancelar = new JButton("Sair");
 		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
 		btnCancelar.setBounds(385, 590, 150, 25);
@@ -190,17 +211,33 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(btnCancelar);
 		
 		JButton btnAvaliacao = new JButton("Salvar Avaliação");
+		btnAvaliacao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Long pontAnt = filme.getPontos();
+				
+				filme.setPontos((long) sliderAvaliacao.getValue() + pontAnt);
+				
+				ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
+				
+				if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
+					ControleDadosFilmes.AvaliaFilme(filme);
+					Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+					ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
+					
+					JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", JOptionPane.INFORMATION_MESSAGE);
+				} else {
+					JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
+				}
+				
+				pontAnt = (long) 0;
+				
+			}
+		});
 		btnAvaliacao.setBounds(460, 135, 125, 25);
 		btnAvaliacao.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnAvaliacao.setBackground(new Color(255, 255, 255));	
 		viewVisualizaFilme.getContentPane().add(btnAvaliacao);
-		
-		JLabel lblVisualizarFilme = new JLabel("Visualizar Filme");
-		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
-		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
-		lblVisualizarFilme.setForeground(Color.WHITE);
-		lblVisualizarFilme.setBounds(188, 11, 185, 30);
-		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		JButton btnComentar = new JButton("Comentar");
 		btnComentar.setFont(new Font("Arial", Font.PLAIN, 13));
@@ -209,15 +246,7 @@ public class TelaVisualizaFilme {
 		btnComentar.setBounds(88, 590, 150, 25);
 		viewVisualizaFilme.getContentPane().add(btnComentar);
 		
-		JLabel lblTitulo = new JLabel("T\u00EDtulo:");
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitulo.setForeground(Color.BLACK);
-		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
-		lblTitulo.setBackground(Color.WHITE);
-		lblTitulo.setBounds(5, 55, 60, 25);
-		viewVisualizaFilme.getContentPane().add(lblTitulo);
-		
-		JLabel lblComentarios = new JLabel("Coment\u00E1rios:");
+		JLabel lblComentarios = new JLabel("Comentários:");
 		lblComentarios.setHorizontalAlignment(SwingConstants.CENTER);
 		lblComentarios.setForeground(Color.BLACK);
 		lblComentarios.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
