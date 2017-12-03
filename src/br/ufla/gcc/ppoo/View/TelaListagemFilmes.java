@@ -34,6 +34,7 @@ public class TelaListagemFilmes {
 	
 	private static boolean status = false;
 	
+	
 	private BancoDeDados bancoDDados = new BancoDeDados();
 	private ArrayList<Filme> listFilms = new ArrayList<>();
 	
@@ -104,6 +105,7 @@ public class TelaListagemFilmes {
 	@SuppressWarnings("unused")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
+		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
 		viewListagem = new JFrame();
@@ -167,9 +169,11 @@ public class TelaListagemFilmes {
 				if (tableFilmes.getSelectedRow() != -1) {
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+					
 					setStatus(false);
 					viewListagem.dispose();
-					new TelaVisualizaFilme(dadosLogin, filme);
+					
+					new TelaVisualizaFilme(dl, filme, "TelaListagem");
 				} else {
 					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
 							JOptionPane.ERROR_MESSAGE);
@@ -225,8 +229,10 @@ public class TelaListagemFilmes {
 						if (ControleDadosFilmes.DeletaFilme(filme)) {
 							ControleDadosAvaliacao.DeletaFilme(filme.getId_filme());
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+							
 							listFilms = atualizaLista(dl);
 							listFilms = ordenaLista(listFilms);
+							
 							constroiTabela(listFilms);
 						} else {
 							JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
@@ -247,6 +253,7 @@ public class TelaListagemFilmes {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				setStatus(false);
 				viewListagem.dispose();
 			}
 		});
@@ -257,8 +264,6 @@ public class TelaListagemFilmes {
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setBounds(765, 535, 120, 25);
 		viewListagem.getContentPane().add(btnCancelar);
-		
-		setStatus(true);
 		
 		viewListagem.setResizable(false);
 		viewListagem.setSize(900, 600);

@@ -141,6 +141,7 @@ public class TelaBuscarFilme {
 	
 	public void viewTelaBuscarFilme(DadosLogin dadosLogin){
 		
+		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
 		viewBuscarFilme = new JFrame();	
@@ -262,9 +263,11 @@ public class TelaBuscarFilme {
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);					
 					try {
 						Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+						
 						setStatus(false);
 						viewBuscarFilme.dispose();
-						new TelaVisualizaFilme(dl, filme);
+						
+						new TelaVisualizaFilme(dl, filme, "TelaBuscar");
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, "Filme seleciona é " + e.getCause()+ "\nEntre em contato com o administrador do sistema.", "Filme não encontrado", JOptionPane.ERROR_MESSAGE);
 					}
@@ -295,9 +298,7 @@ public class TelaBuscarFilme {
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		viewBuscarFilme.getContentPane().add(btnCancelar);
-		
-		setStatus(true);
-		
+				
 		viewBuscarFilme.setResizable(false);
 		viewBuscarFilme.setSize(900, 600);
 		viewBuscarFilme.setVisible(true);		

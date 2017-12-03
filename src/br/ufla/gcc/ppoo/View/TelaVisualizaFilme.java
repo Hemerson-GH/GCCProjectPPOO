@@ -44,13 +44,13 @@ public class TelaVisualizaFilme {
 		return false;
 	}
 	
-	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme){
+	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida){
 		bancoDDados.Conecta();
-		viewVisualizaFilme(dadosLogin, filme);
+		viewVisualizaFilme(dadosLogin, filme, confSaida);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme) {
+	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		boolean avaibleAvaliation = contemFilme(filme, dl);
@@ -71,7 +71,7 @@ public class TelaVisualizaFilme {
 		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
 		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
 		lblVisualizarFilme.setForeground(Color.WHITE);
-		lblVisualizarFilme.setBounds(188, 11, 185, 30);
+		lblVisualizarFilme.setBounds(190, 10, 185, 30);
 		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		if (!avaibleAvaliation) {
@@ -128,6 +128,13 @@ public class TelaVisualizaFilme {
 			btnAvaliacao.setFont(new Font("Arial", Font.PLAIN, 12));
 			btnAvaliacao.setBackground(new Color(255, 255, 255));	
 			viewVisualizaFilme.getContentPane().add(btnAvaliacao);			
+			
+			JLabel lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+			lblOnwer.setToolTipText((String) null);
+			lblOnwer.setForeground(Color.WHITE);
+			lblOnwer.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
+			lblOnwer.setBounds(5, 15, 140, 30);
+			viewVisualizaFilme.getContentPane().add(lblOnwer);			
 		}		
 		
 		JLabel lblTitulo = new JLabel("Título:");
@@ -139,7 +146,8 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblTitulo);
 		
 		JLabel lblNome = new JLabel(filme.getNome());
-		lblNome.setBounds(7, 85, 400, 25);
+		lblNome.setToolTipText(filme.getNome());
+		lblNome.setBounds(7, 85, 495, 25);
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
@@ -245,11 +253,11 @@ public class TelaVisualizaFilme {
 				
 				viewVisualizaFilme.dispose();
 				
-				if (!TelaBuscarFilme.getStatus()) {
-					new TelaBuscarFilme(dl);
-				} else if (!TelaListagemFilmes.getStatus()) {
+				if (confSaida.equals("TelaListagem")) {
 					new TelaListagemFilmes(dl);
-				}				
+				} else if (confSaida.equals("TelaBuscar")) {
+					new TelaBuscarFilme(dl);
+				}
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));
