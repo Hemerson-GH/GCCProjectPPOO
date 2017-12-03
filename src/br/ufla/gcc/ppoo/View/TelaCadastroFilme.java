@@ -27,19 +27,12 @@ import java.util.ArrayList;
 
 public class TelaCadastroFilme {
 
-	JFrame viewCadastroFilme;
+	private JFrame viewCadastroFilme;
 	private static boolean status = false;
-	
-	public TelaCadastroFilme() { }
 	
 	public static boolean getStatus() { 
 		return status;
 	}
-	
-	private Filme filme = new Filme();
-	private BancoDeDados bancoDDados = new BancoDeDados();
-	private ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	private ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
 	
 	private JTextField textFieldNome;
 	private JTextField textFieldData;
@@ -48,6 +41,8 @@ public class TelaCadastroFilme {
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
+	
+	private BancoDeDados bancoDDados = new BancoDeDados();
 	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
@@ -91,7 +86,7 @@ public class TelaCadastroFilme {
 	
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
-		DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
+		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.addWindowListener(new WindowAdapter() {
@@ -230,26 +225,25 @@ public class TelaCadastroFilme {
 		btnSalvar.setBounds(60, 445, 150, 25);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+
+				String nome = textFieldNome.getText();
+				String data = textFieldData.getText();
+				String descricao = editorPaneDescricao.getText();
+				String wordsKeys = textFieldWorKeys.getText();
+				String genero = textFieldGenero.getText();
+				String duracao = textFieldDuracao.getText();
+				String diretor = textFieldDiretor.getText();
 				
-//				DadosLogin dl = controlUser.buscarDados(dadosLogin.getEmail()); // Já declarei no inicio do construtor
-				
-				filme.setNome(textFieldNome.getText());
-				filme.setData(textFieldData.getText());
-				filme.setDescricao(editorPaneDescricao.getText());
-				filme.setWordKeys(textFieldWorKeys.getText());
-				filme.setGenero(textFieldGenero.getText());
-				filme.setDuracaoFilme(textFieldDuracao.getText());
-				filme.setDiretor(textFieldDiretor.getText());
+				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor);
 				
 				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
 					if (contensHifen(textFieldWorKeys)) {
 					
-						ArrayList<Filme> listFilms = controlFilmes.BuscarFilmesUmUsuario(dl.getId());;
-//						boolean confere = controlFilmes.confereFilme(textFieldNome.getText());
-						boolean confere = filme.ComparaFilmeBoolean(listFilms, textFieldNome.getText());
+						ArrayList<Filme> listFilms = ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());;
+						boolean confere = Filme.comparaFilmeBoolean(listFilms, textFieldNome.getText());
 						
 						if (!confere) {
-							controlFilmes.CadastrarFilme(filme, dl.getId());
+							ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
 							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
 							limpaCampos();
 						} else {
@@ -286,7 +280,7 @@ public class TelaCadastroFilme {
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
 		
 		textFieldDiretor = new JTextField();
-		textFieldDiretor.setToolTipText("Caso voc\u00EA for adicionar mais de um diretor");
+		textFieldDiretor.setToolTipText("Caso você for adicionar mais de um diretor");
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDiretor.setColumns(10);
 		textFieldDiretor.setBounds(455, 245, 130, 30);

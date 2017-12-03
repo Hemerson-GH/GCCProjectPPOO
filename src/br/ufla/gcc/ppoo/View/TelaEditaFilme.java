@@ -25,11 +25,7 @@ import br.ufla.gcc.ppoo.Dados.Filme;
 
 public class TelaEditaFilme {
 	
-	JFrame viewEditaFilme;
-	
-	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
-	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	BancoDeDados bancoDDados = new BancoDeDados();
+	private JFrame viewEditaFilme;
 	
 	private JTextField textFieldNome;
 	private JTextField textFieldData;
@@ -39,13 +35,15 @@ public class TelaEditaFilme {
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
 	
+	BancoDeDados bancoDDados = new BancoDeDados();
+	
 	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme){
 		bancoDDados.Conecta();
 		viewListagemDeFilmes(dadosLogin, filme);
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.BuscarFilmesUmUsuario(dl.getId());
+		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
 	public void limpaCampos(){
@@ -193,7 +191,7 @@ public class TelaEditaFilme {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
+				DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 				
 				filme.setNome(textFieldNome.getText());
 				filme.setData(textFieldData.getText());
@@ -205,8 +203,8 @@ public class TelaEditaFilme {
 				
 				ArrayList<Filme> listFilmes =  atualizaLista(dl);
 				
-				if (!filme.ComparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
-					if (controlFilmes.AlteraFilme(filme)) {
+				if (!filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
+					if (ControleDadosFilmes.AlteraFilme(filme)) {
 						JOptionPane.showMessageDialog(null, "Filme Editado no banco de dados com sucesso.", "Filme Editado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 						viewEditaFilme.dispose();
 						new TelaListagemFilmes(dl);

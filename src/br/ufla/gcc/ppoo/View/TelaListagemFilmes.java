@@ -32,10 +32,8 @@ public class TelaListagemFilmes {
 	private JScrollPane scrollPaneList;
 	
 	private static boolean status = false;
-	private ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
-	private ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
+	
 	private BancoDeDados bancoDDados = new BancoDeDados();
-	private Filme filme = new Filme();
 	private ArrayList<Filme> listFilms;
 	
 	public static boolean getStatus() { 
@@ -48,7 +46,7 @@ public class TelaListagemFilmes {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.BuscarFilmesUmUsuario(dl.getId());
+		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
 	@SuppressWarnings("serial")
@@ -101,7 +99,7 @@ public class TelaListagemFilmes {
 	@SuppressWarnings("unused")
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
 		
-		DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
+		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
 		viewListagem = new JFrame();
 		viewListagem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -176,7 +174,7 @@ public class TelaListagemFilmes {
 				if (tableFilmes.getSelectedRow() != -1) {
 //					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					filme = filme.ComparaFilme(listFilms, filmeSelect);
+					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
 					
 					new TelaEditaFilme(dl, filme);
 					
@@ -204,12 +202,12 @@ public class TelaListagemFilmes {
 					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
-					filme = filme.ComparaFilme(listFilms, filmeSelect);
+					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
 					
 					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (JOptionPane.YES_OPTION == confirm) {	
-						if (controlFilmes.DeletaFilme(filme)) {
+						if (ControleDadosFilmes.DeletaFilme(filme)) {
 							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 							listFilms = atualizaLista(dl);
 							listFilms = ordenaLista(listFilms);

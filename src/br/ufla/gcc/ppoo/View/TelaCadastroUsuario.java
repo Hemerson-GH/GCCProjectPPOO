@@ -19,15 +19,14 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 	
 public class TelaCadastroUsuario {
 
-	JFrame myViewCadastro;
+	private JFrame myViewCadastro;
 
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldConfir;
 	private JTextField textFieldNome;
 	private JTextField textFieldEmail;
-	DadosLogin dadosLogin = new DadosLogin();
-	BancoDeDados bancoDDados = new BancoDeDados();
-	ControleDadosUsuarios controlDados = new ControleDadosUsuarios();
+	
+	private BancoDeDados bancoDDados = new BancoDeDados();
 
 	public TelaCadastroUsuario() {
 		bancoDDados.Conecta();
@@ -62,7 +61,6 @@ public class TelaCadastroUsuario {
 		myViewCadastro.setTitle("Cadastro de novo usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
-//		myViewCadastro.setLocationRelativeTo(null);
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setForeground(new Color(255, 255, 255));
@@ -119,19 +117,24 @@ public class TelaCadastroUsuario {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
 				
-				boolean confereEmail = controlDados.ConfereEmail(textFieldEmail.getText());
+				boolean confereEmail = ControleDadosUsuarios.ConfereEmail(textFieldEmail.getText());
 				boolean confereSenha = ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 				
 				if (ConfereCampoEmail(textFieldEmail)) {
 					if (!confereEmail) {					
 						if (confereSenha) {
 							if (passwordField.getText().length() > 3  && passwordFieldConfir.getText().length() > 3) {
-								dadosLogin.setNome(textFieldNome.getText());
-								dadosLogin.setEmail(textFieldEmail.getText());
-								dadosLogin.setSenha(passwordField.getText());
-								controlDados.CadastrarUsuario(dadosLogin);
+								
+								String nome = textFieldNome.getText();
+								String email = textFieldEmail.getText();
+								String senha = passwordField.getText();
+								
+								DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
+								
+								ControleDadosUsuarios.CadastrarUsuario(dadosLogin);
 								myViewCadastro.dispose();
 								bancoDDados.Desconecta();
+								
 								new TelaLogin();
 							} else {
 								JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "

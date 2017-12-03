@@ -5,7 +5,14 @@ public class DadosLogin {
 	private String nome;
 	private String email;
 	private String senha;
-	private int id;
+	private Long id;
+	
+	public DadosLogin(String nome, String email, String senha, Long id) {
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.id = id;
+	}
 	
 	public DadosLogin(String nome, String email, String senha) {
 		this.nome = nome;
@@ -19,7 +26,7 @@ public class DadosLogin {
 		this.setNome(dadosLogin.getNome());
 	}
 	
-	public DadosLogin(){ }
+//	public DadosLogin(){ }
 	
 	public String getEmail() {
 		return email;
@@ -45,11 +52,11 @@ public class DadosLogin {
 		this.senha = senha;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 }

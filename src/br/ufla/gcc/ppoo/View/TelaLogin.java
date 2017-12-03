@@ -21,13 +21,13 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
 public class TelaLogin {
 	
-	JFrame myViewLogin;
+	private JFrame myViewLogin;
 	
+	private JTextField txtNovoUsuario;
 	private JTextField textAreaUser;
 	private JPasswordField passwordField;
-	private JTextField txtNovoUsurio;
-	BancoDeDados bancoDDados = new BancoDeDados();
-	ControleDadosUsuarios controlDDados = new ControleDadosUsuarios();
+	
+	private BancoDeDados bancoDDados = new BancoDeDados();
 
 	public TelaLogin() {
 		bancoDDados.Conecta();
@@ -68,13 +68,13 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dadosLogin = new DadosLogin(controlDDados.BuscarDados(textAreaUser.getText()));
+				DadosLogin dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
 				
 				if (passwordField.getText().equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();
 					new TelaPrincipal(dadosLogin);
 				} else {					
-					JOptionPane.showMessageDialog(null, " Usuário e/ou senha errada ...", "Usuário invalidos", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, " Usuário e/ou senha errada...", "Usuário invalido", JOptionPane.ERROR_MESSAGE);
 				}				
 			}
 		});
@@ -94,26 +94,24 @@ public class TelaLogin {
 		btnCancel.setBounds(320, 160, 90, 25);
 		myViewLogin.getContentPane().add(btnCancel);
 		
-		txtNovoUsurio = new JTextField();
-		txtNovoUsurio.setForeground(new Color(255, 255, 255));
-		txtNovoUsurio.setFont(new Font("Arial", Font.ITALIC, 14));
-		txtNovoUsurio.setBackground(new Color(0, 128, 128));
-		txtNovoUsurio.setToolTipText("Clique aqui para cadastrar um novo usuário");
-		txtNovoUsurio.addMouseListener(new MouseAdapter() {
+		txtNovoUsuario = new JTextField();
+		txtNovoUsuario.setForeground(new Color(255, 255, 255));
+		txtNovoUsuario.setFont(new Font("Arial", Font.ITALIC, 14));
+		txtNovoUsuario.setBackground(new Color(0, 128, 128));
+		txtNovoUsuario.setToolTipText("Clique aqui para cadastrar um novo usuário");
+		txtNovoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				@SuppressWarnings("unused")
-				TelaCadastroUsuario telaCadas = new TelaCadastroUsuario();
+				new TelaCadastroUsuario();
 				myViewLogin.dispose();
 			}
 		});
-		txtNovoUsurio.setEditable(false);
-		txtNovoUsurio.setText("Novo usuário");
-		txtNovoUsurio.setBounds(335, 113, 95, 20);
-		myViewLogin.getContentPane().add(txtNovoUsurio);
-//		txtNovoUsurio.setColumns(10);
-		txtNovoUsurio.setOpaque(false);
-		txtNovoUsurio.setBorder(null);
+		txtNovoUsuario.setEditable(false);
+		txtNovoUsuario.setText("Novo usuário");
+		txtNovoUsuario.setBounds(335, 113, 95, 20);
+		myViewLogin.getContentPane().add(txtNovoUsuario);
+		txtNovoUsuario.setOpaque(false);
+		txtNovoUsuario.setBorder(null);
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(new Color(255, 255, 255));
@@ -133,15 +131,8 @@ public class TelaLogin {
 		lblAutenticao.setForeground(new Color(255, 255, 255));
 		lblAutenticao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAutenticao.setBounds(125, 10, 225, 35);
-//		lblAutenticao.setBorder(true);
 		myViewLogin.getContentPane().add(lblAutenticao);
 		
-//		JLabel llbFundo = new JLabel("");
-//		llbFundo.setIcon(new ImageIcon(TelaLogin.class.getResource("/br/gcc/ppoo/Imagens/xfce-blue.jpg")));
-//		llbFundo.setBounds(0, 0, 477, 211);
-//		myViewLogin.getContentPane().add(llbFundo); // adicionar caso for colocar papel de parede
-		
-//		myViewLogin.setLocationRelativeTo(null);
 		myViewLogin.setSize(485, 240);
 		myViewLogin.setVisible(true);
 		myViewLogin.setResizable(false);

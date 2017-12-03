@@ -12,16 +12,16 @@ import br.ufla.gcc.ppoo.Dados.Filme;
 
 public class ControleDadosFilmes {
 	
-	private BancoDeDados bancoDados = new BancoDeDados();
+	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public void CadastrarFilme(Filme filme, int id_user){
+	public static void CadastrarFilme(Filme filme, Long id_user){
 		bancoDados.Conecta();
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into filmes(id_user, nome_filme, ano_lancamento,"
 					+ " descricao, palavras_chaves, genero, duracao_filme, diretor) values(?,?,?,?,?,?,?,?)");
 			
-			pst.setInt(1, id_user);
+			pst.setLong(1, id_user);
 			pst.setString(2, filme.getNome());		
 			pst.setString(3, filme.getData());
 			pst.setString(4, filme.getDescricao());	
@@ -39,28 +39,31 @@ public class ControleDadosFilmes {
 		}
 	}	
 	
-	public ArrayList<Filme> BuscarFilmesUmUsuario(int id){
+	public static ArrayList<Filme> BuscarFilmesUmUsuario(Long id){
 		bancoDados.Conecta();
 		ArrayList<Filme> listFilm = new ArrayList<>();
+		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
+		Long pontos, id_user, id_filme;
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes WHERE id_user = ? ORDER BY nome_filme ASC");
-			pst.setInt(1, id);
+			pst.setLong(1, id);
 			ResultSet rs = pst.executeQuery();	
 			
 			while (rs.next()) {	
-				Filme filme = new Filme();
 				
-				filme.setNome(rs.getString("nome_filme"));
-				filme.setData(rs.getString("ano_lancamento"));
-				filme.setDescricao(rs.getString("descricao"));
-				filme.setWordKeys(rs.getString("palavras_chaves"));
-				filme.setGenero(rs.getString("genero"));
-				filme.setDuracaoFilme(rs.getString("duracao_filme"));
-				filme.setDiretor(rs.getString("diretor"));
-				filme.setPontos(rs.getLong("pontos_filme"));
-				filme.setId_user(rs.getLong("id_user"));
-				filme.setId_filme(rs.getLong("id_filme"));
+				nome = (rs.getString("nome_filme"));
+				data = (rs.getString("ano_lancamento"));
+				descricao = (rs.getString("descricao"));
+				wordsKeys = (rs.getString("palavras_chaves"));
+				genero = (rs.getString("genero"));
+				duracao = (rs.getString("duracao_filme"));
+				diretor = (rs.getString("diretor"));
+				pontos = (rs.getLong("pontos_filme"));
+				id_user = (rs.getLong("id_user"));
+				id_filme = (rs.getLong("id_filme"));
+				
+				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor, pontos, id_user, id_filme);
 				
 				listFilm.add(filme);
 			}
@@ -74,28 +77,31 @@ public class ControleDadosFilmes {
 		return listFilm;
 	}
 	
-	public ArrayList<Filme> BuscarFilmesTodosUsuarios(int id){
+	public static ArrayList<Filme> BuscarFilmesTodosUsuarios(Long id){
 		bancoDados.Conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
+		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
+		Long pontos, id_user, id_filme;
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes ORDER BY nome_filme ASC");
 			ResultSet rs = pst.executeQuery();	
 			
 			while (rs.next()) {	
-				Filme filme = new Filme();
 				
-				filme.setNome(rs.getString("nome_filme"));
-				filme.setData(rs.getString("ano_lancamento"));
-				filme.setDescricao(rs.getString("descricao"));
-				filme.setWordKeys(rs.getString("palavras_chaves"));
-				filme.setGenero(rs.getString("genero"));
-				filme.setDuracaoFilme(rs.getString("duracao_filme"));
-				filme.setDiretor(rs.getString("diretor"));
-				filme.setPontos(rs.getLong("pontos_filme"));
-				filme.setId_user(rs.getLong("id_user"));
-				filme.setId_filme(rs.getLong("id_filme"));
+				nome = (rs.getString("nome_filme"));
+				data = (rs.getString("ano_lancamento"));
+				descricao = (rs.getString("descricao"));
+				wordsKeys = (rs.getString("palavras_chaves"));
+				genero = (rs.getString("genero"));
+				duracao = (rs.getString("duracao_filme"));
+				diretor = (rs.getString("diretor"));
+				pontos = (rs.getLong("pontos_filme"));
+				id_user = (rs.getLong("id_user"));
+				id_filme = (rs.getLong("id_filme"));
+				
+				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor, pontos, id_user, id_filme);
 				
 				listFilm.add(filme);
 			}
@@ -131,7 +137,7 @@ public class ControleDadosFilmes {
 		return encontrei;
 	}
 	
-	public boolean DeletaFilme(Filme filme){
+	public static boolean DeletaFilme(Filme filme){
 		boolean encontrou = false;
 		
 		bancoDados.Conecta();
@@ -154,7 +160,7 @@ public class ControleDadosFilmes {
 		return encontrou;
 	}
 	
-	public boolean AlteraFilme(Filme filme){
+	public static boolean AlteraFilme(Filme filme){
 		boolean encontrou = false;
 		
 		bancoDados.Conecta();

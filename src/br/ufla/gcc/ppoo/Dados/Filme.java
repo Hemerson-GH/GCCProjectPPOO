@@ -15,7 +15,19 @@ public class Filme {
 	private Long id_user;
 	private Long id_filme;
 	
-	public Filme(String nome, String data, String descricao, String wordKeys, String genero, String duracaoFilme, String diretor, Long pontos, Long id_user, Long id_filme){
+	public Filme(String nome, String data, String descricao, String wordKeys,
+			String genero, String duracaoFilme, String diretor){
+		this.nome = nome;
+		this.data = data;
+		this.descricao = descricao;
+		this.wordKeys = wordKeys;
+		this.genero = genero;
+		this.duracaoFilme = duracaoFilme;
+		this.diretor = diretor;
+	}
+	
+	public Filme(String nome, String data, String descricao, String wordKeys,
+			String genero, String duracaoFilme, String diretor, Long pontos, Long id_user, Long id_filme){
 		this.nome = nome;
 		this.data = data;
 		this.descricao = descricao;
@@ -24,7 +36,7 @@ public class Filme {
 		this.duracaoFilme = duracaoFilme;
 		this.diretor = diretor;
 		this.pontos = pontos;
-		this.id_filme = id_user;
+		this.id_user = id_user;
 		this.id_filme = id_filme;
 	}
 	
@@ -40,8 +52,6 @@ public class Filme {
 		this.setId_filme(filme.getId_filme());
 		this.setId_user(filme.getId_user());
 	}
-	
-	public Filme(){ }
 
 	public String getNome() {
 		return nome;
@@ -123,8 +133,8 @@ public class Filme {
 		this.id_filme = id_filme;
 	}
 	
-	public Filme ComparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
-		Filme itemFilme = new Filme();
+	public static Filme comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
+		Filme itemFilme = new Filme(null, null, null, null, null, null, null);
 		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme)) {
@@ -134,7 +144,7 @@ public class Filme {
 		return itemFilme;
 	}
 	
-	public boolean ComparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
+	public boolean comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme) && !filme.getNome().equals(filmeContido)) {
 				return true;
@@ -143,7 +153,7 @@ public class Filme {
 		return false;
 	}
 	
-	public boolean ComparaFilmeBoolean(ArrayList<Filme> listFilmes, String nomeFilme){
+	public static boolean comparaFilmeBoolean(ArrayList<Filme> listFilmes, String nomeFilme){
 		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme)) {
@@ -153,7 +163,7 @@ public class Filme {
 		return false;
 	}
 	
-	public ArrayList<String> SeparaStrings(String wordKeyCompleta){
+	public static ArrayList<String> separaStrings(String wordKeyCompleta){
 		String[] wordKeyHifen = wordKeyCompleta.split("-");
 		ArrayList<String> listWordKeys = new ArrayList<>();
 		
@@ -164,13 +174,13 @@ public class Filme {
 		return listWordKeys;
 	}
 	
-	public ArrayList<Filme> PesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
+	public static ArrayList<Filme> pesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
 		ArrayList<Filme> filmeEncontrado = new ArrayList<>();
 		ArrayList<String> wordKeys = new ArrayList<>();
 		
 		for (Filme filme : listaFilme) {
 			
-			wordKeys = SeparaStrings(filme.getWordKeys());
+			wordKeys = separaStrings(filme.getWordKeys());
 			wordKeys.add(filme.getNome());
 			
 			for (String string : wordKeys) {

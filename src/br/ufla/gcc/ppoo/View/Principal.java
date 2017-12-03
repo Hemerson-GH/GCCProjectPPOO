@@ -4,12 +4,9 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
 public class Principal {
 
-	@SuppressWarnings("unused")
 	public static void main(String[] args) {
-		
-//		TelaLogin tl = new TelaLogin();
 		DadosLogin dl = new DadosLogin("teste", "teste@teste", "12345");
-		TelaPrincipal tp = new TelaPrincipal(dl);
+		new TelaPrincipal(dl);
 	}
 
 }

@@ -20,7 +20,7 @@ public class GerenciadorDeImagens {
     public static final ImageIcon DELETAR = carregarImagem("deletar.png");
     public static final ImageIcon SOBRE = carregarImagem("sobre.png");
     public static final ImageIcon LISTA = carregarImagem("icone-lista.png");
-    public static final ImageIcon LISTA_OK = carregarImagem("lista.png");
+    public static final ImageIcon LISTA_OK = carregarImagem("lista.jpg");
     public static final ImageIcon CADASTRAR_USUARIO = carregarImagem("cadastrar-usuario.png");
     public static final ImageIcon CADASTRO_USUARIO = carregarImagem("cadastro-usuario.jpg");
     public static final ImageIcon ESTRELA_1 = carregarImagem("estrela-1.png");

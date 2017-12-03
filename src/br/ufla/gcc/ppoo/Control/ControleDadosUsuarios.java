@@ -14,9 +14,9 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
 public class ControleDadosUsuarios {
 	
-	BancoDeDados bancoDados = new BancoDeDados();
+	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public void CadastrarUsuario(DadosLogin dados){
+	public static void CadastrarUsuario(DadosLogin dados){
 		bancoDados.Conecta();
 		
 		try {
@@ -36,9 +36,9 @@ public class ControleDadosUsuarios {
 		}
 	}
 	
-	public DadosLogin BuscarDados(String email){
+	public static DadosLogin BuscarDados(String email){
 		bancoDados.Conecta();	
-		DadosLogin dadosLogin = new DadosLogin();
+		DadosLogin dadosLogin = new DadosLogin(null, null, null, null);
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
@@ -49,7 +49,7 @@ public class ControleDadosUsuarios {
 			    dadosLogin.setEmail(rs.getString("email"));
 			    dadosLogin.setSenha(rs.getString("senha"));
 			    dadosLogin.setNome(rs.getString("nome"));	
-			    dadosLogin.setId(rs.getInt("id_user"));
+			    dadosLogin.setId(rs.getLong("id_user"));
 			}
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "Falha ao buscar usuário:\n" + ex.getMessage() + 
@@ -61,7 +61,7 @@ public class ControleDadosUsuarios {
 		return dadosLogin;
 	}
 	
-	public String BuscaNomeUser(Long id){
+	public static String BuscaNomeUser(Long id){
 		bancoDados.Conecta();	
 		String nomeUser = null;
 		
@@ -83,7 +83,7 @@ public class ControleDadosUsuarios {
 		return nomeUser;
 	}
 	
-	public boolean ConfereEmail(String email){
+	public static boolean ConfereEmail(String email){
 		bancoDados.Conecta();	
 		boolean encontrei = false;
 		

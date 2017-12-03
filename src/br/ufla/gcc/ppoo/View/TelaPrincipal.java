@@ -20,17 +20,13 @@ import javax.swing.JSlider;
 import javax.swing.border.MatteBorder;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 
 public class TelaPrincipal {
 	
-	JFrame viewMain;
+	private JFrame viewMain;
 	
-	BancoDeDados bancoDDados = new BancoDeDados();
-	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();	
+	private BancoDeDados bancoDDados = new BancoDeDados();
 	
 	public TelaPrincipal(DadosLogin dadosLogin) {
 		bancoDDados.Conecta();

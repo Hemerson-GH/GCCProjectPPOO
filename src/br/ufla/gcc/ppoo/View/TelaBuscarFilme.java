@@ -13,42 +13,35 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableModel;
-
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Dados.Filme;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+
+import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Dados.Filme;
 
 public class TelaBuscarFilme {
 
-	JFrame viewBuscarFilme;
-	static boolean status = false;
+	private JFrame viewBuscarFilme;
 	private JTable tableFilmes;
 	private JScrollPane scrollPaneList;
 	private JTextField textFieldBusca;
-	ArrayList<Filme> listFilms = new ArrayList<>();
-	boolean initTable = true;
 	
-	Filme filme = new Filme();
-	BancoDeDados bancoDDados = new BancoDeDados();
-	ControleDadosFilmes controlFilmes = new ControleDadosFilmes();
-	ControleDadosUsuarios controlUser = new ControleDadosUsuarios();
+	private static boolean status = false;
 	
-//	public TelaBuscarFilme() { }
-	
+	private ArrayList<Filme> listFilms = new ArrayList<>();
+
 	public static boolean getStatus() { 
 		return status;
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return controlFilmes.BuscarFilmesTodosUsuarios(dl.getId());
+		return ControleDadosFilmes.BuscarFilmesTodosUsuarios(dl.getId());
 	}
 	
 	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
@@ -56,7 +49,7 @@ public class TelaBuscarFilme {
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms){
+	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin){
 		
 		int n = listFilms.size();
 		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
@@ -64,7 +57,7 @@ public class TelaBuscarFilme {
 		int i = 0;	
 		
 		for (Filme filme : listFilms) {
-			filmes[i][0] = controlUser.BuscaNomeUser(filme.getId_user());
+			filmes[i][0] = confereNomeFilme(filme, dadosLogin);
 			filmes[i][1] = filme.getNome();
 			filmes[i][2] = filme.getGenero();
 			filmes[i][3] = filme.getData();
@@ -82,6 +75,16 @@ public class TelaBuscarFilme {
 				return columnEditables[column];
 			}
 		});
+	}
+	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) {
+		
+		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
+		
+		if (nome.equals(dadosLogin.getNome())) {
+			nome = "Eu";
+		} 
+		
+		return nome;
 	}
 	
 	@SuppressWarnings("serial")
@@ -130,15 +133,11 @@ public class TelaBuscarFilme {
 	
 	public TelaBuscarFilme(DadosLogin dadosLogin){
 		viewTelaBuscarFilme(dadosLogin);
-//		if (initTable) {
-//			initTable = false;
-//			iniciarTabela();
-//		}
 	}
 	
 	public void viewTelaBuscarFilme(DadosLogin dadosLogin){
 		
-		DadosLogin dl = controlUser.BuscarDados(dadosLogin.getEmail());
+		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
 		viewBuscarFilme = new JFrame();
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
@@ -197,11 +196,11 @@ public class TelaBuscarFilme {
 				} else { 
 					
 					listFilms = atualizaLista(dl);
-					listFilms = filme.PesquisaFilme(listFilms, textFieldBusca.getText());
+					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
 //					quickSort(listFilms, 0, listFilms.size());
 					
 					if (!listFilms.isEmpty()) {
-						constroiTabela(listFilms);
+						constroiTabela(listFilms, dadosLogin);
 					} else {
 						JOptionPane.showMessageDialog(null, "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado", JOptionPane.INFORMATION_MESSAGE);
 					}	
@@ -223,7 +222,7 @@ public class TelaBuscarFilme {
 //				quickSort(listFilms, 0, n);
 
 				if (!listFilms.isEmpty()) {
-					constroiTabela(listFilms);
+					constroiTabela(listFilms, dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Nenhum filme foi encontrado", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);
 				}				
