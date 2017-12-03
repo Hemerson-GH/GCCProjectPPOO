@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -21,9 +23,11 @@ import javax.swing.border.MatteBorder;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
+import br.ufla.gcc.ppoo.Control.ControleDadosComentarios;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.Avaliacao;
+import br.ufla.gcc.ppoo.Dados.Comentarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 
@@ -32,6 +36,20 @@ public class TelaVisualizaFilme {
 	private JFrame viewVisualizaFilme;
 	
 	private BancoDeDados bancoDDados = new BancoDeDados();
+	ArrayList<String> listaComentarios = new ArrayList<>();
+		
+	public ArrayList<String> formatCommits(Long id_filme){
+		
+		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarAvaliacao(id_filme);
+		ArrayList<String> listaComentariosFormatada = new ArrayList<>();
+		
+		for (Comentarios commit : listCommits) {
+			listaComentariosFormatada.add(ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n");
+		}
+		
+		return listaComentariosFormatada;
+	}
+	
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
@@ -142,12 +160,12 @@ public class TelaVisualizaFilme {
 		lblTitulo.setForeground(Color.BLACK);
 		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		lblTitulo.setBackground(Color.WHITE);
-		lblTitulo.setBounds(5, 55, 60, 25);
+		lblTitulo.setBounds(10, 55, 60, 25);
 		viewVisualizaFilme.getContentPane().add(lblTitulo);
 		
 		JLabel lblNome = new JLabel(filme.getNome());
 		lblNome.setToolTipText(filme.getNome());
-		lblNome.setBounds(7, 85, 495, 25);
+		lblNome.setBounds(10, 85, 495, 25);
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
@@ -155,7 +173,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblNome);	
 		
 		JLabel lblPalavras = new JLabel("Palavras-chave:");
-		lblPalavras.setBounds(5, 120, 140, 25);
+		lblPalavras.setBounds(10, 120, 140, 25);
 		lblPalavras.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPalavras.setForeground(new Color(0, 0, 0));
 		lblPalavras.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
@@ -165,11 +183,11 @@ public class TelaVisualizaFilme {
 		JLabel lblFieldWorKeys = new JLabel(Filme.converteTexto(filme.getWordKeys()));
 		lblFieldWorKeys.setForeground(Color.WHITE);
 		lblFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-		lblFieldWorKeys.setBounds(8, 150, 475, 30);
+		lblFieldWorKeys.setBounds(12, 150, 475, 30);
 		viewVisualizaFilme.getContentPane().add(lblFieldWorKeys);
 		
 		JLabel lblGenero = new JLabel("Gênero:");
-		lblGenero.setBounds(7, 190, 70, 25);
+		lblGenero.setBounds(10, 190, 70, 25);
 		lblGenero.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGenero.setForeground(new Color(0, 0, 0));
 		lblGenero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
@@ -179,7 +197,7 @@ public class TelaVisualizaFilme {
 		JLabel lblTGenero = new JLabel(filme.getGenero());
 		lblTGenero.setForeground(Color.WHITE);
 		lblTGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblTGenero.setBounds(9, 215, 115, 30);
+		lblTGenero.setBounds(10, 215, 115, 30);
 		lblTGenero.setToolTipText(filme.getGenero());
 		viewVisualizaFilme.getContentPane().add(lblTGenero);
 		
@@ -227,7 +245,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblTDiretor);
 
 		JLabel lblDescrio = new JLabel("Descrição:");
-		lblDescrio.setBounds(7, 255, 90, 25);
+		lblDescrio.setBounds(10, 255, 90, 25);
 		lblDescrio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescrio.setForeground(new Color(0, 0, 0));
 		lblDescrio.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
@@ -235,7 +253,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblDescrio);
 		
 		JScrollPane scrollPaneDescricao = new JScrollPane();
-		scrollPaneDescricao.setBounds(7, 285, 575, 100);
+		scrollPaneDescricao.setBounds(10, 285, 575, 100);
 		viewVisualizaFilme.getContentPane().add(scrollPaneDescricao);
 		
 		JEditorPane editorPaneDescricao = new JEditorPane();
@@ -244,6 +262,74 @@ public class TelaVisualizaFilme {
 		editorPaneDescricao.setText(filme.getDescricao());
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
+		
+		JLabel lblComentarios = new JLabel("Comentários:");
+		lblComentarios.setHorizontalAlignment(SwingConstants.CENTER);
+		lblComentarios.setForeground(Color.BLACK);
+		lblComentarios.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
+		lblComentarios.setBackground(Color.WHITE);
+		lblComentarios.setBounds(7, 395, 115, 25);
+		viewVisualizaFilme.getContentPane().add(lblComentarios);
+		
+		JScrollPane scrollPaneCommit = new JScrollPane();
+		scrollPaneCommit.setBounds(10, 510, 575, 70);
+		viewVisualizaFilme.getContentPane().add(scrollPaneCommit);
+		
+		JEditorPane editorPaneCommit = new JEditorPane();
+		editorPaneCommit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				editorPaneCommit.setText("");
+			}
+		});
+		editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+		editorPaneCommit.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		scrollPaneCommit.setViewportView(editorPaneCommit);
+		
+		JScrollPane scrollPaneCommits = new JScrollPane();
+		scrollPaneCommits.setBounds(10, 420, 575, 80);
+		viewVisualizaFilme.getContentPane().add(scrollPaneCommits);
+		
+		JEditorPane editorPaneCommits = new JEditorPane();
+		listaComentarios = formatCommits(filme.getId_filme());
+		
+		if (listaComentarios.isEmpty()) {
+			editorPaneCommits.setText("Seja o primeiro a comentar sobre esse filme...");
+		} else {
+			editorPaneCommits.setText(listaComentarios.toString());
+		}
+		
+		editorPaneCommits.setEditable(false);
+		editorPaneCommits.setFont(new Font("Microsoft JhengHei", Font.BOLD, 13));
+		scrollPaneCommits.setViewportView(editorPaneCommits);
+		
+		JButton btnComentar = new JButton("Comentar");
+		btnComentar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!editorPaneCommit.getText().equals("")) {
+
+					Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
+					
+					if (ControleDadosComentarios.CadastrarComentario(commit)) {
+						JOptionPane.showMessageDialog(null, "Seu comentário enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Falha ao enviar comentário", JOptionPane.WARNING_MESSAGE);
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Não é permitido enviar um comentário vazio, digite seu comentário antes de clicar aqui.",
+							"Comentário inválido", JOptionPane.ERROR_MESSAGE);
+				}
+				editorPaneCommit.setText("");
+				listaComentarios = formatCommits(filme.getId_filme());
+				editorPaneCommits.setText(listaComentarios.toString());		
+			}
+		});
+		btnComentar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnComentar.setBackground(new Color(255, 255, 255));
+		btnComentar.setToolTipText("Clique aqui para salvar seu comentario");
+		btnComentar.setBounds(90, 590, 150, 25);
+		viewVisualizaFilme.getContentPane().add(btnComentar);
 		
 		JButton btnCancelar = new JButton("Sair");
 		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
@@ -265,28 +351,6 @@ public class TelaVisualizaFilme {
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		viewVisualizaFilme.getContentPane().add(btnCancelar);
-		
-		JButton btnComentar = new JButton("Comentar");
-		btnComentar.setFont(new Font("Arial", Font.PLAIN, 13));
-		btnComentar.setBackground(new Color(255, 255, 255));
-		btnComentar.setToolTipText("Clique aqui para salvar seu comentario");
-		btnComentar.setBounds(88, 590, 150, 25);
-		viewVisualizaFilme.getContentPane().add(btnComentar);
-		
-		JLabel lblComentarios = new JLabel("Comentários:");
-		lblComentarios.setHorizontalAlignment(SwingConstants.CENTER);
-		lblComentarios.setForeground(Color.BLACK);
-		lblComentarios.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
-		lblComentarios.setBackground(Color.WHITE);
-		lblComentarios.setBounds(7, 396, 115, 25);
-		viewVisualizaFilme.getContentPane().add(lblComentarios);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(7, 425, 575, 155);
-		viewVisualizaFilme.getContentPane().add(scrollPane);
-		
-		JEditorPane editorPaneCommit = new JEditorPane();
-		scrollPane.setViewportView(editorPaneCommit);
 		
 		viewVisualizaFilme.setResizable(false);
 		viewVisualizaFilme.setSize(600, 655);

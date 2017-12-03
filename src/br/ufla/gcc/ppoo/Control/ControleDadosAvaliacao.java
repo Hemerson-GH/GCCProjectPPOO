@@ -12,7 +12,7 @@ import br.ufla.gcc.ppoo.Dados.Avaliacao;
 
 public class ControleDadosAvaliacao {
 	
-private static BancoDeDados bancoDados = new BancoDeDados();
+	private static BancoDeDados bancoDados = new BancoDeDados();
 	
 	public static void CadastrarAvaliacao(Avaliacao avaliacao){
 		bancoDados.Conecta();
