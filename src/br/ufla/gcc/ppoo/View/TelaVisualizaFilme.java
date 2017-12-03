@@ -32,7 +32,6 @@ public class TelaVisualizaFilme {
 	private JFrame viewVisualizaFilme;
 	
 	private BancoDeDados bancoDDados = new BancoDeDados();
-	private ArrayList<Filme> listFilms = new ArrayList<>();
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
@@ -54,7 +53,6 @@ public class TelaVisualizaFilme {
 	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme) {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
-		listFilms = atualizaLista(dl);	
 		boolean avaibleAvaliation = contemFilme(filme, dl);
 		
 		viewVisualizaFilme = new JFrame();
