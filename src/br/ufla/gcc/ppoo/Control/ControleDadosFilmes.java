@@ -9,13 +9,20 @@ import javax.swing.JOptionPane;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.execeptions.BancoDadosExeption;
+import br.ufla.gcc.ppoo.execeptions.FilmeExistenteException;
 
 public class ControleDadosFilmes {
 	
 	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static boolean CadastrarFilme(Filme filme, Long id_user){
+	public static boolean CadastrarFilme(Filme filme, Long id_user) throws FilmeExistenteException, BancoDadosExeption {
 		bancoDados.Conecta();
+		
+		if (ConfereFilme(filme.getNome(), id_user)) {
+			throw new FilmeExistenteException(filme.getNome(), "Filme existente");
+		}
+		
 		boolean ok = false;
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into filmes(id_user, nome_filme, ano_lancamento,"
@@ -33,8 +40,7 @@ public class ControleDadosFilmes {
 			
 			ok = true;
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao cadastrar filme:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosExeption();
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -156,13 +162,14 @@ public class ControleDadosFilmes {
 		return listFilm;
 	}
 	
-	public boolean ConfereFilme(String filme){
+	public static boolean ConfereFilme(String filme, Long id_user){
 		bancoDados.Conecta();	
 		boolean encontrei = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ?");
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
 			pst.setString(1, filme);
+			pst.setLong(2, id_user);
 			ResultSet rs = pst.executeQuery();	
 			
 			if (rs.next()) {	

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -21,9 +23,8 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import br.ufla.gcc.ppoo.execeptions.BancoDadosExeption;
+import br.ufla.gcc.ppoo.execeptions.FilmeExistenteException;
 
 public class TelaCadastroFilme {
 
@@ -44,6 +45,10 @@ public class TelaCadastroFilme {
 	
 	private BancoDeDados bancoDDados = new BancoDeDados();
 	
+	public static void setStatus(boolean bool) {
+		status = bool;
+	}
+	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
 		textFieldData.setText(null);
@@ -57,9 +62,9 @@ public class TelaCadastroFilme {
 	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, 
 			 JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor){
 		boolean ok = false;
-		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 
-											&& textFieldDiretor.getText().length() > 0 && textFieldDuracao.getText().length() > 0 && 
-												textFieldGenero.getText().length() > 0 && editorPaneDescricao.getText().length() > 0) {
+		if (textFieldNome.getText().trim().length() > 0 && textFieldWorKeys.getText().trim().length() > 0 && textFieldData.getText().trim().length() > 0 
+			&& textFieldDiretor.getText().trim().length() > 0 && textFieldDuracao.getText().trim().length() > 0 && 
+					textFieldGenero.getText().trim().length() > 0 && editorPaneDescricao.getText().trim().length() > 0) {
 			ok = true;
 		}
 		return ok;
@@ -87,6 +92,7 @@ public class TelaCadastroFilme {
 	
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
+		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
 		viewCadastroFilme = new JFrame();
@@ -107,8 +113,6 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setTitle("Cadastrar Filme");
 		viewCadastroFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
-		status = true;
-		
 		JLabel lblCadastro = new JLabel("Cadastrar Filme");
 		lblCadastro.setForeground(new Color(255, 255, 255));
 		lblCadastro.setBounds(130, 30, 325, 55);
@@ -121,7 +125,6 @@ public class TelaCadastroFilme {
 		lblNewItem.setBackground(new Color(51, 51, 255));
 		lblNewItem.setBounds(105, 35, 40, 40);
 		lblNewItem.setVerticalAlignment(SwingConstants.TOP);
-		
 		viewCadastroFilme.getContentPane().add(lblNewItem);
 		
 		JLabel lblNome = new JLabel("Nome");
@@ -242,21 +245,15 @@ public class TelaCadastroFilme {
 																				editorPaneDescricao, textFieldDiretor) ) {
 					if (contensHifen(textFieldWorKeys)) {
 					
-						ArrayList<Filme> listFilms = ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());;
-						boolean confere = Filme.comparaFilmeBoolean(listFilms, textFieldNome.getText());
-						
-						if (!confere) {
-							if (ControleDadosFilmes.CadastrarFilme(filme, dl.getId())) {
-								JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", 
+						try {
+							ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
+							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", 
 																			JOptionPane.INFORMATION_MESSAGE);
-								limpaCampos();
-							} else {
-								JOptionPane.showMessageDialog(null, "Erro ao cadastrar filme \n Entre em contato com o administrador "
-										+ "do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Ops, esse filme já está cadastrado, tente cadastrar um "
-									+ "outro filme que não esteja cadastrado.", "Filme Já Cadastrado", JOptionPane.ERROR_MESSAGE);
+							limpaCampos();
+						} catch (BancoDadosExeption bdex){
+								JOptionPane.showMessageDialog(null, bdex.getMessage(), "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+						} catch (FilmeExistenteException fex) {
+								JOptionPane.showMessageDialog(null, fex, fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 						}
 						
 					} else {

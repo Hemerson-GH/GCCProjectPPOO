@@ -326,7 +326,7 @@ public class TelaVisualizaFilme {
 		btnComentar.setIcon(new ImageIcon(TelaVisualizaFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/comentario.png")));
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (!editorPaneCommit.getText().equals("") && !editorPaneCommit.getText().equals("Digite aqui seu comentário sobre esse filme...")) {
+				if (!editorPaneCommit.getText().equals("") && !editorPaneCommit.getText().equals("Digite aqui seu comentário sobre esse filme...") ) {
 					if (editorPaneCommit.getText().length() <= 144) {
 						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
 						
