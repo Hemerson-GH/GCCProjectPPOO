@@ -49,6 +49,7 @@ public class TelaListagemFilmes {
 	public TelaListagemFilmes(DadosLogin dadosLogin){
 		bancoDDados.Conecta();
 		viewListagemDeFilmes(dadosLogin);
+		
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
@@ -288,6 +289,6 @@ public class TelaListagemFilmes {
 		
 		viewListagem.setResizable(false);
 		viewListagem.setSize(900, 600);
-		viewListagem.setVisible(true);		
+		viewListagem.setVisible(true);	
 	}
 }

@@ -45,6 +45,7 @@ public class TelaLogin {
 		myViewLogin.setTitle("Login");
 		myViewLogin.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewLogin.getContentPane().setLayout(null);
+		myViewLogin.pack();
 		
 		textAreaUser = new JTextField();
 		textAreaUser.setToolTipText("Digite seu email...");

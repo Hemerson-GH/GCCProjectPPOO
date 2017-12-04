@@ -71,7 +71,7 @@ public class TelaEditaFilme {
 		viewEditaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewEditaFilme.setTitle("Editar Filme");
 		viewEditaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		
+
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(10, 100, 45, 25);
 		lblNome.setForeground(new Color(255, 255, 255));

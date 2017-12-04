@@ -61,7 +61,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.setTitle("Cadastro de novo usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
-		
+
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));

@@ -105,7 +105,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewCadastroFilme.setBackground(new Color(0, 0, 255));
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewCadastroFilme.setVisible(false);
+		viewCadastroFilme.setVisible(true);
 		viewCadastroFilme.getContentPane().setLayout(null);
 		viewCadastroFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewCadastroFilme.getContentPane().setForeground(new Color(255, 255, 255));
