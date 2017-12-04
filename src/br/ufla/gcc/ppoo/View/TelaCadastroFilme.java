@@ -54,11 +54,12 @@ public class TelaCadastroFilme {
 		editorPaneDescricao.setText(null);
 	}
 	
-	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData,
-								JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor){
+	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, 
+			 JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor){
 		boolean ok = false;
-		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 && textFieldDiretor.getText().length() > 0
-				&& textFieldDuracao.getText().length() > 0 && textFieldGenero.getText().length() > 0 && editorPaneDescricao.getText().length() > 0) {
+		if (textFieldNome.getText().length() > 0 && textFieldWorKeys.getText().length() > 0 && textFieldData.getText().length() > 0 
+											&& textFieldDiretor.getText().length() > 0 && textFieldDuracao.getText().length() > 0 && 
+												textFieldGenero.getText().length() > 0 && editorPaneDescricao.getText().length() > 0) {
 			ok = true;
 		}
 		return ok;
@@ -178,7 +179,8 @@ public class TelaCadastroFilme {
 		textFieldGenero = new JTextField();
 		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldGenero.setBounds(10, 245, 115, 30);
-		textFieldGenero.setToolTipText("Caso você for adicionar mais de um gênero acrescentar virgula no próximo gênero, exemplo: Gênero 1, Gênero 2...");
+		textFieldGenero.setToolTipText("Caso você for adicionar mais de um gênero acrescentar barra no"
+													+ " próximo gênero, exemplo: Gênero 1/Gênero 2...");
 		textFieldGenero.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldGenero);
 		
@@ -236,7 +238,8 @@ public class TelaCadastroFilme {
 				
 				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor);
 				
-				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor) ) {
+				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, 
+																				editorPaneDescricao, textFieldDiretor) ) {
 					if (contensHifen(textFieldWorKeys)) {
 					
 						ArrayList<Filme> listFilms = ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());;
