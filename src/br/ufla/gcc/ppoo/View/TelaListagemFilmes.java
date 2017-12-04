@@ -35,7 +35,6 @@ public class TelaListagemFilmes {
 	
 	private static boolean status = false;
 	
-	
 	private BancoDeDados bancoDDados = new BancoDeDados();
 	private ArrayList<Filme> listFilms = new ArrayList<>();
 	

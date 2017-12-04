@@ -45,11 +45,7 @@ public class TelaBuscarFilme {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl){
-		return ControleDadosFilmes.BuscarFilmesTodosUsuarios(dl.getId());
-	}
-	
-	public int atulizaQuantidadeFilmes(ArrayList<Filme> listFilms){
-		return listFilms.size();
+		return ControleDadosFilmes.BuscarFilmesTodosUsuarios();
 	}
 	
 	@SuppressWarnings("serial")
@@ -270,7 +266,7 @@ public class TelaBuscarFilme {
 						
 						new TelaVisualizaFilme(dl, filme, "TelaBuscar");
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Filme seleciona é " + e.getCause()+ "\nEntre em contato com o administrador do sistema.", "Filme não encontrado", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Filme selecionado é " + e.getCause()+ "\nEntre em contato com o administrador do sistema.", "Filme não encontrado", JOptionPane.ERROR_MESSAGE);
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 

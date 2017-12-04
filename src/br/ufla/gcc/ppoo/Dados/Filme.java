@@ -143,6 +143,16 @@ public class Filme {
 		return null;
 	}
 	
+	public static boolean comparaFilmeBool(ArrayList<Filme> listFilmes, String nomeFilme){
+		
+		for (Filme filme : listFilmes) {
+			if (filme.getNome().equals(nomeFilme)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public boolean comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme) && !filme.getNome().equals(filmeContido)) {
@@ -192,6 +202,28 @@ public class Filme {
 			}
 		}
 		
+		return filmesEncontrados;
+	}
+	
+	public static ArrayList<Filme> pesquisaRecomendacao(ArrayList<Filme> listaTodosFilmes, ArrayList<Filme> listaFilmes) {
+		ArrayList<Filme> filmesEncontrados = new ArrayList<>();
+		ArrayList<Filme> generoFilmesRecomendados = new ArrayList<>();
+		Long filmeConf = null;
+
+		for (Filme filme : listaFilmes) {
+			generoFilmesRecomendados.add(filme);
+		}
+		
+		for (Filme filme : listaTodosFilmes) {
+			for (Filme filmeRecomendado : generoFilmesRecomendados) {	
+				if (filmeRecomendado.getGenero().toUpperCase().contains(filme.getGenero().toUpperCase()) && filmeConf != filme.getId_filme() ) {	
+					if (!Filme.comparaFilmeBool(listaFilmes, filme.getNome() ) ) {
+						filmesEncontrados.add(filme);
+						filmeConf = filme.getId_filme();
+					}					
+				}				
+			}
+		}		
 		return filmesEncontrados;
 	}
 

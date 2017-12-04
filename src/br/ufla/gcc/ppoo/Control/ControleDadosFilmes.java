@@ -79,7 +79,7 @@ public class ControleDadosFilmes {
 		return listFilm;
 	}
 	
-	public static ArrayList<Filme> BuscarFilmesTodosUsuarios(Long id){
+	public static ArrayList<Filme> BuscarFilmesTodosUsuarios(){
 		bancoDados.Conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
@@ -88,6 +88,45 @@ public class ControleDadosFilmes {
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes ORDER BY nome_filme ASC");
+			ResultSet rs = pst.executeQuery();	
+			
+			while (rs.next()) {	
+				
+				nome = (rs.getString("nome_filme"));
+				data = (rs.getString("ano_lancamento"));
+				descricao = (rs.getString("descricao"));
+				wordsKeys = (rs.getString("palavras_chaves"));
+				genero = (rs.getString("genero"));
+				duracao = (rs.getString("duracao_filme"));
+				diretor = (rs.getString("diretor"));
+				pontos = (rs.getLong("pontos_filme"));
+				id_user = (rs.getLong("id_user"));
+				id_filme = (rs.getLong("id_filme"));
+				
+				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor, pontos, id_user, id_filme);
+				
+				listFilm.add(filme);
+			}
+		} catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, "Falha ao buscar todos filmes do sistemas:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Erro na busca", JOptionPane.ERROR_MESSAGE);
+		} finally {
+			bancoDados.Desconecta();
+		}
+		
+		return listFilm;
+	}
+	
+	public static ArrayList<Filme> BuscarFilmesUsuarios(Long id_usuario){
+		bancoDados.Conecta();
+		
+		ArrayList<Filme> listFilm = new ArrayList<>();
+		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
+		Long pontos, id_user, id_filme;
+		
+		try {
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes WHERE id_user != ? ORDER BY nome_filme ASC");
+			pst.setLong(1, id_usuario);
 			ResultSet rs = pst.executeQuery();	
 			
 			while (rs.next()) {	
@@ -145,9 +184,9 @@ public class ControleDadosFilmes {
 		bancoDados.Conecta();
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("DELETE from filmes where nome_filme = ?");
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("DELETE from filmes where id_filme = ?");
 			
-			pst.setString(1, filme.getNome());
+			pst.setLong(1, filme.getId_filme());
 			pst.execute();
 			pst.close();	
 			

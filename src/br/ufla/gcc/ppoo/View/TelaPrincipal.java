@@ -114,11 +114,29 @@ public class TelaPrincipal {
 			}
 		});
 		
-		JSeparator separatorBuscar = new JSeparator();
-		mnMenu.add(separatorBuscar);
+		JSeparator separatorFilmes = new JSeparator();
+		mnMenu.add(separatorFilmes);
 		mnItemBuscarFilmes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/procurar.png")));
 		mnItemBuscarFilmes.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnItemBuscarFilmes);
+		
+		JSeparator separatorBusca = new JSeparator();
+		mnMenu.add(separatorBusca);
+		
+		JMenuItem mnRecomendacoes = new JMenuItem("Recomendações");
+		mnRecomendacoes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (!(TelaRecomendaFilme.getStatus())) {
+					new TelaRecomendaFilme(dadosLogin);
+				} else {
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		mnRecomendacoes.setBackground(new Color(255, 255, 255));
+		mnRecomendacoes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
+		mnRecomendacoes.setFont(new Font("Arial", Font.PLAIN, 13));
+		mnMenu.add(mnRecomendacoes);
 		
 		JMenu mnSair = new JMenu("Sair");
 		mnSair.setFont(new Font("Arial", Font.PLAIN, 13));
