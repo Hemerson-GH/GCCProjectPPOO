@@ -201,6 +201,7 @@ public class TelaBuscarFilme {
 					
 					iniciarTabela();
 					listFilms = atualizaLista(dl);
+					
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
 					
 					if (!listFilms.isEmpty()) {

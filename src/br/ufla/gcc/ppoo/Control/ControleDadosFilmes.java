@@ -14,9 +14,9 @@ public class ControleDadosFilmes {
 	
 	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static void CadastrarFilme(Filme filme, Long id_user){
+	public static boolean CadastrarFilme(Filme filme, Long id_user){
 		bancoDados.Conecta();
-		
+		boolean ok = false;
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into filmes(id_user, nome_filme, ano_lancamento,"
 					+ " descricao, palavras_chaves, genero, duracao_filme, diretor) values(?,?,?,?,?,?,?,?)");
@@ -31,12 +31,14 @@ public class ControleDadosFilmes {
 			pst.setString(8, filme.getDiretor());	
 			pst.execute();
 			
+			ok = true;
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "Falha ao cadastrar filme:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro na busca", JOptionPane.ERROR_MESSAGE);
+					"\nEntre em contato com o administrador do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			bancoDados.Desconecta();
 		}
+		return ok;
 	}	
 	
 	public static ArrayList<Filme> BuscarFilmesUmUsuario(Long id){

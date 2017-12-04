@@ -70,7 +70,7 @@ public class TelaLogin {
 				
 				DadosLogin dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
 				
-				if (passwordField.getText().equals(dadosLogin.getSenha())) {			
+				if (ControleDadosUsuarios.ConvertMD5(passwordField.getText()).equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();
 					new TelaPrincipal(dadosLogin);
 				} else {					

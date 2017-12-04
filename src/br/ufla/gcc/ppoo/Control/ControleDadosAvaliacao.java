@@ -14,9 +14,9 @@ public class ControleDadosAvaliacao {
 	
 	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static void CadastrarAvaliacao(Avaliacao avaliacao){
+	public static boolean CadastrarAvaliacao(Avaliacao avaliacao){
 		bancoDados.Conecta();
-		
+		boolean ok = false;
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into avaliation(id_user_avaliador, id_filme_avaliado, bool_avaliacao) values(?,?,?)");
 			
@@ -25,12 +25,14 @@ public class ControleDadosAvaliacao {
 			pst.setBoolean(3, avaliacao.getAvaliacao());
 			pst.execute();
 			
+			ok = true;
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "Falha ao salvar avaliação:\n" + ex.getMessage() + 
 					"\nEntre em contato com o administrador do sistema.", "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			bancoDados.Desconecta();
 		}
+		return ok;
 	}	
 	
 	public static ArrayList<Avaliacao> BuscarAvaliacao(Long id){

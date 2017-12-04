@@ -174,8 +174,9 @@ public class Filme {
 	}
 	
 	public static ArrayList<Filme> pesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
-		ArrayList<Filme> filmeEncontrado = new ArrayList<>();
+		ArrayList<Filme> filmesEncontrados = new ArrayList<>();
 		ArrayList<String> wordKeys = new ArrayList<>();
+		Long filmeConf = null;
 		
 		for (Filme filme : listaFilme) {
 			
@@ -183,13 +184,15 @@ public class Filme {
 			wordKeys.add(filme.getNome());
 			
 			for (String string : wordKeys) {
-				if (string.equalsIgnoreCase(wordKey) || string.toUpperCase().contains(wordKey.toUpperCase())) {
-					filmeEncontrado.add(filme);
+				
+				if (string.toUpperCase().contains(wordKey.toUpperCase()) && filmeConf != filme.getId_filme()) {	
+					filmesEncontrados.add(filme);
+					filmeConf = filme.getId_filme();	
 				}
 			}
 		}
 		
-		return filmeEncontrado;
+		return filmesEncontrados;
 	}
 
 	public static String converteTexto(String wordKeys) {

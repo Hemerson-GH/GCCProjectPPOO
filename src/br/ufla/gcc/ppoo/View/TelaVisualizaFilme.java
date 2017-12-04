@@ -36,18 +36,23 @@ public class TelaVisualizaFilme {
 	private JFrame viewVisualizaFilme;
 	
 	private BancoDeDados bancoDDados = new BancoDeDados();
-	ArrayList<String> listaComentarios = new ArrayList<>();
-		
-	public ArrayList<String> formatCommits(Long id_filme){
-		
+//	private ArrayList<String> listaComentarios = new ArrayList<>();
+	private String text = "";
+	
+//	public ArrayList<String> formatCommits(Long id_filme){
+	public String formatCommits(Long id_filme){
 		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarAvaliacao(id_filme);
-		ArrayList<String> listaComentariosFormatada = new ArrayList<>();
+//		ArrayList<String> listaComentariosFormatada = new ArrayList<>();
+		String text = "";
 		
-		for (Comentarios commit : listCommits) {
-			listaComentariosFormatada.add(ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n");
-		}
+		if (!listCommits.isEmpty()) {
+			for (Comentarios commit : listCommits) {
+//				listaComentariosFormatada.add(ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n");
+				text += ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n";
+			}
+		} 
 		
-		return listaComentariosFormatada;
+		return text;
 	}
 	
 	
@@ -129,13 +134,24 @@ public class TelaVisualizaFilme {
 					ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
 					
 					if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
-						ControleDadosFilmes.AvaliaFilme(filme);
-						Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-						ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
-						
-						JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", JOptionPane.INFORMATION_MESSAGE);
+						if (ControleDadosFilmes.AvaliaFilme(filme)) {
+							Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+							
+							try {
+								ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
+								JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
+										 												JOptionPane.INFORMATION_MESSAGE);
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(null, "Erro ao salvar avaliação:\n" + e.getCause() + 
+										"\nEntre em contato com o administrador do sistema.", "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "Não foi possível avaliar o filme selecionado", "Erro ao avaliar", 
+										JOptionPane.INFORMATION_MESSAGE);
+						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Erro na avaliação",
+								JOptionPane.ERROR_MESSAGE);
 					}
 					
 					pontAnt = (long) 0;
@@ -268,11 +284,11 @@ public class TelaVisualizaFilme {
 		lblComentarios.setForeground(Color.BLACK);
 		lblComentarios.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblComentarios.setBackground(Color.WHITE);
-		lblComentarios.setBounds(7, 395, 115, 25);
+		lblComentarios.setBounds(10, 390, 115, 25);
 		viewVisualizaFilme.getContentPane().add(lblComentarios);
 		
 		JScrollPane scrollPaneCommit = new JScrollPane();
-		scrollPaneCommit.setBounds(10, 510, 575, 70);
+		scrollPaneCommit.setBounds(10, 540, 575, 70);
 		viewVisualizaFilme.getContentPane().add(scrollPaneCommit);
 		
 		JEditorPane editorPaneCommit = new JEditorPane();
@@ -283,20 +299,22 @@ public class TelaVisualizaFilme {
 			}
 		});
 		editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
-		editorPaneCommit.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
+		editorPaneCommit.setFont(new Font("Microsoft JhengHei", Font.ITALIC, 13));
 		scrollPaneCommit.setViewportView(editorPaneCommit);
 		
 		JScrollPane scrollPaneCommits = new JScrollPane();
-		scrollPaneCommits.setBounds(10, 420, 575, 80);
+		scrollPaneCommits.setBounds(10, 420, 575, 110);
 		viewVisualizaFilme.getContentPane().add(scrollPaneCommits);
 		
 		JEditorPane editorPaneCommits = new JEditorPane();
-		listaComentarios = formatCommits(filme.getId_filme());
+//		listaComentarios = formatCommits(filme.getId_filme());
+		text = formatCommits(filme.getId_filme());
 		
-		if (listaComentarios.isEmpty()) {
+//		if (listaComentarios.isEmpty()) {
+		if (text.equals("")) {
 			editorPaneCommits.setText("Seja o primeiro a comentar sobre esse filme...");
 		} else {
-			editorPaneCommits.setText(listaComentarios.toString());
+			editorPaneCommits.setText(text);
 		}
 		
 		editorPaneCommits.setEditable(false);
@@ -304,36 +322,43 @@ public class TelaVisualizaFilme {
 		scrollPaneCommits.setViewportView(editorPaneCommits);
 		
 		JButton btnComentar = new JButton("Comentar");
+		btnComentar.setIcon(new ImageIcon(TelaVisualizaFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/comentario.png")));
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (!editorPaneCommit.getText().equals("")) {
+				if (!editorPaneCommit.getText().equals("") && !editorPaneCommit.getText().equals("Digite aqui seu comentário sobre esse filme...")) {
 
 					Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
 					
 					if (ControleDadosComentarios.CadastrarComentario(commit)) {
-						JOptionPane.showMessageDialog(null, "Seu comentário enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
 					} else {
-						JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Falha ao enviar comentário", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
 					}
 					
 				} else {
 					JOptionPane.showMessageDialog(null, "Não é permitido enviar um comentário vazio, digite seu comentário antes de clicar aqui.",
 							"Comentário inválido", JOptionPane.ERROR_MESSAGE);
 				}
-				editorPaneCommit.setText("");
-				listaComentarios = formatCommits(filme.getId_filme());
-				editorPaneCommits.setText(listaComentarios.toString());		
+//				editorPaneCommit.setText("");
+//				listaComentarios = formatCommits(filme.getId_filme());
+//				editorPaneCommits.setText(listaComentarios.toString());					
+//				editorPaneCommits.setText(text);	
+				
+				editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+				text = formatCommits(filme.getId_filme());
+				editorPaneCommits.setText(text);
+				
 			}
 		});
 		btnComentar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnComentar.setBackground(new Color(255, 255, 255));
 		btnComentar.setToolTipText("Clique aqui para salvar seu comentario");
-		btnComentar.setBounds(90, 590, 150, 25);
+		btnComentar.setBounds(90, 620, 150, 25);
 		viewVisualizaFilme.getContentPane().add(btnComentar);
 		
 		JButton btnCancelar = new JButton("Sair");
 		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
-		btnCancelar.setBounds(385, 590, 150, 25);
+		btnCancelar.setBounds(385, 620, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -353,7 +378,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(btnCancelar);
 		
 		viewVisualizaFilme.setResizable(false);
-		viewVisualizaFilme.setSize(600, 655);
+		viewVisualizaFilme.setSize(600, 680);
 		viewVisualizaFilme.setVisible(true);		
 	}
 }

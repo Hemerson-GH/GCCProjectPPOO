@@ -243,12 +243,17 @@ public class TelaCadastroFilme {
 						boolean confere = Filme.comparaFilmeBoolean(listFilms, textFieldNome.getText());
 						
 						if (!confere) {
-							ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
-							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
-							limpaCampos();
+							if (ControleDadosFilmes.CadastrarFilme(filme, dl.getId())) {
+								JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", 
+																			JOptionPane.INFORMATION_MESSAGE);
+								limpaCampos();
+							} else {
+								JOptionPane.showMessageDialog(null, "Erro ao cadastrar filme \n Entre em contato com o administrador "
+										+ "do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+							}
 						} else {
-							JOptionPane.showMessageDialog(null, "Ops, esse filme já está cadastrado, tente cadastrar um outro filme que não esteja cadastrado.",
-									"Filme Já Cadastrado", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Ops, esse filme já está cadastrado, tente cadastrar um "
+									+ "outro filme que não esteja cadastrado.", "Filme Já Cadastrado", JOptionPane.ERROR_MESSAGE);
 						}
 //						JOptionPane.showMessageDialog(null, slider.getValue());
 						

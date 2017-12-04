@@ -16,8 +16,9 @@ public class ControleDadosUsuarios {
 	
 	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static void CadastrarUsuario(DadosLogin dados){
+	public static boolean CadastrarUsuario(DadosLogin dados){
 		bancoDados.Conecta();
+		boolean ok = false;
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
@@ -26,14 +27,14 @@ public class ControleDadosUsuarios {
 			pst.setString(3, dados.getSenha());	
 			pst.execute();
 			
-			JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
-					+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+			ok = true;
 		} catch (SQLException ex) {
 			JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário:\n" + ex.getMessage() + 
 					"\nEntre em contato com o administrador do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			bancoDados.Desconecta();
 		}
+		return ok;
 	}
 	
 	public static DadosLogin BuscarDados(String email){
@@ -105,7 +106,7 @@ public class ControleDadosUsuarios {
 		return encontrei;
 	}
 	
-	public String ConvertMD5(String wordConvert){
+	public static String ConvertMD5(String wordConvert){
 		MessageDigest md = null;
 		
 		try {

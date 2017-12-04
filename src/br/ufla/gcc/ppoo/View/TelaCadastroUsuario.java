@@ -129,13 +129,22 @@ public class TelaCadastroUsuario {
 								String email = textFieldEmail.getText();
 								String senha = passwordField.getText();
 								
+								senha = ControleDadosUsuarios.ConvertMD5(senha);
+								
 								DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
 								
-								ControleDadosUsuarios.CadastrarUsuario(dadosLogin);
-								myViewCadastro.dispose();
-								bancoDDados.Desconecta();
+								if (ControleDadosUsuarios.CadastrarUsuario(dadosLogin)) {
+									myViewCadastro.dispose();
+									bancoDDados.Desconecta();
 								
-								new TelaLogin();
+									JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
+											+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+									
+									new TelaLogin();
+								} else {
+									JOptionPane.showMessageDialog(null, "Sinto muito mas não foi possível fazer o seu cadastro. \nPor favor"
+											+ " entre em contato com o administrador do sistema.", "Cadastro não pode ser realizado", JOptionPane.ERROR_MESSAGE);
+								}
 							} else {
 								JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "
 										+ "por favor digite uma nova senha válida.", "Senha invalida", JOptionPane.ERROR_MESSAGE);

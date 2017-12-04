@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
+import br.ufla.gcc.ppoo.Control.ControleDadosComentarios;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
@@ -223,23 +224,44 @@ public class TelaListagemFilmes {
 					
 					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
 					
-					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir",
+							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
-					if (JOptionPane.YES_OPTION == confirm) {	
-						if (ControleDadosFilmes.DeletaFilme(filme)) {
-							ControleDadosAvaliacao.DeletaFilme(filme.getId_filme());
-							JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+					if (JOptionPane.YES_OPTION == confirm) {
+						
+						if (ControleDadosComentarios.DeletaFilme(filme.getId_filme())) {
 							
-							listFilms = atualizaLista(dl);
-							listFilms = ordenaLista(listFilms);
+							if (ControleDadosAvaliacao.DeletaFilme(filme.getId_filme())) {
+								
+								if (ControleDadosFilmes.DeletaFilme(filme)) {
+									
+									JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", 
+											"Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+									
+									listFilms = atualizaLista(dl);
+									listFilms = ordenaLista(listFilms);
+									
+									constroiTabela(listFilms);
+									
+								} else {
+									JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.",
+											"Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
+								}
+								
+							} else {
+								JOptionPane.showMessageDialog(null, "Erro ao deletar pontuação do filme.",
+										"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
+							}
 							
-							constroiTabela(listFilms);
 						} else {
-							JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.", "Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme.",
+									"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
 						}
-					}					
+					}
+					
 				} else {
-					JOptionPane.showMessageDialog(null, "Para remover um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Para remover um filme selecione a linha dele.",
+							"Seleção inválida", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
