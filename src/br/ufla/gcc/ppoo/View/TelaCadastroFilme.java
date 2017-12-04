@@ -258,7 +258,6 @@ public class TelaCadastroFilme {
 							JOptionPane.showMessageDialog(null, "Ops, esse filme já está cadastrado, tente cadastrar um "
 									+ "outro filme que não esteja cadastrado.", "Filme Já Cadastrado", JOptionPane.ERROR_MESSAGE);
 						}
-//						JOptionPane.showMessageDialog(null, slider.getValue());
 						
 					} else {
 						JOptionPane.showMessageDialog(null, "Campo 'Palavras-chave' não está preenchido corretamente." 
@@ -282,7 +281,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.getContentPane().add(scrollPane);
 		
 		editorPaneDescricao = new JEditorPane();
-		editorPaneDescricao.setToolTipText("Coloque aqui a descrição do filme");
+		editorPaneDescricao.setToolTipText("Digite aqui a descrição do filme");
 		scrollPane.setViewportView(editorPaneDescricao);
 		editorPaneDescricao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));

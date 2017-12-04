@@ -28,6 +28,7 @@ public class GerenciadorDeImagens {
     public static final ImageIcon ESTRELA_3 = carregarImagem("estrela-3.png");
     public static final ImageIcon ESTRELA_4 = carregarImagem("estrela-4.png");
     public static final ImageIcon ESTRELA_5 = carregarImagem("estrela-5.png");
+    public static final ImageIcon COMENTARIO = carregarImagem("comentario.png");
     
     private static ImageIcon carregarImagem(String caminho) {
         return new ImageIcon(GerenciadorDeImagens.class.getResource(caminho));

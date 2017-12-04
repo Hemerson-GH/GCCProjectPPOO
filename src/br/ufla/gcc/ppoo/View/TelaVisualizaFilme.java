@@ -327,15 +327,22 @@ public class TelaVisualizaFilme {
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!editorPaneCommit.getText().equals("") && !editorPaneCommit.getText().equals("Digite aqui seu comentário sobre esse filme...")) {
-
-					Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
-					
-					if (ControleDadosComentarios.CadastrarComentario(commit)) {
-						JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
+					if (editorPaneCommit.getText().length() <= 144) {
+						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
+						
+						if (ControleDadosComentarios.CadastrarComentario(commit)) {
+							JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
+							
+							editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+							text = formatCommits(filme.getId_filme());
+							editorPaneCommits.setText(text);
+							
+						} else {
+							JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
+						}
 					} else {
-						JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Seu comentário não pode ter mais que 144 caracteres.", "Comentário excede limite de caracteres", JOptionPane.WARNING_MESSAGE);
 					}
-					
 				} else {
 					JOptionPane.showMessageDialog(null, "Não é permitido enviar um comentário vazio, digite seu comentário antes de clicar aqui.",
 							"Comentário inválido", JOptionPane.ERROR_MESSAGE);
@@ -344,11 +351,6 @@ public class TelaVisualizaFilme {
 //				listaComentarios = formatCommits(filme.getId_filme());
 //				editorPaneCommits.setText(listaComentarios.toString());					
 //				editorPaneCommits.setText(text);	
-				
-				editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
-				text = formatCommits(filme.getId_filme());
-				editorPaneCommits.setText(text);
-				
 			}
 		});
 		btnComentar.setFont(new Font("Arial", Font.PLAIN, 14));

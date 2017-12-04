@@ -149,7 +149,7 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().add(lblMeusFilme);
 		
 		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-lista.png")));
+		label.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/lista.jpg")));
 		label.setVerticalAlignment(SwingConstants.TOP);
 		label.setBackground(new Color(51, 51, 255));
 		label.setBounds(290, 20, 40, 40);

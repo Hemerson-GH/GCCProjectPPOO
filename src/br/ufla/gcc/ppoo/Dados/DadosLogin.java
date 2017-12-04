@@ -26,8 +26,6 @@ public class DadosLogin {
 		this.setNome(dadosLogin.getNome());
 	}
 	
-//	public DadosLogin(){ }
-	
 	public String getEmail() {
 		return email;
 	}
