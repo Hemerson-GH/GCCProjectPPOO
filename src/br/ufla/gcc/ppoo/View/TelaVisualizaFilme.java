@@ -164,11 +164,12 @@ public class TelaVisualizaFilme {
 			viewVisualizaFilme.getContentPane().add(btnAvaliacao);			
 			
 			JLabel lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
-			lblOnwer.setToolTipText((String) null);
+			lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
 			lblOnwer.setForeground(Color.WHITE);
 			lblOnwer.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-			lblOnwer.setBounds(5, 15, 140, 30);
-			viewVisualizaFilme.getContentPane().add(lblOnwer);			
+			lblOnwer.setBounds(5, 15, 165, 30);
+			viewVisualizaFilme.getContentPane().add(lblOnwer);	
+			
 		}		
 		
 		JLabel lblTitulo = new JLabel("Título:");
