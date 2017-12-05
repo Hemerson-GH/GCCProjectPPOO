@@ -221,7 +221,8 @@ public class TelaEditaFilme {
 							JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 					} catch (ConexaoBD cbd) {
 						JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-					}
+					} 
+					
 //				} 
 				
 					

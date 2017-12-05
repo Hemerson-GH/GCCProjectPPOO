@@ -83,7 +83,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewVisualizaFilme.setBackground(new Color(0, 0, 255));
 		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewVisualizaFilme.setVisible(false);
+		viewVisualizaFilme.setVisible(true);
 		viewVisualizaFilme.getContentPane().setLayout(null);
 		viewVisualizaFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewVisualizaFilme.getContentPane().setForeground(new Color(255, 255, 255));
@@ -128,9 +128,7 @@ public class TelaVisualizaFilme {
 			btnAvaliacao.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					
-					Long pontAnt = filme.getPontos();
-					
-					filme.setPontos((long) sliderAvaliacao.getValue() + pontAnt);
+					filme.setPontos((long) sliderAvaliacao.getValue() + filme.getPontos());
 					
 					
 //					Avaliacao.confereAvaliacao(listAvaliacao, filme, dl);
@@ -138,24 +136,21 @@ public class TelaVisualizaFilme {
 					try {
 					
 //					ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
+						Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+						ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao, filme.getId_filme(), dl.getId());
+						ControleDadosFilmes.AvaliaFilme(filme);
 						
-					ControleDadosFilmes.AvaliaFilme(filme);
-					
-					Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-					
-					ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao, filme.getId_filme(), dl.getId());
-					
-					JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
+						
+						
+						JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
 								 												JOptionPane.INFORMATION_MESSAGE);
-					} catch (ConexaoBD e) {
-						
-					} catch (BancoDadosException e) {
-						
-					} catch (AvaliacaoException e) {
-						
+					} catch (ConexaoBD cbd) {
+						JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (BancoDadosException bdex) {
+						JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (AvaliacaoException ae) {
+						JOptionPane.showMessageDialog(null, ae.getMessage(), ae.getTitulo(), JOptionPane.ERROR_MESSAGE);
 					}
-					
-					pontAnt = (long) 0;
 					
 				}
 			});
@@ -164,8 +159,8 @@ public class TelaVisualizaFilme {
 			btnAvaliacao.setBackground(new Color(255, 255, 255));	
 			viewVisualizaFilme.getContentPane().add(btnAvaliacao);			
 			
-			JLabel lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
-			lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+			JLabel lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ " Pts)");
+			lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ " Pts)");
 			lblOnwer.setForeground(Color.WHITE);
 			lblOnwer.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 			lblOnwer.setBounds(5, 15, 165, 30);
@@ -409,7 +404,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(btnCancelar);
 		
 		viewVisualizaFilme.setResizable(false);
-		viewVisualizaFilme.setSize(600, 680);
+		viewVisualizaFilme.setSize(605, 680);
 		viewVisualizaFilme.setVisible(true);		
 	}
 }

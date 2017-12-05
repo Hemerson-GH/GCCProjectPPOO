@@ -19,7 +19,7 @@ public class ControleDadosAvaliacao {
 		
 		if (ConfereAvaliacao(id_user, id_filme)) {
 			throw new AvaliacaoException("Você não pode avaliar mais de uma vez um filme", "Erro ao avaliação");
-		}
+		} else {
 		
 		bancoDados.Conecta();
 		
@@ -41,7 +41,9 @@ public class ControleDadosAvaliacao {
 			bancoDados.Desconecta();
 		}
 		
+		
 		return ok;
+		}
 	}	
 	
 	public static ArrayList<Avaliacao> BuscarAvaliacao(Long id) throws ConexaoBD, BancoDadosException{
