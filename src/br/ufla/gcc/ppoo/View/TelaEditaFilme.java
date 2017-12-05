@@ -17,11 +17,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
+import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 
 public class TelaEditaFilme {
 	
@@ -35,14 +37,11 @@ public class TelaEditaFilme {
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
 	
-	BancoDeDados bancoDDados = new BancoDeDados();
-	
-	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme){
-		bancoDDados.Conecta();
+	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme) throws ConexaoBD, BancoDadosException {
 		viewListagemDeFilmes(dadosLogin, filme);
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws ConexaoBD, BancoDadosException {
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -56,7 +55,7 @@ public class TelaEditaFilme {
 		editorPaneDescricao.setText(null);
 	}
 	
-	public void viewListagemDeFilmes(DadosLogin dadosLogin, Filme filme) {
+	public void viewListagemDeFilmes(DadosLogin dadosLogin, Filme filme) throws ConexaoBD, BancoDadosException {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		
@@ -201,19 +200,33 @@ public class TelaEditaFilme {
 				filme.setDuracaoFilme(textFieldDuracao.getText());
 				filme.setDiretor(textFieldDiretor.getText());
 				
-				ArrayList<Filme> listFilmes =  atualizaLista(dl);
+//				ArrayList<Filme> listFilmes = null;
+//				try {
+//					listFilmes = atualizaLista(dl);
+//				} catch (ConexaoBD e) {
+//				} catch (BancoDadosException e) {
+//				}
 				
-				if (!filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
-					if (ControleDadosFilmes.AlteraFilme(filme)) {
+//				if (!filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
+					try {
+						
+						ControleDadosFilmes.AlteraFilme(filme, guardarFilme);
 						JOptionPane.showMessageDialog(null, "Filme Editado no banco de dados com sucesso.", "Filme Editado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 						viewEditaFilme.dispose();
 						new TelaListagemFilmes(dl);
-					} else {
-						JOptionPane.showMessageDialog(null, "Erro ao editar filme no banco de dados.", "Erro Ao Editar Filme", JOptionPane.ERROR_MESSAGE);
-					}	
-				} else {
-					JOptionPane.showMessageDialog(null, "Um filme com esse nome já está cadastrado", "Filme Existente", JOptionPane.ERROR_MESSAGE);
-				}
+						
+					} catch (BancoDadosException bdex){
+						JOptionPane.showMessageDialog(null, bdex.getMessage(), "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+					} catch (FilmeExistenteException fex) {
+							JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (ConexaoBD cbd) {
+						JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					}
+//				} 
+				
+					
+
+					
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 0));
@@ -228,7 +241,15 @@ public class TelaEditaFilme {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				viewEditaFilme.dispose();
-				new TelaListagemFilmes(dl);
+				try {
+					new TelaListagemFilmes(dl);
+				} catch (ConexaoBD e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (BancoDadosException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));

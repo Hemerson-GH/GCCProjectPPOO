@@ -11,12 +11,14 @@ import javax.swing.JOptionPane;
 
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class ControleDadosUsuarios {
 	
 	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static boolean CadastrarUsuario(DadosLogin dados){
+	public static boolean CadastrarUsuario(DadosLogin dados) throws ConexaoBD, BancoDadosException{
 		bancoDados.Conecta();
 		boolean ok = false;
 		
@@ -29,15 +31,15 @@ public class ControleDadosUsuarios {
 			
 			ok = true;
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao cadastrar usuário:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível realizar o cadastro, por favor entre em contato com o administrador do sistema",
+					"Erro ao cadastrar usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
 		return ok;
 	}
 	
-	public static DadosLogin BuscarDados(String email){
+	public static DadosLogin BuscarDados(String email) throws ConexaoBD, BancoDadosException{
 		bancoDados.Conecta();	
 		DadosLogin dadosLogin = new DadosLogin(null, null, null, null);
 		
@@ -53,8 +55,8 @@ public class ControleDadosUsuarios {
 			    dadosLogin.setId(rs.getLong("id_user"));
 			}
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao buscar usuário:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro na busca", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível buscar esse usuário, por favor entre em contato com o administrador do sistema",
+					"Erro ao buscar usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -62,7 +64,7 @@ public class ControleDadosUsuarios {
 		return dadosLogin;
 	}
 	
-	public static String BuscaNomeUser(Long id){
+	public static String BuscaNomeUser(Long id) throws ConexaoBD, BancoDadosException{
 		bancoDados.Conecta();	
 		String nomeUser = null;
 		
@@ -75,8 +77,8 @@ public class ControleDadosUsuarios {
 				nomeUser = (rs.getString("nome"));	
 			}
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao buscar nome do usuário:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro na busca", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível buscar o nome desse usuário, por favor entre em contato com o administrador do sistema",
+					"Erro ao buscar nome do usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -84,7 +86,7 @@ public class ControleDadosUsuarios {
 		return nomeUser;
 	}
 	
-	public static boolean ConfereEmail(String email){
+	public static boolean ConfereEmail(String email) throws ConexaoBD, BancoDadosException{
 		bancoDados.Conecta();	
 		boolean encontrei = false;
 		
@@ -97,8 +99,8 @@ public class ControleDadosUsuarios {
 				encontrei = true;
 			}
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao conferir email:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro ao conferir", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível conferir esse usuário, por favor entre em contato com o administrador do sistema",
+					"Erro ao conferir usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -112,7 +114,7 @@ public class ControleDadosUsuarios {
 		try {
 			md = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao converte senha:\n" + ex.getMessage() + 
+			JOptionPane.showMessageDialog(null, "Falha ao converter senha:\n" + ex.getMessage() + 
 				"\nEntre em contato com o administrador do sistema.", "Erro na conversão", JOptionPane.ERROR_MESSAGE);
 		} 
 	    

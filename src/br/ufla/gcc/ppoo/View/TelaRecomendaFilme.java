@@ -23,6 +23,8 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaRecomendaFilme {
 	
@@ -43,16 +45,16 @@ public class TelaRecomendaFilme {
 		status = bool;
 	}
 	
-	public ArrayList<Filme> atualizaListaUsuarios(DadosLogin dl){
+	public ArrayList<Filme> atualizaListaUsuarios(DadosLogin dl) throws ConexaoBD, BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesUsuarios(dl.getId());
 	}
 	
-	public ArrayList<Filme> atualizaListaUsuario(DadosLogin dl){
+	public ArrayList<Filme> atualizaListaUsuario(DadosLogin dl) throws ConexaoBD, BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin){
+	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		
 		int n = listFilms.size();
 		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
@@ -79,7 +81,7 @@ public class TelaRecomendaFilme {
 			}
 		});
 	}
-	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) {
+	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException {
 		
 		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
 		
@@ -105,11 +107,11 @@ public class TelaRecomendaFilme {
 		});	
 	}
 	
-	public TelaRecomendaFilme(DadosLogin dadosLogin){
+	public TelaRecomendaFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		viewTelaRecomendaFilme(dadosLogin);
 	}
 	
-	public void viewTelaRecomendaFilme(DadosLogin dadosLogin){
+	public void viewTelaRecomendaFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -158,12 +160,36 @@ public class TelaRecomendaFilme {
 		btnRecomendar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				listTodosFilmes = atualizaListaUsuarios(dl);
-				listFilmesUsuario = atualizaListaUsuario(dl);				
+				try {
+					listTodosFilmes = atualizaListaUsuarios(dl);
+				} catch (ConexaoBD e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (BancoDadosException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				try {
+					listFilmesUsuario = atualizaListaUsuario(dl);
+				} catch (ConexaoBD e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (BancoDadosException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}				
 				listTodosFilmes = Filme.pesquisaRecomendacao(listTodosFilmes, listFilmesUsuario);
 				
 				if (!listTodosFilmes.isEmpty()) {
-					constroiTabela(listTodosFilmes, dadosLogin);
+					try {
+						constroiTabela(listTodosFilmes, dadosLogin);
+					} catch (ConexaoBD e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (BancoDadosException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				} else {
 					iniciarTabela();
 					JOptionPane.showMessageDialog(null, "Sinto muito mas não temos nenhuma recomendação de filme para você.", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);

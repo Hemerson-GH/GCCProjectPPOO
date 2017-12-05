@@ -13,9 +13,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 	
 public class TelaCadastroUsuario {
 
@@ -26,10 +27,7 @@ public class TelaCadastroUsuario {
 	private JTextField textFieldNome;
 	private JTextField textFieldEmail;
 	
-	private BancoDeDados bancoDDados = new BancoDeDados();
-
-	public TelaCadastroUsuario() {
-		bancoDDados.Conecta();
+	public TelaCadastroUsuario() throws ConexaoBD {
 		ViewMain();
 	}
 	
@@ -117,7 +115,16 @@ public class TelaCadastroUsuario {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
 				
-				boolean confereEmail = ControleDadosUsuarios.ConfereEmail(textFieldEmail.getText());
+				boolean confereEmail = false;
+				try {
+					confereEmail = ControleDadosUsuarios.ConfereEmail(textFieldEmail.getText());
+				} catch (ConexaoBD e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (BancoDadosException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				boolean confereSenha = ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 				
 				if (ConfereCampoEmail(textFieldEmail)) {
@@ -133,17 +140,24 @@ public class TelaCadastroUsuario {
 								
 								DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
 								
-								if (ControleDadosUsuarios.CadastrarUsuario(dadosLogin)) {
-									myViewCadastro.dispose();
-									bancoDDados.Desconecta();
-								
-									JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
-											+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
-									
-									new TelaLogin();
-								} else {
-									JOptionPane.showMessageDialog(null, "Sinto muito mas não foi possível fazer o seu cadastro. \nPor favor"
-											+ " entre em contato com o administrador do sistema.", "Cadastro não pode ser realizado", JOptionPane.ERROR_MESSAGE);
+								try {
+									if (ControleDadosUsuarios.CadastrarUsuario(dadosLogin)) {
+										myViewCadastro.dispose();
+
+										JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
+												+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+										
+										new TelaLogin();
+									} else {
+										JOptionPane.showMessageDialog(null, "Sinto muito mas não foi possível fazer o seu cadastro. \nPor favor"
+												+ " entre em contato com o administrador do sistema.", "Cadastro não pode ser realizado", JOptionPane.ERROR_MESSAGE);
+									}
+								} catch (ConexaoBD e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (BancoDadosException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 							} else {
 								JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "
@@ -174,7 +188,6 @@ public class TelaCadastroUsuario {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewCadastro.dispose();
-				bancoDDados.Desconecta();
 				new TelaLogin();
 			}
 		});

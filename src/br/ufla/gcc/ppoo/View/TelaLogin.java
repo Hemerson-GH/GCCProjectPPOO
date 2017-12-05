@@ -18,6 +18,8 @@ import javax.swing.SwingConstants;
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaLogin {
 	
@@ -30,7 +32,11 @@ public class TelaLogin {
 	private BancoDeDados bancoDDados = new BancoDeDados();
 
 	public TelaLogin() {
-		bancoDDados.Conecta();
+		try {
+			bancoDDados.Conecta();
+		} catch (ConexaoBD cbd) {
+			JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		}
 		View();
 	}
 
@@ -69,7 +75,15 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
+				DadosLogin dadosLogin = null;
+				try {
+					dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
+				} catch (ConexaoBD cbd) {
+					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				
 				if (ControleDadosUsuarios.ConvertMD5(passwordField.getText()).equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();
@@ -89,7 +103,11 @@ public class TelaLogin {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewLogin.dispose();
-				bancoDDados.Desconecta();
+				try {
+					bancoDDados.Desconecta();
+				} catch (ConexaoBD cbd) {
+					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnCancel.setBounds(320, 160, 90, 25);
@@ -103,7 +121,11 @@ public class TelaLogin {
 		txtNovoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				new TelaCadastroUsuario();
+				try {
+					new TelaCadastroUsuario();
+				} catch (ConexaoBD cbd) {
+					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}
 				myViewLogin.dispose();
 			}
 		});

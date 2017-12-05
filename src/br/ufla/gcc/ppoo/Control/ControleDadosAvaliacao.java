@@ -5,16 +5,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.Avaliacao;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class ControleDadosAvaliacao {
 	
 	private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static boolean CadastrarAvaliacao(Avaliacao avaliacao){
+	public static boolean CadastrarAvaliacao(Avaliacao avaliacao) throws ConexaoBD, BancoDadosException{
 		bancoDados.Conecta();
 		boolean ok = false;
 		try {
@@ -27,15 +27,14 @@ public class ControleDadosAvaliacao {
 			
 			ok = true;
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao salvar avaliação:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível salvar a avaliação, por favor entre em contato com o administrador do sistema", "Erro ao cadastrar");
 		} finally {
 			bancoDados.Desconecta();
 		}
 		return ok;
 	}	
 	
-	public static ArrayList<Avaliacao> BuscarAvaliacao(Long id){
+	public static ArrayList<Avaliacao> BuscarAvaliacao(Long id) throws ConexaoBD, BancoDadosException{
 		bancoDados.Conecta();
 		ArrayList<Avaliacao> listAvaliacao = new ArrayList<>();
 		Long idReceived, id_filmeReceived;
@@ -57,8 +56,8 @@ public class ControleDadosAvaliacao {
 				listAvaliacao.add(avaliacao);
 			}
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Falha ao buscar avaliação do filme:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.",  "Falha na avaliação", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível buscar avaliação desse filme, por favor entre em contato com o administrador do sistema",
+																															"Erro ao buscar avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -66,7 +65,7 @@ public class ControleDadosAvaliacao {
 		return listAvaliacao;
 	}
 	
-	public static boolean DeletaFilme(Long id_filme){
+	public static boolean DeletaFilme(Long id_filme) throws ConexaoBD, BancoDadosException{
 		boolean encontrou = false;
 		
 		bancoDados.Conecta();
@@ -80,8 +79,8 @@ public class ControleDadosAvaliacao {
 			
 			encontrou = true;
 		} catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, "Erro ao deletar avaliação selecionado:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Falha ao deletar avaliações", JOptionPane.ERROR_MESSAGE);
+			throw new BancoDadosException("Não foi possível deletar a avaliação desse filme, por favor entre em contato com o administrador do sistema",
+					"Erro ao deletar avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}

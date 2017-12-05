@@ -15,17 +15,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaPrincipal {
 	
 	private JFrame viewMain;
 	
-	private BancoDeDados bancoDDados = new BancoDeDados();
-	
 	public TelaPrincipal(DadosLogin dadosLogin) {
-		bancoDDados.Conecta();
 		View(dadosLogin);
 	}
 	
@@ -39,7 +37,6 @@ public class TelaPrincipal {
 				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
-					bancoDDados.Desconecta();
 					viewMain.dispose();
 					System.exit(0);
 				}
@@ -73,7 +70,15 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaCadastroFilme.getStatus())) {
-					new TelaCadastroFilme(dadosLogin);
+					try {
+						new TelaCadastroFilme(dadosLogin);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -89,7 +94,15 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaListagemFilmes.getStatus())) {
-					new TelaListagemFilmes(dadosLogin);
+					try {
+						new TelaListagemFilmes(dadosLogin);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -107,7 +120,15 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaBuscarFilme.getStatus())) {
-					new TelaBuscarFilme(dadosLogin);
+					try {
+						new TelaBuscarFilme(dadosLogin);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -127,7 +148,15 @@ public class TelaPrincipal {
 		mnRecomendacoes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!(TelaRecomendaFilme.getStatus())) {
-					new TelaRecomendaFilme(dadosLogin);
+					try {
+						new TelaRecomendaFilme(dadosLogin);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -148,7 +177,6 @@ public class TelaPrincipal {
 		mnItemLogout.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
 		mnItemLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				bancoDDados.Desconecta();
 				JOptionPane.showMessageDialog(null, "Você será redirecionado para a tela de login.", "Tela de Login", JOptionPane.CLOSED_OPTION);
 				viewMain.dispose();
 				new TelaLogin();
@@ -166,7 +194,6 @@ public class TelaPrincipal {
 				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
-					bancoDDados.Desconecta();
 					viewMain.dispose();
 					System.exit(0);
 				}

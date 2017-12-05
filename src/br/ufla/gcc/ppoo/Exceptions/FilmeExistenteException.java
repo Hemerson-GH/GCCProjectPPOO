@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.execeptions;
+package br.ufla.gcc.ppoo.Exceptions;
 
 @SuppressWarnings("serial")
 public class FilmeExistenteException extends Exception {

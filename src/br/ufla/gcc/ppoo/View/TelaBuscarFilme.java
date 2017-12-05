@@ -24,6 +24,8 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaBuscarFilme {
 
@@ -44,12 +46,12 @@ public class TelaBuscarFilme {
 		status = bool;
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws ConexaoBD, BancoDadosException {
 		return ControleDadosFilmes.BuscarFilmesTodosUsuarios();
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin){
+	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		
 		int n = listFilms.size();
 		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
@@ -76,7 +78,7 @@ public class TelaBuscarFilme {
 			}
 		});
 	}
-	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) {
+	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException {
 		
 		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
 		
@@ -131,11 +133,11 @@ public class TelaBuscarFilme {
 		}
 	}
 	
-	public TelaBuscarFilme(DadosLogin dadosLogin){
+	public TelaBuscarFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		viewTelaBuscarFilme(dadosLogin);
 	}
 	
-	public void viewTelaBuscarFilme(DadosLogin dadosLogin){
+	public void viewTelaBuscarFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -196,13 +198,21 @@ public class TelaBuscarFilme {
 				} else { 
 					
 					iniciarTabela();
-					listFilms = atualizaLista(dl);
+					try {
+						listFilms = atualizaLista(dl);
+					} catch (ConexaoBD e2) {
+					} catch (BancoDadosException e2) {
+					}
 					
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
 					
 					if (!listFilms.isEmpty()) {
 						quickSort(listFilms, 0, listFilms.size()-1);
-						constroiTabela(listFilms, dadosLogin);
+						try {
+							constroiTabela(listFilms, dadosLogin);
+						} catch (ConexaoBD e1) {
+						} catch (BancoDadosException e1) {
+						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado", JOptionPane.INFORMATION_MESSAGE);
 					}	
@@ -220,11 +230,20 @@ public class TelaBuscarFilme {
 		btnBuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				listFilms = atualizaLista(dl);
+				try {
+					listFilms = atualizaLista(dl);
+				} catch (ConexaoBD e2) {
+				} catch (BancoDadosException e2) {
+				}
+				
 
 				if (!listFilms.isEmpty()) {
 					quickSort(listFilms, 0, listFilms.size()-1);
-					constroiTabela(listFilms, dadosLogin);
+					try {
+						constroiTabela(listFilms, dadosLogin);
+					} catch (ConexaoBD e1) {
+					} catch (BancoDadosException e1) {
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Nenhum filme foi encontrado", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);
 				}				

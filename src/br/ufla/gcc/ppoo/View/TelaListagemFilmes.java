@@ -2,6 +2,7 @@ package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -17,15 +18,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
 import br.ufla.gcc.ppoo.Control.ControleDadosComentarios;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
-import javax.swing.table.DefaultTableModel;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaListagemFilmes {
 	
@@ -35,7 +37,6 @@ public class TelaListagemFilmes {
 	
 	private static boolean status = false;
 	
-	private BancoDeDados bancoDDados = new BancoDeDados();
 	private ArrayList<Filme> listFilms = new ArrayList<>();
 	
 	public static boolean getStatus() { 
@@ -46,13 +47,12 @@ public class TelaListagemFilmes {
 		status = bool;
 	}
 	
-	public TelaListagemFilmes(DadosLogin dadosLogin){
-		bancoDDados.Conecta();
+	public TelaListagemFilmes(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		viewListagemDeFilmes(dadosLogin);
 		
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws ConexaoBD, BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -104,7 +104,7 @@ public class TelaListagemFilmes {
 	}
 	
 	@SuppressWarnings("unused")
-	public void viewListagemDeFilmes(DadosLogin dadosLogin) {
+	public void viewListagemDeFilmes(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException {
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -174,7 +174,15 @@ public class TelaListagemFilmes {
 					setStatus(false);
 					viewListagem.dispose();
 					
-					new TelaVisualizaFilme(dl, filme, "TelaListagem");
+					try {
+						new TelaVisualizaFilme(dl, filme, "TelaListagem");
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
 							JOptionPane.ERROR_MESSAGE);
@@ -200,7 +208,15 @@ public class TelaListagemFilmes {
 					setStatus(false);
 					viewListagem.setVisible(false);
 					
-					new TelaEditaFilme(dl, filme);
+					try {
+						new TelaEditaFilme(dl, filme);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Para editar um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
 				}
@@ -229,33 +245,44 @@ public class TelaListagemFilmes {
 					
 					if (JOptionPane.YES_OPTION == confirm) {
 						
-						if (ControleDadosComentarios.DeletaFilme(filme.getId_filme())) {
-							
-							if (ControleDadosAvaliacao.DeletaFilme(filme.getId_filme())) {
+						try {
+							if (ControleDadosComentarios.DeletaComentario(filme.getId_filme())) {
 								
-								if (ControleDadosFilmes.DeletaFilme(filme)) {
+								if (ControleDadosAvaliacao.DeletaFilme(filme.getId_filme())) {
 									
-									JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", 
-											"Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
-									
-									listFilms = atualizaLista(dl);
-									listFilms = ordenaLista(listFilms);
-									
-									constroiTabela(listFilms);
+									if (ControleDadosFilmes.DeletaFilme(filme)) {
+										
+										JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", 
+												"Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+										
+										listFilms = atualizaLista(dl);
+										listFilms = ordenaLista(listFilms);
+										
+										constroiTabela(listFilms);
+										
+									} else {
+										JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.",
+												"Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
+									}
 									
 								} else {
-									JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.",
-											"Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, "Erro ao deletar pontuação do filme.",
+											"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
 								}
 								
 							} else {
-								JOptionPane.showMessageDialog(null, "Erro ao deletar pontuação do filme.",
+								JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme.",
 										"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
 							}
-							
-						} else {
-							JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme.",
-									"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
+						} catch (HeadlessException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (ConexaoBD e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (BancoDadosException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
 						}
 					}
 					

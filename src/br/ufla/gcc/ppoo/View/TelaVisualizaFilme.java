@@ -2,6 +2,7 @@ package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,7 +22,6 @@ import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
 import br.ufla.gcc.ppoo.Control.ControleDadosComentarios;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
@@ -30,18 +30,19 @@ import br.ufla.gcc.ppoo.Dados.Avaliacao;
 import br.ufla.gcc.ppoo.Dados.Comentarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaVisualizaFilme {
 	
 	private JFrame viewVisualizaFilme;
 	
-	private BancoDeDados bancoDDados = new BancoDeDados();
 //	private ArrayList<String> listaComentarios = new ArrayList<>();
 	private String text = "";
 	
 //	public ArrayList<String> formatCommits(Long id_filme){
-	public String formatCommits(Long id_filme){
-		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarAvaliacao(id_filme);
+	public String formatCommits(Long id_filme) throws ConexaoBD, BancoDadosException{
+		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarComentario(id_filme);
 //		ArrayList<String> listaComentariosFormatada = new ArrayList<>();
 		String text = "";
 		
@@ -56,7 +57,7 @@ public class TelaVisualizaFilme {
 	}
 	
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws ConexaoBD, BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -67,13 +68,12 @@ public class TelaVisualizaFilme {
 		return false;
 	}
 	
-	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida){
-		bancoDDados.Conecta();
+	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) throws ConexaoBD, BancoDadosException{
 		viewVisualizaFilme(dadosLogin, filme, confSaida);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) {
+	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) throws ConexaoBD, BancoDadosException {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		boolean avaibleAvaliation = contemFilme(filme, dl);
@@ -131,23 +131,43 @@ public class TelaVisualizaFilme {
 					
 					filme.setPontos((long) sliderAvaliacao.getValue() + pontAnt);
 					
-					ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
+					ArrayList<Avaliacao> listAvaliacao = null;
+					try {
+						listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
+					} catch (ConexaoBD e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (BancoDadosException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
-						if (ControleDadosFilmes.AvaliaFilme(filme)) {
-							Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-							
-							try {
-								ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
-								JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
-										 												JOptionPane.INFORMATION_MESSAGE);
-							} catch (Exception e) {
-								JOptionPane.showMessageDialog(null, "Erro ao salvar avaliação:\n" + e.getCause() + 
-										"\nEntre em contato com o administrador do sistema.", "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
+						try {
+							if (ControleDadosFilmes.AvaliaFilme(filme)) {
+								Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+								
+								try {
+									ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
+									JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
+											 												JOptionPane.INFORMATION_MESSAGE);
+								} catch (Exception e) {
+									JOptionPane.showMessageDialog(null, "Erro ao salvar avaliação:\n" + e.getCause() + 
+											"\nEntre em contato com o administrador do sistema.", "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
+								}
+							} else {
+								JOptionPane.showMessageDialog(null, "Não foi possível avaliar o filme selecionado", "Erro ao avaliar", 
+											JOptionPane.INFORMATION_MESSAGE);
 							}
-						} else {
-							JOptionPane.showMessageDialog(null, "Não foi possível avaliar o filme selecionado", "Erro ao avaliar", 
-										JOptionPane.INFORMATION_MESSAGE);
+						} catch (HeadlessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ConexaoBD e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (BancoDadosException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Erro na avaliação",
@@ -330,15 +350,26 @@ public class TelaVisualizaFilme {
 					if (editorPaneCommit.getText().length() <= 144) {
 						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
 						
-						if (ControleDadosComentarios.CadastrarComentario(commit)) {
-							JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
-							
-							editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
-							text = formatCommits(filme.getId_filme());
-							editorPaneCommits.setText(text);
-							
-						} else {
-							JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
+						try {
+							if (ControleDadosComentarios.CadastrarComentario(commit)) {
+								JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
+								
+								editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+								text = formatCommits(filme.getId_filme());
+								editorPaneCommits.setText(text);
+								
+							} else {
+								JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
+							}
+						} catch (HeadlessException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (ConexaoBD e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (BancoDadosException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Seu comentário não pode ter mais que 144 caracteres.", "Comentário excede limite de caracteres", JOptionPane.WARNING_MESSAGE);
@@ -368,9 +399,25 @@ public class TelaVisualizaFilme {
 				viewVisualizaFilme.dispose();
 				
 				if (confSaida.equals("TelaListagem")) {
-					new TelaListagemFilmes(dl);
+					try {
+						new TelaListagemFilmes(dl);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else if (confSaida.equals("TelaBuscar")) {
-					new TelaBuscarFilme(dl);
+					try {
+						new TelaBuscarFilme(dl);
+					} catch (ConexaoBD e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BancoDadosException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		});

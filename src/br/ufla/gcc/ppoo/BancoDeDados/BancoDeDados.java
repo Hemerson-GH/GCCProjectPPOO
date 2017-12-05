@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import javax.swing.JOptionPane;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class BancoDeDados {
 	
@@ -22,26 +22,20 @@ public class BancoDeDados {
 		this.connection = connection;
 	}	
 
-	public void Conecta(){
+	public void Conecta() throws ConexaoBD{
 		try {
 			System.setProperty("jdbc.Drivers", driver);
 			setConnection(DriverManager.getConnection(caminho, usuario, senha));
-//			JOptionPane.showMessageDialog(null, "Conexão efetuada com Sucesso");
 		} catch (SQLException ex){
-			JOptionPane.showMessageDialog(null, "Falha na conexão ao Banco De Dados:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro na conexão", JOptionPane.ERROR_MESSAGE);
-//			ex.getMessage();
+			throw new ConexaoBD("Não foi possível conectar ao banco de dados: \n" + ex.getMessage(),"Erro ao conectar");
 		}
 	}
 
-	public void Desconecta(){
+	public void Desconecta() throws ConexaoBD{
 		try {
 			getConnection().close();
-//			JOptionPane.showMessageDialog(null, "Desconectado com Sucesso");
 		} catch (SQLException ex){
-			JOptionPane.showMessageDialog(null, "Falha na desconexão ao Banco De Dados:\n" + ex.getMessage() + 
-					"\nEntre em contato com o administrador do sistema.", "Erro na desconexão", JOptionPane.ERROR_MESSAGE);
-//			ex.getMessage();
+			throw new ConexaoBD("Não foi possível desconectar o banco de dados: \n " + ex.getMessage(), "Erro ao desconectar");
 		}
 	}
 }

@@ -18,13 +18,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.execeptions.BancoDadosExeption;
-import br.ufla.gcc.ppoo.execeptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
+import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 
 public class TelaCadastroFilme {
 
@@ -42,9 +42,7 @@ public class TelaCadastroFilme {
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
-	
-	private BancoDeDados bancoDDados = new BancoDeDados();
-	
+		
 	public static void setStatus(boolean bool) {
 		status = bool;
 	}
@@ -78,19 +76,11 @@ public class TelaCadastroFilme {
 		return bool;
 	}
 	
-	public BancoDeDados getBancoDDados() {
-		return bancoDDados;
-	}
-
-	public void setBancoDDados(BancoDeDados bancoDDados) {
-		this.bancoDDados = bancoDDados;
-	}
-	
-	public TelaCadastroFilme(DadosLogin dadosLogin){
+	public TelaCadastroFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		viewTelaCadastroFilme(dadosLogin);
 	}
 	
-	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
+	public void viewTelaCadastroFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -250,10 +240,12 @@ public class TelaCadastroFilme {
 							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", 
 																			JOptionPane.INFORMATION_MESSAGE);
 							limpaCampos();
-						} catch (BancoDadosExeption bdex){
-								JOptionPane.showMessageDialog(null, bdex.getMessage(), "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+						} catch (BancoDadosException bdex){
+								JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 						} catch (FilmeExistenteException fex) {
-								JOptionPane.showMessageDialog(null, fex, fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+						} catch (ConexaoBD cbd) {
+							JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
 						}
 						
 					} else {
