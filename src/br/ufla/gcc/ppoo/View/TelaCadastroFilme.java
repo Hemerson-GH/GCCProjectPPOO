@@ -23,6 +23,7 @@ import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.CadastroFilmeException;
 import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 
@@ -57,23 +58,23 @@ public class TelaCadastroFilme {
 		editorPaneDescricao.setText(null);
 	}
 	
-	public boolean confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, 
-			 JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor){
-		boolean ok = false;
-		if (textFieldNome.getText().trim().length() > 0 && textFieldWorKeys.getText().trim().length() > 0 && textFieldData.getText().trim().length() > 0 
-			&& textFieldDiretor.getText().trim().length() > 0 && textFieldDuracao.getText().trim().length() > 0 && 
-					textFieldGenero.getText().trim().length() > 0 && editorPaneDescricao.getText().trim().length() > 0) {
-			ok = true;
+	public void confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, 
+			 JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor) throws CadastroFilmeException{
+		
+		if (textFieldNome.getText().trim().isEmpty() || textFieldWorKeys.getText().trim().isEmpty() || 
+			textFieldData.getText().trim().isEmpty() || textFieldDiretor.getText().trim().isEmpty() || 
+			textFieldDuracao.getText().trim().isEmpty() || textFieldGenero.getText().trim().isEmpty() || 
+			editorPaneDescricao.getText().trim().isEmpty()) {
+			
+			throw new CadastroFilmeException("Preencha todos os campos para que seja possível salvar o filme.", "Erro Ao Salvar");
 		}
-		return ok;
 	}
 	
-	public boolean contensHifen(JTextField textFieldWorKeys){
-		boolean bool = false;
-		if(textFieldWorKeys.getText().contains("-")) {
-			bool = true;
+	public void contensHifen(JTextField textFieldWorKeys) throws CadastroFilmeException{
+		if(!textFieldWorKeys.getText().contains("-")) {
+			throw new CadastroFilmeException("Campo 'Palavras-chave' não está preenchido corretamente.\n"
+					+ "Para salvar o filme as palavras-chave precisa ser separadas por '-'.", "Campo Palavras-chave não corresponde ao padrão");
 		}
-		return bool;
 	}
 	
 	public TelaCadastroFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
@@ -230,33 +231,24 @@ public class TelaCadastroFilme {
 				String diretor = textFieldDiretor.getText();
 				
 				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor);
-				
-				if ( confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, 
-																				editorPaneDescricao, textFieldDiretor) ) {
-					if (contensHifen(textFieldWorKeys)) {
 					
-						try {
-							ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
-							JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", 
-																			JOptionPane.INFORMATION_MESSAGE);
-							limpaCampos();
-						} catch (BancoDadosException bdex){
-								JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-						} catch (FilmeExistenteException fex) {
-								JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-						} catch (ConexaoBD cbd) {
-							JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-						}
-						
-					} else {
-						JOptionPane.showMessageDialog(null, "Campo 'Palavras-chave' não está preenchido corretamente." 
-								+ "\n" + " Para salvar o filme as palavras-chave precisa ser separadas por '-'.",
-								"Campo Palavras-chave não corresponde ao padrão", JOptionPane.ERROR_MESSAGE);
-					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Preencha todos os campos para que seja possível salvar o filme.",
-							"Erro Ao Salvar", JOptionPane.ERROR_MESSAGE);
-				}
+				try {
+					
+					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
+					contensHifen(textFieldWorKeys);
+					ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
+					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
+					limpaCampos();
+					
+				} catch (CadastroFilmeException cfe) {
+					JOptionPane.showMessageDialog(null, cfe.getMessage(), cfe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (ConexaoBD cbd) {
+					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmeExistenteException fex) {
+					JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException bdex){
+					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}  
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 0));

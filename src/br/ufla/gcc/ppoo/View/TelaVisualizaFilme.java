@@ -30,6 +30,7 @@ import br.ufla.gcc.ppoo.Dados.Avaliacao;
 import br.ufla.gcc.ppoo.Dados.Comentarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
@@ -131,47 +132,27 @@ public class TelaVisualizaFilme {
 					
 					filme.setPontos((long) sliderAvaliacao.getValue() + pontAnt);
 					
-					ArrayList<Avaliacao> listAvaliacao = null;
-					try {
-						listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
-					} catch (ConexaoBD e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (BancoDadosException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 					
-					if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
-						try {
-							if (ControleDadosFilmes.AvaliaFilme(filme)) {
-								Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-								
-								try {
-									ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
-									JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
-											 												JOptionPane.INFORMATION_MESSAGE);
-								} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, "Erro ao salvar avaliação:\n" + e.getCause() + 
-											"\nEntre em contato com o administrador do sistema.", "Erro ao salvar", JOptionPane.ERROR_MESSAGE);
-								}
-							} else {
-								JOptionPane.showMessageDialog(null, "Não foi possível avaliar o filme selecionado", "Erro ao avaliar", 
-											JOptionPane.INFORMATION_MESSAGE);
-							}
-						} catch (HeadlessException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (ConexaoBD e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (BancoDadosException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Você não pode avaliar mais de uma vez um filme", "Erro na avaliação",
-								JOptionPane.ERROR_MESSAGE);
+//					Avaliacao.confereAvaliacao(listAvaliacao, filme, dl);
+
+					try {
+					
+//					ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
+						
+					ControleDadosFilmes.AvaliaFilme(filme);
+					
+					Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+					
+					ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao, filme.getId_filme(), dl.getId());
+					
+					JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
+								 												JOptionPane.INFORMATION_MESSAGE);
+					} catch (ConexaoBD e) {
+						
+					} catch (BancoDadosException e) {
+						
+					} catch (AvaliacaoException e) {
+						
 					}
 					
 					pontAnt = (long) 0;

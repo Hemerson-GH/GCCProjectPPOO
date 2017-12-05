@@ -40,8 +40,8 @@ public class ControleDadosFilmes {
 			pst.execute();
 			
 			ok = true;
-		} catch (SQLException ex) {
-			throw new BancoDadosException("Não foi possível cadastrar o filme\n" + ex.getMessage() + 
+		} catch (SQLException sqle) {
+			throw new BancoDadosException("Não foi possível cadastrar o filme\n" + sqle.getMessage() + 
 											"\nPor favor entre em contato com o administrador do sistema", "Erro ao cadastrar");
 		} finally {
 			bancoDados.Desconecta();

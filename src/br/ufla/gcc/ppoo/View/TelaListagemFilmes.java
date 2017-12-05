@@ -248,7 +248,7 @@ public class TelaListagemFilmes {
 						try {
 							if (ControleDadosComentarios.DeletaComentario(filme.getId_filme())) {
 								
-								if (ControleDadosAvaliacao.DeletaFilme(filme.getId_filme())) {
+								if (ControleDadosAvaliacao.DeletaAvaliacao(filme.getId_filme())) {
 									
 									if (ControleDadosFilmes.DeletaFilme(filme)) {
 										
