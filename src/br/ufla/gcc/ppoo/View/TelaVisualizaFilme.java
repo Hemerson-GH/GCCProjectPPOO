@@ -2,7 +2,6 @@ package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -31,25 +30,21 @@ import br.ufla.gcc.ppoo.Dados.Comentarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
+import br.ufla.gcc.ppoo.Exceptions.AvaliacaoExistente;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaVisualizaFilme {
 	
 	private JFrame viewVisualizaFilme;
 	
-//	private ArrayList<String> listaComentarios = new ArrayList<>();
 	private String text = "";
 	
-//	public ArrayList<String> formatCommits(Long id_filme){
-	public String formatCommits(Long id_filme) throws ConexaoBD, BancoDadosException{
-		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarComentario(id_filme);
-//		ArrayList<String> listaComentariosFormatada = new ArrayList<>();
+	public String formatCommits(Long id_filme){
+		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarAvaliacao(id_filme);
 		String text = "";
 		
 		if (!listCommits.isEmpty()) {
 			for (Comentarios commit : listCommits) {
-//				listaComentariosFormatada.add(ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n");
 				text += ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n";
 			}
 		} 
@@ -58,7 +53,7 @@ public class TelaVisualizaFilme {
 	}
 	
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws ConexaoBD, BancoDadosException{
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -69,12 +64,12 @@ public class TelaVisualizaFilme {
 		return false;
 	}
 	
-	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) throws ConexaoBD, BancoDadosException{
+	public TelaVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida){
 		viewVisualizaFilme(dadosLogin, filme, confSaida);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) throws ConexaoBD, BancoDadosException {
+	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) {
 		
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		boolean avaibleAvaliation = contemFilme(filme, dl);
@@ -83,7 +78,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewVisualizaFilme.setBackground(new Color(0, 0, 255));
 		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewVisualizaFilme.setVisible(true);
+		viewVisualizaFilme.setVisible(false);
 		viewVisualizaFilme.getContentPane().setLayout(null);
 		viewVisualizaFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewVisualizaFilme.getContentPane().setForeground(new Color(255, 255, 255));
@@ -99,6 +94,14 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		if (!avaibleAvaliation) {
+			
+			JLabel lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+			lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+			lblOnwer.setForeground(Color.WHITE);
+			lblOnwer.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
+			lblOnwer.setBounds(5, 15, 165, 30);
+			viewVisualizaFilme.getContentPane().add(lblOnwer);	
+			
 			JSlider sliderAvaliacao = new JSlider(JSlider.VERTICAL, 0, 5, 0);
 			sliderAvaliacao.setMinorTickSpacing(1);
 			sliderAvaliacao.setBounds(485, 10, 75, 115);
@@ -130,42 +133,40 @@ public class TelaVisualizaFilme {
 					
 					filme.setPontos((long) sliderAvaliacao.getValue() + filme.getPontos());
 					
-					
-//					Avaliacao.confereAvaliacao(listAvaliacao, filme, dl);
-
-					try {
-					
 //					ArrayList<Avaliacao> listAvaliacao = ControleDadosAvaliacao.BuscarAvaliacao(dl.getId());
-						Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-						ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao, filme.getId_filme(), dl.getId());
-						ControleDadosFilmes.AvaliaFilme(filme);
-						
-						
-						
-						JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
-								 												JOptionPane.INFORMATION_MESSAGE);
-					} catch (ConexaoBD cbd) {
-						JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-					} catch (BancoDadosException bdex) {
-						JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-					} catch (AvaliacaoException ae) {
-						JOptionPane.showMessageDialog(null, ae.getMessage(), ae.getTitulo(), JOptionPane.ERROR_MESSAGE);
-					}
+					
+//					if (Avaliacao.confereAvaliacao(listAvaliacao, filme, dl) == false) {
+						try {
+
+								ControleDadosFilmes.AvaliaFilme(dl.getId(), filme);
+								
+								Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
+								
+								ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
+								
+								JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", 
+										 												JOptionPane.INFORMATION_MESSAGE);
+
+						} catch (BancoDadosException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (AvaliacaoException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (AvaliacaoExistente e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+					lblOnwer.setText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+					lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
 					
 				}
 			});
 			btnAvaliacao.setBounds(460, 135, 125, 25);
 			btnAvaliacao.setFont(new Font("Arial", Font.PLAIN, 12));
 			btnAvaliacao.setBackground(new Color(255, 255, 255));	
-			viewVisualizaFilme.getContentPane().add(btnAvaliacao);			
-			
-			JLabel lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ " Pts)");
-			lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ " Pts)");
-			lblOnwer.setForeground(Color.WHITE);
-			lblOnwer.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-			lblOnwer.setBounds(5, 15, 165, 30);
-			viewVisualizaFilme.getContentPane().add(lblOnwer);	
-			
+			viewVisualizaFilme.getContentPane().add(btnAvaliacao);	
 		}		
 		
 		JLabel lblTitulo = new JLabel("Título:");
@@ -326,26 +327,15 @@ public class TelaVisualizaFilme {
 					if (editorPaneCommit.getText().length() <= 144) {
 						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
 						
-						try {
-							if (ControleDadosComentarios.CadastrarComentario(commit)) {
-								JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
-								
-								editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
-								text = formatCommits(filme.getId_filme());
-								editorPaneCommits.setText(text);
-								
-							} else {
-								JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
-							}
-						} catch (HeadlessException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (ConexaoBD e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (BancoDadosException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						if (ControleDadosComentarios.CadastrarComentario(commit)) {
+							JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
+							
+							editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+							text = formatCommits(filme.getId_filme());
+							editorPaneCommits.setText(text);
+							
+						} else {
+							JOptionPane.showMessageDialog(null, "Não conseguimos enviar seu comentário.", "Erro ao enviar comentário", JOptionPane.WARNING_MESSAGE);
 						}
 					} else {
 						JOptionPane.showMessageDialog(null, "Seu comentário não pode ter mais que 144 caracteres.", "Comentário excede limite de caracteres", JOptionPane.WARNING_MESSAGE);
@@ -375,25 +365,9 @@ public class TelaVisualizaFilme {
 				viewVisualizaFilme.dispose();
 				
 				if (confSaida.equals("TelaListagem")) {
-					try {
-						new TelaListagemFilmes(dl);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaListagemFilmes(dl);
 				} else if (confSaida.equals("TelaBuscar")) {
-					try {
-						new TelaBuscarFilme(dl);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaBuscarFilme(dl);
 				}
 			}
 		});
@@ -404,7 +378,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(btnCancelar);
 		
 		viewVisualizaFilme.setResizable(false);
-		viewVisualizaFilme.setSize(605, 680);
+		viewVisualizaFilme.setSize(620, 695);
 		viewVisualizaFilme.setVisible(true);		
 	}
 }

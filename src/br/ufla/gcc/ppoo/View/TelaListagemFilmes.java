@@ -26,8 +26,8 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaListagemFilmes {
 	
@@ -47,12 +47,11 @@ public class TelaListagemFilmes {
 		status = bool;
 	}
 	
-	public TelaListagemFilmes(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
+	public TelaListagemFilmes(DadosLogin dadosLogin) throws BancoDadosException{
 		viewListagemDeFilmes(dadosLogin);
-		
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws ConexaoBD, BancoDadosException{
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -104,7 +103,7 @@ public class TelaListagemFilmes {
 	}
 	
 	@SuppressWarnings("unused")
-	public void viewListagemDeFilmes(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException {
+	public void viewListagemDeFilmes(DadosLogin dadosLogin) throws BancoDadosException {
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -169,20 +168,20 @@ public class TelaListagemFilmes {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
 					
-					setStatus(false);
-					viewListagem.dispose();
-					
+//					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+					Filme filme = null;
 					try {
-						new TelaVisualizaFilme(dl, filme, "TelaListagem");
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
 					} catch (BancoDadosException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					setStatus(false);
+					viewListagem.dispose();
+					
+					new TelaVisualizaFilme(dl, filme, "TelaListagem");
 				} else {
 					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
 							JOptionPane.ERROR_MESSAGE);
@@ -203,20 +202,17 @@ public class TelaListagemFilmes {
 				
 				if (tableFilmes.getSelectedRow() != -1) {
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+					Filme filme = null;
+					try {
+						filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
+					} catch (BancoDadosException e) {
+						
+					}
 					
 					setStatus(false);
 					viewListagem.setVisible(false);
 					
-					try {
-						new TelaEditaFilme(dl, filme);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaEditaFilme(dl, filme);
 				} else {
 					JOptionPane.showMessageDialog(null, "Para editar um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
 				}
@@ -238,17 +234,23 @@ public class TelaListagemFilmes {
 					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
-					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
+					Filme filme = new Filme(null);
+					try {
+						filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
+					} catch (BancoDadosException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					
 					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir",
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (JOptionPane.YES_OPTION == confirm) {
 						
-						try {
-							if (ControleDadosComentarios.DeletaComentario(filme.getId_filme())) {
-								
-								if (ControleDadosAvaliacao.DeletaAvaliacao(filme.getId_filme())) {
+						if (ControleDadosComentarios.DeletaFilme(filme.getId_filme())) {
+							
+							try {
+								if (ControleDadosAvaliacao.DeletaAvaliacaoDoFllme(filme.getId_filme())) {
 									
 									if (ControleDadosFilmes.DeletaFilme(filme)) {
 										
@@ -269,20 +271,20 @@ public class TelaListagemFilmes {
 									JOptionPane.showMessageDialog(null, "Erro ao deletar pontuação do filme.",
 											"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
 								}
-								
-							} else {
-								JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme.",
-										"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
+							} catch (HeadlessException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (BancoDadosException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							} catch (AvaliacaoException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
 							}
-						} catch (HeadlessException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (ConexaoBD e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						} catch (BancoDadosException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							
+						} else {
+							JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme.",
+									"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 					
@@ -315,7 +317,7 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().add(btnCancelar);
 		
 		viewListagem.setResizable(false);
-		viewListagem.setSize(900, 600);
-		viewListagem.setVisible(true);	
+		viewListagem.setSize(914, 615);
+		viewListagem.setVisible(true);		
 	}
 }

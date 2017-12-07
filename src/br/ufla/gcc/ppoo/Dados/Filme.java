@@ -133,36 +133,7 @@ public class Filme {
 		this.id_filme = id_filme;
 	}
 	
-	public static Filme comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme){
-		
-		for (Filme filme : listFilmes) {
-			if (filme.getNome().equals(nomeFilme)) {
-				return filme;
-			}
-		}
-		return null;
-	}
-	
 	public static boolean comparaFilmeBool(ArrayList<Filme> listFilmes, String nomeFilme){
-		
-		for (Filme filme : listFilmes) {
-			if (filme.getNome().equals(nomeFilme)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public boolean comparaFilme(ArrayList<Filme> listFilmes, String nomeFilme, String filmeContido){		
-		for (Filme filme : listFilmes) {
-			if (filme.getNome().equals(nomeFilme) && !filme.getNome().equals(filmeContido)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public static boolean comparaFilmeBoolean(ArrayList<Filme> listFilmes, String nomeFilme){
 		
 		for (Filme filme : listFilmes) {
 			if (filme.getNome().equals(nomeFilme)) {
@@ -230,7 +201,7 @@ public class Filme {
 	public static String converteTexto(String wordKeys) {
 		
 		String[] wordKeyHifen = wordKeys.split("-");
-		String listWordKeys = null;
+		String listWordKeys = "";
 		
 		for (int i = 0; i < wordKeyHifen.length; i++) {
 			if (i < wordKeyHifen.length-1) {

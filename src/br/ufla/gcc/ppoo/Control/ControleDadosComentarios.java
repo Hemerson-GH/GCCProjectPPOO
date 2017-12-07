@@ -5,17 +5,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Dados.Comentarios;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
+import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
 
 public class ControleDadosComentarios {
 	
-	private static BancoDeDados bancoDados = new BancoDeDados();
+private static BancoDeDados bancoDados = new BancoDeDados();
 	
-	public static boolean CadastrarComentario(Comentarios comentario) throws ConexaoBD, BancoDadosException{
+	public static boolean CadastrarComentario(Comentarios comentario) throws BancoDadosException, ComentariosException{
 		bancoDados.Conecta();
+		
 		boolean ok = false;
 		
 		try {
@@ -27,9 +30,8 @@ public class ControleDadosComentarios {
 			pst.execute();
 			ok = true;
 			
-		} catch (SQLException ex) {
-			throw new BancoDadosException("Não foi possível cadastrar seu comentário, por favor entre em contato com o administrador do sistema",
-					"Erro ao cadastrar comentário");
+		} catch (SQLException sqle) {
+			throw new ComentariosException(sqle.getMessage(), "Erro Ao Cadastrar Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -37,7 +39,7 @@ public class ControleDadosComentarios {
 		return ok;
 	}	
 	
-	public static ArrayList<Comentarios> BuscarComentario(Long id_filme) throws ConexaoBD, BancoDadosException{
+	public static ArrayList<Comentarios> BuscarAvaliacao(Long id_filme) throws BancoDadosException{
 		bancoDados.Conecta();
 		
 		ArrayList<Comentarios> listCommits = new ArrayList<>();
@@ -58,9 +60,9 @@ public class ControleDadosComentarios {
 				
 				listCommits.add(comentario);
 			}
-		} catch (SQLException ex) {
-			throw new BancoDadosException("Não foi possível buscar seu comentário, por favor entre em contato com o administrador do sistema",
-					"Erro ao buscar comentários");
+		} catch (SQLException sqle) {
+			JOptionPane.showMessageDialog(null, "Falha ao buscar comentários do filme:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.",  "Falha na busca de comentários", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -68,7 +70,7 @@ public class ControleDadosComentarios {
 		return listCommits;
 	}
 	
-	public static boolean DeletaComentario(Long id_filme) throws ConexaoBD, BancoDadosException{
+	public static boolean DeletaFilme(Long id_filme) throws BancoDadosException{
 		boolean encontrou = false;
 		
 		bancoDados.Conecta();
@@ -81,9 +83,9 @@ public class ControleDadosComentarios {
 			pst.close();	
 			
 			encontrou = true;
-		} catch (SQLException ex) {
-			throw new BancoDadosException("Não foi possível deletar os comentários, por favor entre em contato com o administrador do sistema",
-					"Erro ao deletar comentários");
+		} catch (SQLException sqle) {
+			JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme selecionado:\n" + ex.getMessage() + 
+					"\nEntre em contato com o administrador do sistema.", "Falha ao deletar comentários", JOptionPane.ERROR_MESSAGE);
 		} finally {
 			bancoDados.Desconecta();
 		}

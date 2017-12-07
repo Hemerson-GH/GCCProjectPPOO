@@ -16,7 +16,10 @@ import javax.swing.JTextField;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
+import br.ufla.gcc.ppoo.Exceptions.CadastroUsuarioException;
+import br.ufla.gcc.ppoo.Exceptions.ConverteSenhaException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioExistenteException;
 	
 public class TelaCadastroUsuario {
 
@@ -27,26 +30,28 @@ public class TelaCadastroUsuario {
 	private JTextField textFieldNome;
 	private JTextField textFieldEmail;
 	
-	public TelaCadastroUsuario() throws ConexaoBD {
+	public TelaCadastroUsuario() {
 		ViewMain();
 	}
 	
-	public boolean ConfereSenhas(String senhaPri, String senhaSec){
-		boolean confirm = false;
-		
-		if (senhaPri.equals(senhaSec)) {
-			confirm = true;
+	public void ConfereSenhas(char[] senhaPri, char[] senhaSec) throws CadastroUsuarioException{
+		if (!senhaPri.equals(senhaSec)) {
+			throw new CadastroUsuarioException("As senha digitadas não conferem, digite novamente.", "Senha Inválida");
 		} 
-		return confirm;
 	}
 	
-	public boolean ConfereCampoEmail(JTextField textFieldEmail){
-		boolean confirm = false;
-		
-		if (textFieldEmail.getText().contains("@") && textFieldEmail.getText().contains(".com")) {
-			confirm = true;
+	public void ConfereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
+		if ( !(senhaPri.trim().length() > 3)  || !(senhaSec.trim().length() > 3) ) {
+			throw new CadastroUsuarioException("A senha digitada deve conter no mínimo quatro dígitos.\nPor favor digite uma nova senha válida.", 
+																													"Senha Inválida");
 		} 
-		return confirm;
+	}
+	
+	public void ConfereCampoEmail(JTextField textFieldEmail) throws CadastroUsuarioException{
+		if (!textFieldEmail.getText().contains("@") || !textFieldEmail.getText().contains(".com")) {
+			throw new CadastroUsuarioException("O campo email está preenchido incorretamente.\nLembre-se de inserir um email válido, "
+					+ "exemplo nome@dominio.com", "Campo Email Incorreto");
+		} 
 	}
 	
 	public void ViewMain(){
@@ -59,7 +64,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.setTitle("Cadastro de novo usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
-
+		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -85,7 +90,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.getContentPane().add(lblConfirSenha);
 		
 		passwordField = new JPasswordField();
-		passwordField.setToolTipText("Digite sua senha...");
+		passwordField.setToolTipText("Digite uma senha com pelo menos 4 caracteres...");
 		passwordField.setBackground(new Color(255, 255, 255));
 		passwordField.setBounds(80, 160, 125, 25);
 		myViewCadastro.getContentPane().add(passwordField);
@@ -114,68 +119,33 @@ public class TelaCadastroUsuario {
 		btnSalvar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
-				
-				boolean confereEmail = false;
 				try {
-					confereEmail = ControleDadosUsuarios.ConfereEmail(textFieldEmail.getText());
-				} catch (ConexaoBD e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (BancoDadosException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				boolean confereSenha = ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
-				
-				if (ConfereCampoEmail(textFieldEmail)) {
-					if (!confereEmail) {					
-						if (confereSenha) {
-							if (passwordField.getText().length() > 3  && passwordFieldConfir.getText().length() > 3) {
-								
-								String nome = textFieldNome.getText();
-								String email = textFieldEmail.getText();
-								String senha = passwordField.getText();
-								
-								senha = ControleDadosUsuarios.ConvertMD5(senha);
-								
-								DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
-								
-								try {
-									if (ControleDadosUsuarios.CadastrarUsuario(dadosLogin)) {
-										myViewCadastro.dispose();
-
-										JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso, "
-												+ "agora você será redirecionado para tela de login.", "Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
-										
-										new TelaLogin();
-									} else {
-										JOptionPane.showMessageDialog(null, "Sinto muito mas não foi possível fazer o seu cadastro. \nPor favor"
-												+ " entre em contato com o administrador do sistema.", "Cadastro não pode ser realizado", JOptionPane.ERROR_MESSAGE);
-									}
-								} catch (ConexaoBD e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								} catch (BancoDadosException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							} else {
-								JOptionPane.showMessageDialog(null, "A senha digitada deve conter no mínimo quatro dígitos, "
-										+ "por favor digite uma nova senha válida.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
-							}
-						} else {
-							JOptionPane.showMessageDialog(null, "As senha digitadas não conferem, "
-									+ "digite novamente.", "Senha invalida", JOptionPane.ERROR_MESSAGE);
-						}
-					} else {
-						JOptionPane.showMessageDialog(null, "Este email já está sendo utilizado, "
-								+ "por favor utilize outro email.", "Email já cadastrado", JOptionPane.ERROR_MESSAGE);
-					}		
-				} else {
-					JOptionPane.showMessageDialog(null, "O campo email está preenchido incorretamente, lembre-se"
-							+ " de inserir um email válido exemplo: nome@dominio.com", "Campo Email Incorreto", JOptionPane.ERROR_MESSAGE);
-				}
-						
+					ConfereCampoEmail(textFieldEmail);
+					ConfereTamanhoSenhas(passwordField.getText(), passwordFieldConfir.getText());
+					ConfereSenhas(passwordField.getPassword(), passwordFieldConfir.getPassword());
+					
+					String nome = textFieldNome.getText();
+					String email = textFieldEmail.getText();
+					String senha = ControleDadosUsuarios.ConvertMD5(passwordField.getText());
+					
+					DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
+					ControleDadosUsuarios.CadastrarUsuario(dadosLogin);
+					myViewCadastro.dispose();
+					
+					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso.\nAgora você será redirecionado para tela de login.", 
+																						"Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+					new TelaLogin();
+				} catch (UsuarioException ee) {
+					JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioExistenteException uee) {
+					JOptionPane.showMessageDialog(null, uee.getMessage(), uee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException bdex){
+					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (CadastroUsuarioException cue) {
+					
+				} catch (ConverteSenhaException cse) {
+					
+				} 	
 			}
 		});
 		btnSalvar.setBounds(80, 210, 105, 35);
@@ -202,7 +172,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.getContentPane().add(textFieldNome);
 		
 		textFieldEmail = new JTextField();
-		textFieldEmail.setToolTipText("Digite aqui seu email...");
+		textFieldEmail.setToolTipText("Digite aqui seu email.\n Exemplo nome@dominio.com");
 		textFieldEmail.setBackground(new Color(255, 255, 255));
 		textFieldEmail.setColumns(10);
 		textFieldEmail.setBounds(80, 110, 390, 25);

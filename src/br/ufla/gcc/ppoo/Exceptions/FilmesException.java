@@ -1,12 +1,11 @@
 package br.ufla.gcc.ppoo.Exceptions;
 
 @SuppressWarnings("serial")
-public class ConexaoBD extends Exception {
-	
+public class FilmesException extends Exception{
 	private String titulo;
 	
-	public ConexaoBD(String msg, String titulo) {
-		super(msg);
+	public FilmesException(String msg, String titulo) {
+		super(msg + "\nEntre Em Contato Com O Administrador Do Sistema.");	
 		this.titulo = titulo;
 	}
 	
@@ -17,5 +16,7 @@ public class ConexaoBD extends Exception {
 	public void setTitulo(String titulo) {
 		this.titulo = titulo;
 	}
+	
+	
 
 }

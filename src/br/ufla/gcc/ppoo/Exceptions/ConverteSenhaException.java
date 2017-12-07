@@ -1,12 +1,11 @@
 package br.ufla.gcc.ppoo.Exceptions;
 
 @SuppressWarnings("serial")
-public class FilmeExistenteException extends Exception {
-	
+public class ConverteSenhaException extends Exception{
 	private String titulo;
 	
-	public FilmeExistenteException(String nomeFilme, String titulo) {
-		super("Ops... O Filme " + nomeFilme + " Já Foi Cadastrado");
+	public ConverteSenhaException(String msg, String titulo) {
+		super("Ops... Não Foi Possível Converte A Sua Senha.\nErro: " + msg);
 		this.titulo = titulo;
 	}
 

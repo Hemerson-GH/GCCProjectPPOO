@@ -24,7 +24,6 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.CadastroFilmeException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 
 public class TelaCadastroFilme {
@@ -43,7 +42,7 @@ public class TelaCadastroFilme {
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
-		
+	
 	public static void setStatus(boolean bool) {
 		status = bool;
 	}
@@ -58,14 +57,12 @@ public class TelaCadastroFilme {
 		editorPaneDescricao.setText(null);
 	}
 	
-	public void confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, 
-			 JTextField textFieldDuracao, JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor) throws CadastroFilmeException{
+	public void confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, JTextField textFieldDuracao, 
+			JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor) throws CadastroFilmeException{
 		
-		if (textFieldNome.getText().trim().isEmpty() || textFieldWorKeys.getText().trim().isEmpty() || 
-			textFieldData.getText().trim().isEmpty() || textFieldDiretor.getText().trim().isEmpty() || 
-			textFieldDuracao.getText().trim().isEmpty() || textFieldGenero.getText().trim().isEmpty() || 
-			editorPaneDescricao.getText().trim().isEmpty()) {
-			
+		if (textFieldNome.getText().trim().isEmpty() || textFieldWorKeys.getText().trim().isEmpty() || textFieldData.getText().trim().isEmpty() || 
+			textFieldDiretor.getText().trim().isEmpty() || textFieldDuracao.getText().trim().isEmpty() || 
+			textFieldGenero.getText().trim().isEmpty() || editorPaneDescricao.getText().trim().isEmpty()) {
 			throw new CadastroFilmeException("Preencha todos os campos para que seja possível salvar o filme.", "Erro Ao Salvar");
 		}
 	}
@@ -77,11 +74,11 @@ public class TelaCadastroFilme {
 		}
 	}
 	
-	public TelaCadastroFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
+	public TelaCadastroFilme(DadosLogin dadosLogin){
 		viewTelaCadastroFilme(dadosLogin);
 	}
 	
-	public void viewTelaCadastroFilme(DadosLogin dadosLogin) throws ConexaoBD, BancoDadosException{
+	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -96,7 +93,7 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewCadastroFilme.setBackground(new Color(0, 0, 255));
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewCadastroFilme.setVisible(true);
+		viewCadastroFilme.setVisible(false);
 		viewCadastroFilme.getContentPane().setLayout(null);
 		viewCadastroFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewCadastroFilme.getContentPane().setForeground(new Color(255, 255, 255));
@@ -231,19 +228,17 @@ public class TelaCadastroFilme {
 				String diretor = textFieldDiretor.getText();
 				
 				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor);
-					
+				
 				try {
 					
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
 					contensHifen(textFieldWorKeys);
 					ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
-					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
-					limpaCampos();
 					
+					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
+					limpaCampos();				
 				} catch (CadastroFilmeException cfe) {
 					JOptionPane.showMessageDialog(null, cfe.getMessage(), cfe.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} catch (ConexaoBD cbd) {
-					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (FilmeExistenteException fex) {
 					JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException bdex){

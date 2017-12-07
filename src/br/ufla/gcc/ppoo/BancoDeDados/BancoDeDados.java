@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 
 public class BancoDeDados {
 	
@@ -22,20 +22,20 @@ public class BancoDeDados {
 		this.connection = connection;
 	}	
 
-	public void Conecta() throws ConexaoBD{
+	public void Conecta() throws BancoDadosException{
 		try {
 			System.setProperty("jdbc.Drivers", driver);
 			setConnection(DriverManager.getConnection(caminho, usuario, senha));
 		} catch (SQLException ex){
-			throw new ConexaoBD("Não foi possível conectar ao banco de dados: \n" + ex.getMessage(),"Erro ao conectar");
+			throw new BancoDadosException(ex.getMessage(), "Erro Ao Conectar Com O Banco De Dados");
 		}
 	}
 
-	public void Desconecta() throws ConexaoBD{
+	public void Desconecta() throws BancoDadosException{
 		try {
 			getConnection().close();
 		} catch (SQLException ex){
-			throw new ConexaoBD("Não foi possível desconectar o banco de dados: \n " + ex.getMessage(), "Erro ao desconectar");
+			throw new BancoDadosException(ex.getMessage(), "Erro Ao Desconectar Com O Banco De Dados");
 		}
 	}
 }

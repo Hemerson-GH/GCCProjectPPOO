@@ -16,8 +16,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaPrincipal {
 	
@@ -70,15 +68,7 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaCadastroFilme.getStatus())) {
-					try {
-						new TelaCadastroFilme(dadosLogin);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaCadastroFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -94,15 +84,7 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaListagemFilmes.getStatus())) {
-					try {
-						new TelaListagemFilmes(dadosLogin);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaListagemFilmes(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -120,15 +102,7 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaBuscarFilme.getStatus())) {
-					try {
-						new TelaBuscarFilme(dadosLogin);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaBuscarFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -148,15 +122,7 @@ public class TelaPrincipal {
 		mnRecomendacoes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!(TelaRecomendaFilme.getStatus())) {
-					try {
-						new TelaRecomendaFilme(dadosLogin);
-					} catch (ConexaoBD e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					new TelaRecomendaFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}

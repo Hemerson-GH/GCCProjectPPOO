@@ -1,12 +1,11 @@
 package br.ufla.gcc.ppoo.Exceptions;
 
 @SuppressWarnings("serial")
-public class FilmeExistenteException extends Exception {
-	
+public class AvaliacaoExistenteException extends Exception{
 	private String titulo;
 	
-	public FilmeExistenteException(String nomeFilme, String titulo) {
-		super("Ops... O Filme " + nomeFilme + " Já Foi Cadastrado");
+	public AvaliacaoExistenteException(String nomeFilme, String titulo) {
+		super("Ops... O Filme " + nomeFilme + " Já Foi Avaliado");
 		this.titulo = titulo;
 	}
 

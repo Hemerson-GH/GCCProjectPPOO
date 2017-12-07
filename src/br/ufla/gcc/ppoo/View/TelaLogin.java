@@ -18,8 +18,6 @@ import javax.swing.SwingConstants;
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConexaoBD;
 
 public class TelaLogin {
 	
@@ -32,11 +30,7 @@ public class TelaLogin {
 	private BancoDeDados bancoDDados = new BancoDeDados();
 
 	public TelaLogin() {
-		try {
-			bancoDDados.Conecta();
-		} catch (ConexaoBD cbd) {
-			JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		}
+		bancoDDados.Conecta();
 		View();
 	}
 
@@ -51,7 +45,6 @@ public class TelaLogin {
 		myViewLogin.setTitle("Login");
 		myViewLogin.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewLogin.getContentPane().setLayout(null);
-		myViewLogin.pack();
 		
 		textAreaUser = new JTextField();
 		textAreaUser.setToolTipText("Digite seu email...");
@@ -75,15 +68,7 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dadosLogin = null;
-				try {
-					dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
-				} catch (ConexaoBD cbd) {
-					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} catch (BancoDadosException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				DadosLogin dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
 				
 				if (ControleDadosUsuarios.ConvertMD5(passwordField.getText()).equals(dadosLogin.getSenha())) {			
 					myViewLogin.dispose();
@@ -103,11 +88,7 @@ public class TelaLogin {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewLogin.dispose();
-				try {
-					bancoDDados.Desconecta();
-				} catch (ConexaoBD cbd) {
-					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				}
+				bancoDDados.Desconecta();
 			}
 		});
 		btnCancel.setBounds(320, 160, 90, 25);
@@ -121,11 +102,7 @@ public class TelaLogin {
 		txtNovoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				try {
-					new TelaCadastroUsuario();
-				} catch (ConexaoBD cbd) {
-					JOptionPane.showMessageDialog(null, cbd.getMessage(), cbd.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				}
+				new TelaCadastroUsuario();
 				myViewLogin.dispose();
 			}
 		});
