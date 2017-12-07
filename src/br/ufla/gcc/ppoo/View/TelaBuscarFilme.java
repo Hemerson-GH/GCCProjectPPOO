@@ -24,6 +24,8 @@ import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaBuscarFilme {
 
@@ -44,11 +46,11 @@ public class TelaBuscarFilme {
 		status = bool;
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl){
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException{
 		return ControleDadosFilmes.BuscarFilmesTodosUsuarios();
 	}
 	
-	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) {
+	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
 		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
 		
 		if (nome.equals(dadosLogin.getNome())) {
@@ -59,7 +61,7 @@ public class TelaBuscarFilme {
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin){
+	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException{
 		
 		int n = listFilms.size();
 		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
