@@ -25,6 +25,8 @@ import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.BuscasException;
+import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaBuscarFilme {
@@ -46,11 +48,11 @@ public class TelaBuscarFilme {
 		status = bool;
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException{
+	public ArrayList<Filme> AtualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
 		return ControleDadosFilmes.BuscarFilmesTodosUsuarios();
 	}
 	
-	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
+	public String ConfereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
 		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
 		
 		if (nome.equals(dadosLogin.getNome())) {
@@ -58,6 +60,24 @@ public class TelaBuscarFilme {
 		} 
 		
 		return nome;
+	}
+	
+	public void ConfereCampoBusca(JTextField textFieldBusca) throws BuscasException{
+		if (textFieldBusca.getText().equals("")) {
+			throw new BuscasException("Digite uma palavra para que possa ser feita a busca.", "Campo Busca Vazio");
+		}
+	}
+	
+	public void ConfereLista(ArrayList<Filme> listFilms) throws BuscasException{
+		if (listFilms.isEmpty()) {
+			throw new BuscasException( "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado");
+		}
+	}
+	
+	public void ConfereTabela(JTable tableFilmes) throws BuscasException{
+		if (tableFilmes.getSelectedRow() == -1) {
+			throw new BuscasException("Para visuzalizar um filme selecione a linha dele.", "Seleção inválida");
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -69,7 +89,7 @@ public class TelaBuscarFilme {
 		int i = 0;	
 		
 		for (Filme filme : listFilms) {
-			filmes[i][0] = confereNomeFilme(filme, dadosLogin);
+			filmes[i][0] = ConfereNomeFilme(filme, dadosLogin);
 			filmes[i][1] = filme.getNome();
 			filmes[i][2] = filme.getGenero();
 			filmes[i][3] = filme.getData();
@@ -133,11 +153,11 @@ public class TelaBuscarFilme {
 		}
 	}
 	
-	public TelaBuscarFilme(DadosLogin dadosLogin){
+	public TelaBuscarFilme(DadosLogin dadosLogin) throws BancoDadosException, UsuarioException{
 		viewTelaBuscarFilme(dadosLogin);
 	}
 	
-	public void viewTelaBuscarFilme(DadosLogin dadosLogin){
+	public void viewTelaBuscarFilme(DadosLogin dadosLogin) throws BancoDadosException, UsuarioException{
 		
 		setStatus(true);
 		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
@@ -191,23 +211,25 @@ public class TelaBuscarFilme {
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if ((textFieldBusca.getText().equals(""))) {
-					iniciarTabela();
-					JOptionPane.showMessageDialog(null, "Digite uma palavra para que possa ser feita a busca.", "Campo Busca Vazio", JOptionPane.INFORMATION_MESSAGE);
-				} else { 
-					iniciarTabela();
-					listFilms = atualizaLista(dl);
-					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
+//				iniciarTabela();
+				try {
 					
-					if (!listFilms.isEmpty()) {
-						quickSort(listFilms, 0, listFilms.size()-1);
-						constroiTabela(listFilms, dadosLogin);
-					} else {
-						JOptionPane.showMessageDialog(null, "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado", JOptionPane.INFORMATION_MESSAGE);
-					}	
-				}
-	
+					ConfereCampoBusca(textFieldBusca);
+					listFilms = AtualizaLista(dl);
+					constroiTabela(listFilms, dadosLogin);
+					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
+					ConfereLista(listFilms);
+					quickSort(listFilms, 0, listFilms.size()-1);
+					
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ue) {
+					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} 	
 			}
 		});
 		btnBuscar.setBounds(545, 85, 115, 45);
@@ -220,14 +242,22 @@ public class TelaBuscarFilme {
 		btnBuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				listFilms = atualizaLista(dl);
-
-				if (!listFilms.isEmpty()) {
+				try {
+					
+					listFilms = AtualizaLista(dl);
+					ConfereLista(listFilms);
 					quickSort(listFilms, 0, listFilms.size()-1);
 					constroiTabela(listFilms, dadosLogin);
-				} else {
-					JOptionPane.showMessageDialog(null, "Nenhum filme foi encontrado", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);
-				}				
+					
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ue) {
+					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} 		
 			}
 		});
 		btnBuscarTodos.setBounds(720, 85, 125, 45);
@@ -256,29 +286,30 @@ public class TelaBuscarFilme {
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (tableFilmes.getSelectedRow() != -1) {
-					
+				try {
+						
+					ConfereTabela(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
 					String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
 					if (donoFilme.equals("Eu")) { donoFilme = dl.getNome(); }
 					
-					try {
-						Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(donoFilme, filmeSelect));
-						
-						setStatus(false);
-						viewBuscarFilme.dispose();
-						
-						new TelaVisualizaFilme(dl, filme, "TelaBuscar");
-					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, "Filme selecionado é " + e.getCause()+ "\nEntre em contato com o administrador do sistema.", "Filme não encontrado", JOptionPane.ERROR_MESSAGE);
-					}
+					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(donoFilme, filmeSelect));
 					
-				} else {
-					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
-							JOptionPane.ERROR_MESSAGE);
-				}
-				
+					setStatus(false);
+					viewBuscarFilme.dispose();
+					
+					new TelaVisualizaFilme(dl, filme, "TelaBuscar");
+					
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ue) {
+					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}			
 			}
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 0));
