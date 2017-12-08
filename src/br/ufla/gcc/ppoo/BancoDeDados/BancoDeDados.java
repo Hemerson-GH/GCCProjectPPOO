@@ -26,16 +26,16 @@ public class BancoDeDados {
 		try {
 			System.setProperty("jdbc.Drivers", driver);
 			setConnection(DriverManager.getConnection(caminho, usuario, senha));
-		} catch (SQLException ex){
-			throw new BancoDadosException(ex.getMessage(), "Erro Ao Conectar Com O Banco De Dados");
+		} catch (SQLException sqlex){
+			throw new BancoDadosException(sqlex.getMessage(), "Erro Ao Conectar Com O Banco De Dados");
 		}
 	}
 
 	public void Desconecta() throws BancoDadosException{
 		try {
 			getConnection().close();
-		} catch (SQLException ex){
-			throw new BancoDadosException(ex.getMessage(), "Erro Ao Desconectar Com O Banco De Dados");
+		} catch (SQLException sqlex){
+			throw new BancoDadosException(sqlex.getMessage(), "Erro Ao Desconectar Com O Banco De Dados");
 		}
 	}
 }
