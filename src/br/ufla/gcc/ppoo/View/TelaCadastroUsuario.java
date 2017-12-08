@@ -42,8 +42,8 @@ public class TelaCadastroUsuario {
 	
 	public void ConfereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if ( !(senhaPri.trim().length() > 3)  || !(senhaSec.trim().length() > 3) ) {
-			throw new CadastroUsuarioException("A senha digitada deve conter no mínimo quatro dígitos.\nPor favor digite uma nova senha válida.", 
-																													"Senha Inválida");
+			throw new CadastroUsuarioException("A senha digitada deve conter no mínimo quatro dígitos."
+					+ "\nPor favor digite uma nova senha válida.", "Senha Inválida");
 		} 
 	}
 	
@@ -61,7 +61,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myViewCadastro.setResizable(false);
 		myViewCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		myViewCadastro.setTitle("Cadastro de novo usuário");
+		myViewCadastro.setTitle("Cadastro De Novo Usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
 		
@@ -124,28 +124,29 @@ public class TelaCadastroUsuario {
 					ConfereTamanhoSenhas(passwordField.getText(), passwordFieldConfir.getText());
 					ConfereSenhas(passwordField.getPassword(), passwordFieldConfir.getPassword());
 					
-					String nome = textFieldNome.getText();
-					String email = textFieldEmail.getText();
-					String senha = ControleDadosUsuarios.ConvertMD5(passwordField.getText());
-					
+					String nome = textFieldNome.getText().trim();
+					String email = textFieldEmail.getText().trim();
+					String senha = ControleDadosUsuarios.ConvertMD5(passwordField.getText().trim());
 					DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
+					
 					ControleDadosUsuarios.CadastrarUsuario(dadosLogin);
 					myViewCadastro.dispose();
 					
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso.\nAgora você será redirecionado para tela de login.", 
 																						"Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
 					new TelaLogin();
-				} catch (UsuarioException ee) {
-					JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} catch (UsuarioExistenteException uee) {
-					JOptionPane.showMessageDialog(null, uee.getMessage(), uee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					
+				} catch (CadastroUsuarioException cue) {
+					JOptionPane.showMessageDialog(null, cue.getMessage(), cue.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (ConverteSenhaException cse) {
+					JOptionPane.showMessageDialog(null, cse.getMessage(), cse.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException bdex){
 					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} catch (CadastroUsuarioException cue) {
-					
-				} catch (ConverteSenhaException cse) {
-					
-				} 	
+				} catch (UsuarioExistenteException uee) {
+					JOptionPane.showMessageDialog(null, uee.getMessage(), uee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ee) {
+					JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} 
 			}
 		});
 		btnSalvar.setBounds(80, 210, 105, 35);
