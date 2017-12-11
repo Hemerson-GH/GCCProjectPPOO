@@ -219,7 +219,7 @@ public class ControleDadosFilmes {
 				
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException("Não foi possível conferir esse filme\n" + sqle.getMessage(), "Erro Ao Busca Filme");
+			throw new FilmesException("Não foi possível encontrar esse filme\n" + sqle.getMessage(), "Erro Ao Busca Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}

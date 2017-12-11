@@ -70,6 +70,7 @@ public class TelaBuscarFilme {
 	
 	public void ConfereLista(ArrayList<Filme> listFilms) throws BuscasException{
 		if (listFilms.isEmpty()) {
+			iniciarTabela();
 			throw new BuscasException( "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado");
 		}
 	}
@@ -218,7 +219,7 @@ public class TelaBuscarFilme {
 					constroiTabela(listFilms, dadosLogin);
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
 					ConfereLista(listFilms);
-					quickSort(listFilms, 0, listFilms.size()-1);
+//					quickSort(listFilms, 0, listFilms.size()-1);
 					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);

@@ -2,6 +2,8 @@ package br.ufla.gcc.ppoo.Dados;
 
 import java.util.ArrayList;
 
+import br.ufla.gcc.ppoo.Exceptions.FilmesException;
+
 public class Filme {
 	
 	private String nome;
@@ -40,7 +42,10 @@ public class Filme {
 		this.id_filme = id_filme;
 	}
 	
-	public Filme(Filme filme){
+	public Filme(Filme filme) throws FilmesException{
+		if (filme == null) {
+			throw new FilmesException("Não foi possível encontrar esse filme", "Filme Inexistente");
+		}
 		this.setNome(filme.getNome());
 		this.setData(filme.getData());
 		this.setDescricao(filme.getDescricao());
@@ -157,7 +162,7 @@ public class Filme {
 	public static ArrayList<Filme> pesquisaFilme(ArrayList<Filme> listaFilme, String wordKey) {
 		ArrayList<Filme> filmesEncontrados = new ArrayList<>();
 		ArrayList<String> wordKeys = new ArrayList<>();
-		Long filmeConf = null;
+//		Long filmeConf = null;
 		
 		for (Filme filme : listaFilme) {
 			
@@ -166,9 +171,10 @@ public class Filme {
 			
 			for (String string : wordKeys) {
 				
-				if (string.toUpperCase().contains(wordKey.toUpperCase()) && filmeConf != filme.getId_filme()) {	
+				if (string.toUpperCase().contains(wordKey.toUpperCase())) {	
+//					if (string.toUpperCase().contains(wordKey.toUpperCase()) && filmeConf != filme.getId_filme()) {	
 					filmesEncontrados.add(filme);
-					filmeConf = filme.getId_filme();	
+//					filmeConf = filme.getId_filme();	
 				}
 			}
 		}
