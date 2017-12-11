@@ -29,7 +29,7 @@ private static BancoDeDados bancoDados = new BancoDeDados();
 			ok = true;
 			
 		} catch (SQLException sqle) {
-			throw new ComentariosException(sqle.getMessage(), "Erro Ao Cadastrar Filme");
+			throw new ComentariosException("Não conseguimos enviar seu comentário\n" + sqle.getMessage(), "Erro ao enviar comentário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -59,7 +59,7 @@ private static BancoDeDados bancoDados = new BancoDeDados();
 				listCommits.add(comentario);
 			}
 		} catch (SQLException sqle) {
-			throw new ComentariosException(sqle.getMessage(), "Falha ao buscar comentários");
+			throw new ComentariosException("Não foi possível buscar os comentários desse filme\n" + sqle.getMessage(), "Falha ao buscar comentários");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -81,7 +81,7 @@ private static BancoDeDados bancoDados = new BancoDeDados();
 			
 			encontrou = true;
 		} catch (SQLException sqle) {
-			throw new ComentariosException(sqle.getMessage(), "Falha ao deletar comentários");
+			throw new ComentariosException("Não foi possível deletar os comentários desse filme\n" + sqle.getMessage(), "Falha ao deletar comentários");
 		} finally {
 			bancoDados.Desconecta();
 		}

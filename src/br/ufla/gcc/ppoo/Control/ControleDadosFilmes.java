@@ -43,7 +43,7 @@ public class ControleDadosFilmes {
 			
 			ok = true;
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Erro Ao Cadastrar Filme");
+			throw new FilmesException("Não foi possível cadastrar esse filme\n" + sqle.getMessage(), "Erro Ao Cadastrar Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -81,7 +81,7 @@ public class ControleDadosFilmes {
 				listFilm.add(filme);
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Erro Ao Buscar Seus Filmes");
+			throw new FilmesException("Não foi possível buscar seus filmes\n" + sqle.getMessage(), "Erro Ao Buscar Seus Filmes");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -118,7 +118,7 @@ public class ControleDadosFilmes {
 				listFilm.add(filme);
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Erro Ao Buscar Todos Os Filmes");
+			throw new FilmesException("Não foi possível buscar todos os filmes\n" + sqle.getMessage(), "Erro Ao Buscar Todos Os Filmes");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -156,7 +156,7 @@ public class ControleDadosFilmes {
 				listFilm.add(filme);
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Erro Ao Buscar Filmes De Outros Usuários");
+			throw new FilmesException("Não foi possível buscar os outros filmes\n" + sqle.getMessage(), "Erro Ao Buscar Seus Filmes");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -179,7 +179,7 @@ public class ControleDadosFilmes {
 				encontrei = true;
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Não Foi Possível Encontrar Esse Filme");
+			throw new FilmesException("Não foi possível conferir esse filme\n" + sqle.getMessage(),  "Erro Ao Busca Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -219,7 +219,7 @@ public class ControleDadosFilmes {
 				
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Não Foi Possível Encontrar Esse Filme");
+			throw new FilmesException("Não foi possível conferir esse filme\n" + sqle.getMessage(), "Erro Ao Busca Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -257,7 +257,7 @@ public class ControleDadosFilmes {
 				
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Erro Ao Buscar Filme");
+			throw new FilmesException("Não foi possível conferir esse filme\n" + sqle.getMessage(), "Erro Ao Busca Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -281,7 +281,7 @@ public class ControleDadosFilmes {
 				encontrei = true;
 			}
 		} catch (SQLException sqle) {
-			throw new FilmesException(sqle.getMessage(), "Erro Ao Buscar Filme");
+			throw new FilmesException("Não foi possível conferir esse filme\n" + sqle.getMessage(), "Erro Ao Busca Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -303,7 +303,7 @@ public class ControleDadosFilmes {
 			
 			encontrou = true;
 		} catch (SQLException sqle) {
-			throw new BancoDadosException(sqle.getMessage(), "Erro Ao Deletar Filme");
+			throw new BancoDadosException("Não foi possível deletar esse filme\n" + sqle.getMessage(), "Erro Ao Deletar Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -336,7 +336,7 @@ public class ControleDadosFilmes {
 	         
 	         encontrou = true;
 	    } catch (SQLException sqle) {
-	    	throw new FilmesException(sqle.getMessage(), "Erro Ao Alterar Dados Do Filme");
+	    	throw new FilmesException("Não foi possível alterar dados desse filme\n" + sqle.getMessage(), "Erro Ao Alterar Dados Do Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -362,7 +362,7 @@ public class ControleDadosFilmes {
 	         
 	         encontrou = true;
 	    } catch (SQLException sqle) {
-	    	throw new FilmesException(sqle.getMessage(), "Erro Ao Avaliar Filme");
+	    	throw new FilmesException("Não foi possível avaliar esse filme\n" + sqle.getMessage(), "Erro Ao Avaliar Filme");
 		} finally {
 			bancoDados.Desconecta();
 		}

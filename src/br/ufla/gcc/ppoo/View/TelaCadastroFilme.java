@@ -249,10 +249,10 @@ public class TelaCadastroFilme {
 					limpaCampos();				
 				} catch (CadastroFilmeException cfe) {
 					JOptionPane.showMessageDialog(null, cfe.getMessage(), cfe.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} catch (FilmeExistenteException fex) {
-					JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException bdex){
 					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmeExistenteException fex) {
+					JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (FilmesException fe) {
 					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				}  

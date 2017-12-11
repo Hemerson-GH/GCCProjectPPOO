@@ -28,7 +28,7 @@ public class ControleDadosAvaliacao {
 			
 			ok = true;
 		} catch (SQLException sqle) {
-			throw new AvaliacaoException(sqle.getMessage(), "Erro Ao Cadastrar Avaliação");
+			throw new AvaliacaoException("Não foi possível cadastrar a sua avaliação\n" + sqle.getMessage(), "Erro Ao Cadastrar Avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -60,7 +60,7 @@ public class ControleDadosAvaliacao {
 				ok = true;
 			}
 		} catch (SQLException sqle) {
-			throw new AvaliacaoException(sqle.getMessage(), "Erro Ao Buscar Avaliação");
+			throw new AvaliacaoException("Não foi possível buscar avaliação desse usuário\n" + sqle.getMessage(), "Erro Ao Buscar Avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -82,7 +82,7 @@ public class ControleDadosAvaliacao {
 			
 			encontrou = true;
 		} catch (SQLException sqle) {
-			throw new AvaliacaoException(sqle.getMessage(), "Erro Ao Deletar Avaliação");
+			throw new AvaliacaoException("Não foi possível deletar as avaliações desse filme\n" + sqle.getMessage(), "Erro Ao Deletar Avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}

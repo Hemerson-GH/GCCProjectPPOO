@@ -37,7 +37,7 @@ public class ControleDadosUsuarios {
 			
 			ok = true;
 		} catch (SQLException sqle) {
-			throw new UsuarioException(sqle.getMessage(), "Erro Ao Cadastrar Usuário");
+			throw new UsuarioException("Não foi possível cadastrar seu usuário\n" + sqle.getMessage(), "Erro Ao Cadastrar Usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -61,7 +61,7 @@ public class ControleDadosUsuarios {
 			    dadosLogin.setId(rs.getLong("id_user"));
 			} 
 		} catch (SQLException sqle) {
-			throw new UsuarioException(sqle.getMessage(), "Erro Ao Buscar Dados Do Usuário");
+			throw new UsuarioException("Não foi possível buscar os dados desse usuário" + sqle.getMessage(), "Erro Ao Buscar Dados Do Usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -82,7 +82,7 @@ public class ControleDadosUsuarios {
 				nomeUser = (rs.getString("nome"));	
 			}
 		} catch (SQLException sqle) {
-			throw new UsuarioException(sqle.getMessage(), "Erro Ao Nome Do Usuário");
+			throw new UsuarioException("Não foi possível buscar os nome desse usuário" + sqle.getMessage(), "Erro Ao Nome Do Usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -103,7 +103,7 @@ public class ControleDadosUsuarios {
 				id = (rs.getLong("id_user"));	
 			}
 		} catch (SQLException sqle) {
-			throw new UsuarioException(sqle.getMessage(), "Erro Ao Buscar Id Do Usuário");
+			throw new UsuarioException("Não foi possível buscar o nome desse usuário" +  sqle.getMessage(), "Erro Ao Buscar Id Do Usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -124,7 +124,7 @@ public class ControleDadosUsuarios {
 				encontrei = true;
 			}
 		} catch (SQLException sqle) {
-			throw new UsuarioException(sqle.getMessage(), "Erro Ao Conferir Email");
+			throw new UsuarioException("Não foi possível buscar o email desse usuário" + sqle.getMessage(), "Erro Ao Conferir Email");
 		} finally {
 			bancoDados.Desconecta();
 		}

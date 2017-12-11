@@ -24,6 +24,7 @@ import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.BuscasException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
@@ -38,6 +39,7 @@ public class TelaRecomendaFilme {
 	
 	private ArrayList<Filme> listTodosFilmes = new ArrayList<>();
 	private ArrayList<Filme> listFilmesUsuario = new ArrayList<>();
+	private DadosLogin dl;
 
 	public static boolean getStatus() { 
 		return status;
@@ -56,7 +58,7 @@ public class TelaRecomendaFilme {
 	}
 	
 	@SuppressWarnings("serial")
-	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin){
+	public void constroiTabela(ArrayList<Filme> listFilms, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException{
 		
 		int n = listFilms.size();
 		String[] titulosColunas = { "Usuário", "Filme", "Gênero", "Data de Lançamento", "Duração", "Diretor", "#Pontos" };
@@ -109,6 +111,18 @@ public class TelaRecomendaFilme {
 		});	
 	}
 	
+	private void confereLista(ArrayList<Filme> listFilmes) throws BuscasException {
+		if(listFilmes.isEmpty()) {
+			throw new BuscasException("Sinto muito mas não temos nenhuma recomendação de filme para você.", "Filmes não encontrados");
+		}
+	}
+	
+	public void ConfereTabelaAdicionar(JTable tableFilmes) throws BuscasException{
+		if (tableFilmes.getSelectedRow() == -1) {
+			throw new BuscasException("Para adicionar um filme selecione a linha dele.", "Seleção inválida");
+		}
+	}
+	
 	public TelaRecomendaFilme(DadosLogin dadosLogin){
 		viewTelaRecomendaFilme(dadosLogin);
 	}
@@ -116,7 +130,14 @@ public class TelaRecomendaFilme {
 	public void viewTelaRecomendaFilme(DadosLogin dadosLogin){
 		
 		setStatus(true);
-		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		viewTelaRecomenda = new JFrame();	
 		viewTelaRecomenda.addWindowListener(new WindowAdapter() {
@@ -162,16 +183,23 @@ public class TelaRecomendaFilme {
 		btnRecomendar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				listTodosFilmes = atualizaListaUsuarios(dl);
-				listFilmesUsuario = atualizaListaUsuario(dl);				
-				listTodosFilmes = Filme.pesquisaRecomendacao(listTodosFilmes, listFilmesUsuario);
-				
-				if (!listTodosFilmes.isEmpty()) {
+				try {
+//					iniciarTabela();
+					listTodosFilmes = atualizaListaUsuarios(dl);
+					listFilmesUsuario = atualizaListaUsuario(dl);	
+					listTodosFilmes = Filme.pesquisaRecomendacao(listTodosFilmes, listFilmesUsuario);
 					constroiTabela(listTodosFilmes, dadosLogin);
-				} else {
-					iniciarTabela();
-					JOptionPane.showMessageDialog(null, "Sinto muito mas não temos nenhuma recomendação de filme para você.", "Filmes não encontrados", JOptionPane.INFORMATION_MESSAGE);
-				}				
+					confereLista(listTodosFilmes);
+					
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ue) {
+					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} 		
 			}
 		});
 		btnRecomendar.setBounds(365, 520, 190, 30);
@@ -192,41 +220,37 @@ public class TelaRecomendaFilme {
 		btnAdicionar.setBounds(10, 520, 165, 30);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				if (tableFilmes.getSelectedRow() != -1) {
-					
-					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
-					String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
 					try {
+						
+						ConfereTabelaAdicionar(tableFilmes);
+						
+						String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
+						String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 						Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(donoFilme, filmeSelect));
+						
 						filme.setId_user(dl.getId());
-								
 						ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
-//								
+						
 						listTodosFilmes = atualizaListaUsuarios(dl);
 						listFilmesUsuario = atualizaListaUsuario(dl);				
 						listTodosFilmes = Filme.pesquisaRecomendacao(listTodosFilmes, listFilmesUsuario);
-								
-						if (!listTodosFilmes.isEmpty()) {
-							constroiTabela(listTodosFilmes, dadosLogin);
-						} else {
-							iniciarTabela();
-						}
-								
-						JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", 
-																					JOptionPane.INFORMATION_MESSAGE);					
-						
+							
+						confereLista(listTodosFilmes);
+						constroiTabela(listTodosFilmes, dadosLogin);							
+						JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);					
+					
+					} catch (BuscasException be) {
+						JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (BancoDadosException dbe) {
+						JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (UsuarioException ee) {
+						JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (FilmesException fe) {
+						JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 					} catch (FilmeExistenteException fex) {
 						JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-					} catch (BancoDadosException bdex){
-						JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-					} 
-				} else {
-					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
-							JOptionPane.ERROR_MESSAGE);
-				}
-				
+					}				
 			}
 		});
 		btnAdicionar.setForeground(new Color(0, 0, 0));

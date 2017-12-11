@@ -144,8 +144,8 @@ public class TelaCadastroUsuario {
 					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (UsuarioExistenteException uee) {
 					JOptionPane.showMessageDialog(null, uee.getMessage(), uee.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} catch (UsuarioException ee) {
-					JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ue) {
+					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});
