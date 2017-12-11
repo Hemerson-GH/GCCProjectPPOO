@@ -67,7 +67,7 @@ private static BancoDeDados bancoDados = new BancoDeDados();
 		return listCommits;
 	}
 	
-	public static boolean DeletaFilme(Long id_filme) throws BancoDadosException, ComentariosException{
+	public static boolean DeletaComentariosFilme(Long id_filme) throws BancoDadosException, ComentariosException{
 		boolean encontrou = false;
 		
 		bancoDados.Conecta();

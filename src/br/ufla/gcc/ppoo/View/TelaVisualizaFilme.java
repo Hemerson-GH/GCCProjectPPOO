@@ -30,7 +30,6 @@ import br.ufla.gcc.ppoo.Dados.Comentarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoExistente;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 
 public class TelaVisualizaFilme {

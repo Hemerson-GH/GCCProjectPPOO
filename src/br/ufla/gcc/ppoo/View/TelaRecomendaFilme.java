@@ -25,6 +25,8 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.Exceptions.FilmesException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaRecomendaFilme {
 	
@@ -45,11 +47,11 @@ public class TelaRecomendaFilme {
 		status = bool;
 	}
 	
-	public ArrayList<Filme> atualizaListaUsuarios(DadosLogin dl){
+	public ArrayList<Filme> atualizaListaUsuarios(DadosLogin dl) throws BancoDadosException, FilmesException{
 		return ControleDadosFilmes.BuscarFilmesUsuarios(dl.getId());
 	}
 	
-	public ArrayList<Filme> atualizaListaUsuario(DadosLogin dl){
+	public ArrayList<Filme> atualizaListaUsuario(DadosLogin dl) throws BancoDadosException, FilmesException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -81,7 +83,7 @@ public class TelaRecomendaFilme {
 			}
 		});
 	}
-	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) {
+	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
 		
 		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
 		

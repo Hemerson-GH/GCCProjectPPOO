@@ -18,6 +18,10 @@ import javax.swing.SwingConstants;
 import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
 import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.BuscasException;
+import br.ufla.gcc.ppoo.Exceptions.ConverteSenhaException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaLogin {
 	
@@ -30,8 +34,20 @@ public class TelaLogin {
 	private BancoDeDados bancoDDados = new BancoDeDados();
 
 	public TelaLogin() {
-		bancoDDados.Conecta();
+		
+		try {
+			bancoDDados.Conecta();
+		} catch (BancoDadosException dbe) {
+			JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		}
+		
 		View();
+	}
+	
+	public void confereSenhaUsuario(String senhaInserida, String senhaUsuario) throws BuscasException, ConverteSenhaException {
+		if (!ControleDadosUsuarios.ConvertMD5(senhaInserida).equals(senhaUsuario)) {
+			throw new BuscasException(" Usuário e/ou senha errada...", "Usuário invalido");
+		}
 	}
 
 	public void View(){
@@ -68,14 +84,24 @@ public class TelaLogin {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
 				
-				DadosLogin dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
+				DadosLogin dadosLogin;
 				
-				if (ControleDadosUsuarios.ConvertMD5(passwordField.getText()).equals(dadosLogin.getSenha())) {			
+				try {
+					dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
+					confereSenhaUsuario(passwordField.getText().trim(), dadosLogin.getSenha());					
+					
 					myViewLogin.dispose();
 					new TelaPrincipal(dadosLogin);
-				} else {					
-					JOptionPane.showMessageDialog(null, " Usuário e/ou senha errada...", "Usuário invalido", JOptionPane.ERROR_MESSAGE);
-				}				
+					
+				}  catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (UsuarioException ee) {
+					JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (ConverteSenhaException cse) {
+					JOptionPane.showMessageDialog(null, cse.getMessage(), cse.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} 					
 			}
 		});
 		btnEnter.setBounds(90, 160, 90, 25);
@@ -88,7 +114,12 @@ public class TelaLogin {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				myViewLogin.dispose();
-				bancoDDados.Desconecta();
+				
+				try {
+					bancoDDados.Desconecta();
+				}  catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnCancel.setBounds(320, 160, 90, 25);

@@ -2,7 +2,6 @@ package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -28,12 +27,17 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.BuscasException;
+import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
+import br.ufla.gcc.ppoo.Exceptions.FilmesException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaListagemFilmes {
 	
 	private JFrame viewListagem;
 	private JTable tableFilmes;
 	private JScrollPane scrollPaneList;
+	private DadosLogin dl;
 	
 	private static boolean status = false;
 	
@@ -51,7 +55,7 @@ public class TelaListagemFilmes {
 		viewListagemDeFilmes(dadosLogin);
 	}
 	
-	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException{
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
 	
@@ -82,31 +86,55 @@ public class TelaListagemFilmes {
 		});
 	}
 	
-	public ArrayList<Filme> ordenaLista(ArrayList<Filme> listFilmes) {
-	    Filme aux;
-	    
-	    for (int i = 0; i < listFilmes.size()-1; i++) {
-			for (int j = 0; j < listFilmes.size()-1-i; j++) {					
-				if (compareTo(listFilmes.get(j), listFilmes.get(j+1)) >= 1) {
-					aux = listFilmes.get(j+1);
-					listFilmes.set(j+1,  listFilmes.get(j));
-					listFilmes.set(j, aux);
-				} 
-			}
+//	public ArrayList<Filme> ordenaLista(ArrayList<Filme> listFilmes) {
+//	    Filme aux;
+//	    
+//	    for (int i = 0; i < listFilmes.size()-1; i++) {
+//			for (int j = 0; j < listFilmes.size()-1-i; j++) {					
+//				if (compareTo(listFilmes.get(j), listFilmes.get(j+1)) >= 1) {
+//					aux = listFilmes.get(j+1);
+//					listFilmes.set(j+1,  listFilmes.get(j));
+//					listFilmes.set(j, aux);
+//				} 
+//			}
+//		}
+//	    
+//	    return listFilmes;
+//	}
+//	
+//	public static int compareTo(Filme filme1, Filme filme2) {
+//		return filme1.getNome().toUpperCase().compareToIgnoreCase(filme2.getNome().toUpperCase());
+//	}
+	
+	public void ConfereTabelaEditar(JTable tableFilmes) throws BuscasException{
+		if (tableFilmes.getSelectedRow() == -1) {
+			throw new BuscasException("Para editar um filme selecione a linha dele.", "Seleção inválida");
 		}
-	    
-	    return listFilmes;
 	}
 	
-	public static int compareTo(Filme filme1, Filme filme2) {
-		return filme1.getNome().toUpperCase().compareToIgnoreCase(filme2.getNome().toUpperCase());
+	public void ConfereTabelaDeletar(JTable tableFilmes) throws BuscasException{
+		if (tableFilmes.getSelectedRow() == -1) {
+			throw new BuscasException("Para excluir um filme selecione a linha dele.", "Seleção inválida");
+		}
 	}
 	
-	@SuppressWarnings("unused")
+	public void ConfereTabelaVisualizar(JTable tableFilmes) throws BuscasException{
+		if (tableFilmes.getSelectedRow() == -1) {
+			throw new BuscasException("Para visualizar um filme selecione a linha dele.", "Seleção inválida");
+		}
+	}
+	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) throws BancoDadosException {
 		
 		setStatus(true);
-		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		viewListagem = new JFrame();
 		viewListagem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -131,7 +159,13 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().add(scrollPaneList);
 		
 		tableFilmes = new JTable();
-		listFilms = atualizaLista(dl);	
+		
+		try {
+			listFilms = atualizaLista(dl);
+		} catch (FilmesException fe) {
+			JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		}	
+		
 		constroiTabela(listFilms);
 		
 		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
@@ -166,26 +200,25 @@ public class TelaListagemFilmes {
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (tableFilmes.getSelectedRow() != -1) {
-					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					
 //					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
-					Filme filme = null;
-					try {
-						filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
-					} catch (BancoDadosException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
+				try {
 					
+					ConfereTabelaVisualizar(tableFilmes);
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
+					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
 					setStatus(false);
 					viewListagem.dispose();
 					
 					new TelaVisualizaFilme(dl, filme, "TelaListagem");
-				} else {
-					JOptionPane.showMessageDialog(null, "Para visuzalizar um filme selecione a linha dele.", "Seleção inválida", 
-							JOptionPane.ERROR_MESSAGE);
-				}
+					
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 0));
@@ -198,24 +231,26 @@ public class TelaListagemFilmes {
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/editar.png")));
 		btnEditar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {	
 				
-				if (tableFilmes.getSelectedRow() != -1) {
-					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					Filme filme = null;
-					try {
-						filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
-					} catch (BancoDadosException e) {
-						
-					}
+				try {
+					ConfereTabelaEditar(tableFilmes);
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);	
+					
+					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
 					
 					setStatus(false);
 					viewListagem.setVisible(false);
 					
 					new TelaEditaFilme(dl, filme);
-				} else {
-					JOptionPane.showMessageDialog(null, "Para editar um filme selecione a linha dele.", "Seleção inválida", JOptionPane.ERROR_MESSAGE);
-				}
+					
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 		btnEditar.setForeground(new Color(0, 0, 0));
@@ -230,68 +265,36 @@ public class TelaListagemFilmes {
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if (tableFilmes.getSelectedRow() != -1) {
-					int select = tableFilmes.getSelectionModel().getLeadSelectionIndex();
-					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
+				try {
 					
-					Filme filme = new Filme(null);
-					try {
-						filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
-					} catch (BancoDadosException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-					
-					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir",
-							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					ConfereTabelaDeletar(tableFilmes);
+					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
+					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
+					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (JOptionPane.YES_OPTION == confirm) {
+						ControleDadosComentarios.DeletaComentariosFilme(filme.getId_filme());
+						ControleDadosAvaliacao.DeletaAvaliacaoDoFllme(filme.getId_filme());
+						ControleDadosFilmes.DeletaFilme(filme);
+	
+						JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
 						
-						if (ControleDadosComentarios.DeletaFilme(filme.getId_filme())) {
-							
-							try {
-								if (ControleDadosAvaliacao.DeletaAvaliacaoDoFllme(filme.getId_filme())) {
-									
-									if (ControleDadosFilmes.DeletaFilme(filme)) {
-										
-										JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", 
-												"Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
-										
-										listFilms = atualizaLista(dl);
-										listFilms = ordenaLista(listFilms);
-										
-										constroiTabela(listFilms);
-										
-									} else {
-										JOptionPane.showMessageDialog(null, "Erro ao deletar filme da banco de dados.",
-												"Erro Ao Deletar Filme", JOptionPane.ERROR_MESSAGE);
-									}
-									
-								} else {
-									JOptionPane.showMessageDialog(null, "Erro ao deletar pontuação do filme.",
-											"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
-								}
-							} catch (HeadlessException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (BancoDadosException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							} catch (AvaliacaoException e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-							
-						} else {
-							JOptionPane.showMessageDialog(null, "Erro ao deletar comentários do filme.",
-									"Erro Ao Deletar", JOptionPane.ERROR_MESSAGE);
-						}
+						listFilms = atualizaLista(dl);
+//						listFilms = ordenaLista(listFilms);
+						constroiTabela(listFilms);
 					}
 					
-				} else {
-					JOptionPane.showMessageDialog(null, "Para remover um filme selecione a linha dele.",
-							"Seleção inválida", JOptionPane.ERROR_MESSAGE);
-				}
+				} catch (BuscasException be) {
+					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (BancoDadosException dbe) {
+					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (ComentariosException ce) {
+					JOptionPane.showMessageDialog(null, ce.getMessage(), ce.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (AvaliacaoException ae) {
+					JOptionPane.showMessageDialog(null, ae.getMessage(), ae.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}	 
 			}
 		});
 		btnRemover.setForeground(new Color(0, 0, 0));
@@ -318,6 +321,6 @@ public class TelaListagemFilmes {
 		
 		viewListagem.setResizable(false);
 		viewListagem.setSize(914, 615);
-		viewListagem.setVisible(true);		
+		viewListagem.setVisible(true);				
 	}
 }

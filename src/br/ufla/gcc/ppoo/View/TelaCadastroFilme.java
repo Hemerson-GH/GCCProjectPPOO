@@ -25,11 +25,14 @@ import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.CadastroFilmeException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.Exceptions.FilmesException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaCadastroFilme {
 
 	private JFrame viewCadastroFilme;
 	private static boolean status = false;
+	private DadosLogin dl;
 	
 	public static boolean getStatus() { 
 		return status;
@@ -81,7 +84,14 @@ public class TelaCadastroFilme {
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
 		setStatus(true);
-		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.addWindowListener(new WindowAdapter() {
@@ -243,6 +253,8 @@ public class TelaCadastroFilme {
 					JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException bdex){
 					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				}  
 			}
 		});

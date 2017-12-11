@@ -16,6 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
+import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaPrincipal {
 	
@@ -84,7 +86,13 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaListagemFilmes.getStatus())) {
-					new TelaListagemFilmes(dadosLogin);
+					
+					try {
+						new TelaListagemFilmes(dadosLogin);
+					} catch (BancoDadosException dbe) {
+						JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					}
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -102,7 +110,15 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaBuscarFilme.getStatus())) {
-					new TelaBuscarFilme(dadosLogin);
+					
+					try {
+						new TelaBuscarFilme(dadosLogin);
+					} catch (BancoDadosException dbe) {
+						JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} catch (UsuarioException ee) {
+						JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					} 
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
 				}

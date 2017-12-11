@@ -22,6 +22,8 @@ import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Dados.Filme;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.Exceptions.FilmesException;
+import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class TelaEditaFilme {
 	
@@ -34,6 +36,8 @@ public class TelaEditaFilme {
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
+	
+	private DadosLogin dl;
 	
 	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme){
 		viewListagemDeFilmes(dadosLogin, filme);
@@ -55,7 +59,13 @@ public class TelaEditaFilme {
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin, Filme filme) {
 		
-		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		viewEditaFilme = new JFrame();
 		viewEditaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -198,20 +208,6 @@ public class TelaEditaFilme {
 				filme.setDuracaoFilme(textFieldDuracao.getText());
 				filme.setDiretor(textFieldDiretor.getText());
 				
-//				ArrayList<Filme> listFilmes =  atualizaLista(dl);
-				
-//				if (!filme.comparaFilme(listFilmes, filme.getNome(), guardarFilme)) {
-//					if (ControleDadosFilmes.AlteraFilme(filme)) {
-//						JOptionPane.showMessageDialog(null, "Filme Editado no banco de dados com sucesso.", "Filme Editado Com Sucesso", JOptionPane.WARNING_MESSAGE);
-//						viewEditaFilme.dispose();
-//						new TelaListagemFilmes(dl);
-//					} else {
-//						JOptionPane.showMessageDialog(null, "Erro ao editar filme no banco de dados.", "Erro Ao Editar Filme", JOptionPane.ERROR_MESSAGE);
-//					}	
-//				} else {
-//					JOptionPane.showMessageDialog(null, "Um filme com esse nome já está cadastrado", "Filme Existente", JOptionPane.ERROR_MESSAGE);
-//				}
-				
 				try {
 					
 					ControleDadosFilmes.AlteraFilme(filme, guardarFilme);
@@ -220,9 +216,11 @@ public class TelaEditaFilme {
 					new TelaListagemFilmes(dl);
 					
 				} catch (BancoDadosException bdex){
-					JOptionPane.showMessageDialog(null, bdex.getMessage(), "Erro no cadastro", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (FilmeExistenteException fex) {
-						JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, fex.getMessage(), fex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				} catch (FilmesException fe) {
+					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				}				
 			}
 		});
@@ -238,7 +236,12 @@ public class TelaEditaFilme {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				viewEditaFilme.dispose();
-				new TelaListagemFilmes(dl);
+				
+				try {
+					new TelaListagemFilmes(dl);
+				} catch (BancoDadosException bdex) {
+					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		btnCancelar.setForeground(new Color(0, 0, 0));
