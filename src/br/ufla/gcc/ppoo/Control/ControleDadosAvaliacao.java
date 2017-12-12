@@ -43,7 +43,7 @@ public class ControleDadosAvaliacao {
 		boolean ok = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM avaliation WHERE id_user_avaliador = ? and id_filme_avaliado");
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM avaliation WHERE id_user_avaliador = ? and id_filme_avaliado = ?");
 			pst.setLong(1, id);
 			pst.setLong(2, id_filme);
 			ResultSet rs = pst.executeQuery();	

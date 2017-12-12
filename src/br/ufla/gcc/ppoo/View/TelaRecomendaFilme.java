@@ -50,7 +50,7 @@ public class TelaRecomendaFilme {
 	}
 	
 	public ArrayList<Filme> atualizaListaUsuarios(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesUsuarios(dl.getId());
+		return ControleDadosFilmes.BuscarFilmesOutrosUsuarios(dl.getId());
 	}
 	
 	public ArrayList<Filme> atualizaListaUsuario(DadosLogin dl) throws BancoDadosException, FilmesException{
@@ -184,7 +184,7 @@ public class TelaRecomendaFilme {
 			public void actionPerformed(ActionEvent e) {
 				
 				try {
-//					iniciarTabela();
+
 					listTodosFilmes = atualizaListaUsuarios(dl);
 					listFilmesUsuario = atualizaListaUsuario(dl);	
 					listTodosFilmes = Filme.pesquisaRecomendacao(listTodosFilmes, listFilmesUsuario);
@@ -224,6 +224,7 @@ public class TelaRecomendaFilme {
 					try {
 						
 						ConfereTabelaAdicionar(tableFilmes);
+						confereLista(listTodosFilmes);
 						
 						String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
 						String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
@@ -236,7 +237,6 @@ public class TelaRecomendaFilme {
 						listFilmesUsuario = atualizaListaUsuario(dl);				
 						listTodosFilmes = Filme.pesquisaRecomendacao(listTodosFilmes, listFilmesUsuario);
 							
-						confereLista(listTodosFilmes);
 						constroiTabela(listTodosFilmes, dadosLogin);							
 						JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);					
 					

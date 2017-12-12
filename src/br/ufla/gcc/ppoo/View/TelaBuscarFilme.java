@@ -49,7 +49,7 @@ public class TelaBuscarFilme {
 	}
 	
 	public ArrayList<Filme> AtualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesTodosUsuarios();
+		return ControleDadosFilmes.BuscarFilmesTodosUsuariosPontos();
 	}
 	
 	public String ConfereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
@@ -216,10 +216,10 @@ public class TelaBuscarFilme {
 					
 					ConfereCampoBusca(textFieldBusca);
 					listFilms = AtualizaLista(dl);
-					constroiTabela(listFilms, dadosLogin);
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
-					ConfereLista(listFilms);
+					ConfereLista(listFilms);					
 //					quickSort(listFilms, 0, listFilms.size()-1);
+					constroiTabela(listFilms, dadosLogin);
 					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
@@ -229,7 +229,7 @@ public class TelaBuscarFilme {
 					JOptionPane.showMessageDialog(null, fe.getMessage(), fe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (UsuarioException ue) {
 					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
-				} 	
+				}
 			}
 		});
 		btnBuscar.setBounds(545, 85, 115, 45);
@@ -246,7 +246,7 @@ public class TelaBuscarFilme {
 					
 					listFilms = AtualizaLista(dl);
 					ConfereLista(listFilms);
-					quickSort(listFilms, 0, listFilms.size()-1);
+//					quickSort(listFilms, 0, listFilms.size()-1);
 					constroiTabela(listFilms, dadosLogin);
 					
 				} catch (BancoDadosException dbe) {

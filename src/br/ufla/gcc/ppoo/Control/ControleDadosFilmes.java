@@ -89,7 +89,8 @@ public class ControleDadosFilmes {
 		return listFilm;
 	}
 	
-	public static ArrayList<Filme> BuscarFilmesTodosUsuarios() throws BancoDadosException, FilmesException{
+//	Alterar excluir aqui
+	public static ArrayList<Filme> BuscarFilmesTdszfgdfgfdfdodosUsuarios() throws BancoDadosException, FilmesException{
 		bancoDados.Conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
@@ -126,7 +127,44 @@ public class ControleDadosFilmes {
 		return listFilm;
 	}
 	
-	public static ArrayList<Filme> BuscarFilmesUsuarios(Long id_usuario) throws BancoDadosException, FilmesException{
+	public static ArrayList<Filme> BuscarFilmesTodosUsuariosPontos() throws BancoDadosException, FilmesException{
+		bancoDados.Conecta();
+		
+		ArrayList<Filme> listFilm = new ArrayList<>();
+		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
+		Long pontos, id_user, id_filme;
+		
+		try {
+			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes ORDER BY pontos_filme DESC");
+			ResultSet rs = pst.executeQuery();	
+			
+			while (rs.next()) {	
+				
+				nome = (rs.getString("nome_filme"));
+				data = (rs.getString("ano_lancamento"));
+				descricao = (rs.getString("descricao"));
+				wordsKeys = (rs.getString("palavras_chaves"));
+				genero = (rs.getString("genero"));
+				duracao = (rs.getString("duracao_filme"));
+				diretor = (rs.getString("diretor"));
+				pontos = (rs.getLong("pontos_filme"));
+				id_user = (rs.getLong("id_user"));
+				id_filme = (rs.getLong("id_filme"));
+				
+				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor, pontos, id_user, id_filme);
+				
+				listFilm.add(filme);
+			}
+		} catch (SQLException sqle) {
+			throw new FilmesException("Não foi possível buscar todos os filmes\n" + sqle.getMessage(), "Erro Ao Buscar Todos Os Filmes");
+		} finally {
+			bancoDados.Desconecta();
+		}
+		
+		return listFilm;
+	}
+	
+	public static ArrayList<Filme> BuscarFilmesOutrosUsuarios(Long id_usuario) throws BancoDadosException, FilmesException{
 		bancoDados.Conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
@@ -345,11 +383,12 @@ public class ControleDadosFilmes {
 	}
 	
 	public static boolean AvaliaFilme(Long id, Filme filme) throws BancoDadosException, AvaliacaoException, AvaliacaoExistenteException, FilmesException{
-		bancoDados.Conecta();
 		
 		if (ControleDadosAvaliacao.BuscarAvaliacao(id, filme.getId_filme())) {
 			throw new AvaliacaoExistenteException(filme.getNome(), "Você Já Avaliou Esse Filme");
 		}
+		
+		bancoDados.Conecta();
 		
 		boolean encontrou = false;
 		

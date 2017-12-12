@@ -34,14 +34,14 @@ public class TelaCadastroUsuario {
 		ViewMain();
 	}
 	
-	public void ConfereSenhas(char[] senhaPri, char[] senhaSec) throws CadastroUsuarioException{
+	public void ConfereSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if (!senhaPri.equals(senhaSec)) {
 			throw new CadastroUsuarioException("As senha digitadas não conferem, digite novamente.", "Senha Inválida");
 		} 
 	}
 	
 	public void ConfereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
-		if ( !(senhaPri.trim().length() > 3)  || !(senhaSec.trim().length() > 3) ) {
+		if ( (senhaPri.trim().length() <= 3)  || (senhaSec.trim().length() <= 3) ) {
 			throw new CadastroUsuarioException("A senha digitada deve conter no mínimo quatro dígitos."
 					+ "\nPor favor digite uma nova senha válida.", "Senha Inválida");
 		} 
@@ -122,7 +122,7 @@ public class TelaCadastroUsuario {
 				try {
 					ConfereCampoEmail(textFieldEmail);
 					ConfereTamanhoSenhas(passwordField.getText(), passwordFieldConfir.getText());
-					ConfereSenhas(passwordField.getPassword(), passwordFieldConfir.getPassword());
+					ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 					
 					String nome = textFieldNome.getText().trim();
 					String email = textFieldEmail.getText().trim();
