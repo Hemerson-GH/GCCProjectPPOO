@@ -5,7 +5,7 @@ public class AvaliacaoExistenteException extends Exception{
 	private String titulo;
 	
 	public AvaliacaoExistenteException(String nomeFilme, String titulo) {
-		super("Ops... Você Já Avaliou O Filme " + nomeFilme);
+		super("Ops... você já avaliou o filme " + nomeFilme);
 		this.titulo = titulo;
 	}
 

@@ -12,29 +12,28 @@ import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
 
 public class ControleDadosComentarios {
 	
-private static BancoDeDados bancoDados = new BancoDeDados();
+	private static BancoDeDados bancoDados = new BancoDeDados();
 	
 	public static boolean CadastrarComentario(Comentarios comentario) throws BancoDadosException, ComentariosException{
 		bancoDados.Conecta();
 		
-		boolean ok = false;
+		boolean status = false;
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into comentarios (coment, id_filme_commit, id_user_commit) values(?,?,?)");
-			
 			pst.setString(1, comentario.getCommit());
 			pst.setLong(2, comentario.getId_filme_commit());		
 			pst.setLong(3, comentario.getId_user_commit());
 			pst.execute();
-			ok = true;
 			
+			status = true;
 		} catch (SQLException sqle) {
-			throw new ComentariosException("Não conseguimos enviar seu comentário\n" + sqle.getMessage(), "Erro ao enviar comentário");
+			throw new ComentariosException("Não foi possível cadastrar seu comentário\n" + sqle.getMessage(), "Erro ao cadastrar comentário");
 		} finally {
 			bancoDados.Desconecta();
 		}
 		
-		return ok;
+		return status;
 	}	
 	
 	public static ArrayList<Comentarios> BuscarAvaliacao(Long id_filme) throws BancoDadosException, ComentariosException{
@@ -55,7 +54,6 @@ private static BancoDeDados bancoDados = new BancoDeDados();
 				id_user_commit = rs.getLong("id_user_commit");
 				
 				Comentarios comentario = new Comentarios(commit, id_user_commit, id_filme_commit);
-				
 				listCommits.add(comentario);
 			}
 		} catch (SQLException sqle) {
@@ -68,25 +66,24 @@ private static BancoDeDados bancoDados = new BancoDeDados();
 	}
 	
 	public static boolean DeletaComentariosFilme(Long id_filme) throws BancoDadosException, ComentariosException{
-		boolean encontrou = false;
-		
 		bancoDados.Conecta();
+		
+		boolean status = false;
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("DELETE from comentarios where id_filme_commit = ?");
-			
 			pst.setLong(1, id_filme);
 			pst.execute();
 			pst.close();	
 			
-			encontrou = true;
+			status = true;
 		} catch (SQLException sqle) {
 			throw new ComentariosException("Não foi possível deletar os comentários desse filme\n" + sqle.getMessage(), "Falha ao deletar comentários");
 		} finally {
 			bancoDados.Desconecta();
 		}
 		
-		return encontrou;
+		return status;
 	}
 
 }

@@ -170,10 +170,9 @@ public class Filme {
 			wordKeys.add(filme.getNome());
 			
 			for (String string : wordKeys) {
-//				if (string.toUpperCase().contains(wordKey.toUpperCase())) {	
 					if (string.toUpperCase().contains(wordKey.toUpperCase()) && filmeConf != filme.getId_filme()) {	
-					filmesEncontrados.add(filme);
-					filmeConf = filme.getId_filme();	
+						filmesEncontrados.add(filme);
+						filmeConf = filme.getId_filme();	
 				}
 			}
 		}
@@ -199,7 +198,8 @@ public class Filme {
 					}					
 				}				
 			}
-		}		
+		}	
+		
 		return filmesEncontrados;
 	}
 

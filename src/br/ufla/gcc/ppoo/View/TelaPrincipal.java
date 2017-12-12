@@ -1,7 +1,9 @@
 package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -34,7 +36,8 @@ public class TelaPrincipal {
 		viewMain.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", 
+													JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					viewMain.dispose();
@@ -72,7 +75,7 @@ public class TelaPrincipal {
 				if (!(TelaCadastroFilme.getStatus())) {
 					new TelaCadastroFilme(dadosLogin);
 				} else {
-					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -94,7 +97,7 @@ public class TelaPrincipal {
 					}
 					
 				} else {
-					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -110,7 +113,6 @@ public class TelaPrincipal {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				if (!(TelaBuscarFilme.getStatus())) {
-					
 					try {
 						new TelaBuscarFilme(dadosLogin);
 					} catch (BancoDadosException dbe) {
@@ -118,9 +120,8 @@ public class TelaPrincipal {
 					} catch (UsuarioException ee) {
 						JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
 					} 
-					
 				} else {
-					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -140,7 +141,7 @@ public class TelaPrincipal {
 				if (!(TelaRecomendaFilme.getStatus())) {
 					new TelaRecomendaFilme(dadosLogin);
 				} else {
-					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela Já Está Em Execução", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -173,7 +174,8 @@ public class TelaPrincipal {
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 Para Sair", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 para sair", 
+						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					viewMain.dispose();
@@ -187,12 +189,12 @@ public class TelaPrincipal {
 		mnItemSair.setBackground(new Color(255, 255, 255));
 		mnSair.add(mnItemSair);
 		
-//		Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
-//		int lar = (int) tela.getWidth();
-//		int alt = (int) tela.getHeight();
+		Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
+		int lar = (int) tela.getWidth();
+		int alt = (int) tela.getHeight();
 		
-//		viewMain.setSize(lar, alt);
-		viewMain.setSize(1366, 768);
+		viewMain.setSize(lar, alt);
+//		viewMain.setSize(1366, 768);
 		viewMain.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		viewMain.setVisible(true);
 	}

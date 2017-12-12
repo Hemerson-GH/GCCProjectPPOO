@@ -5,7 +5,7 @@ public class UsuarioExistenteException extends Exception {
 	private String titulo;
 	
 	public UsuarioExistenteException(String email, String titulo) {
-		super("Ops... O Email " + email +  " já está sendo utilizado por outro usuário.\n Por favor, tente outro email.");
+		super("Ops... o email " + '"'  + email + '"' + " já está sendo utilizado por outro usuário.\n Por favor, tente outro email.");
 		this.titulo = titulo;
 	}
 

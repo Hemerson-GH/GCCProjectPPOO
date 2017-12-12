@@ -6,7 +6,7 @@ public class BancoDadosException extends Exception {
 	private String titulo;
 	
 	public BancoDadosException(String msg, String titulo) {
-		super("Erro: " + msg + "\nEntre em contato com o administrador do sistema.");	
+		super("Erro: " + msg + "\nEntre em contato com o Administrador do Sistema");	
 		this.titulo = titulo;
 	}
 

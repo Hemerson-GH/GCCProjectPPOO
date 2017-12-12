@@ -6,7 +6,7 @@ public class FilmeExistenteException extends Exception {
 	private String titulo;
 	
 	public FilmeExistenteException(String nomeFilme, String titulo) {
-		super("Ops... O Filme " + nomeFilme + " Já Foi Cadastrado");
+		super("Ops... o filme " + nomeFilme + " já foi cadastrado");
 		this.titulo = titulo;
 	}
 

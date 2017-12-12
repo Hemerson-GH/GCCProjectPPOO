@@ -35,9 +35,7 @@ public class TelaBuscarFilme {
 	private JTable tableFilmes;
 	private JScrollPane scrollPaneList;
 	private JTextField textFieldBusca;
-	
 	private static boolean status = false;
-	
 	private ArrayList<Filme> listFilms = new ArrayList<>();
 
 	public static boolean getStatus() { 
@@ -55,7 +53,7 @@ public class TelaBuscarFilme {
 	public String ConfereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
 		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
 		
-		if (nome.equals(dadosLogin.getNome())) {
+		if (nome.equals(dadosLogin.getNome())) { 
 			nome = "Eu";
 		} 
 		
@@ -64,7 +62,7 @@ public class TelaBuscarFilme {
 	
 	public void ConfereCampoBusca(JTextField textFieldBusca) throws BuscasException{
 		if (textFieldBusca.getText().equals("")) {
-			throw new BuscasException("Digite uma palavra para que possa ser feita a busca.", "Campo Busca Vazio");
+			throw new BuscasException("Digite uma palavra para que possa ser feita a busca.", "Campo busca vazio");
 		}
 	}
 	
@@ -125,35 +123,6 @@ public class TelaBuscarFilme {
 		});	
 	}
 	
-	public static void  quickSort(ArrayList<Filme> listFilmes, int esquerda, int direita){
-		int esq = esquerda;
-		int dir = direita;
-		Filme pivo = listFilmes.get((esq + dir) /2);
-		Filme troca;
-		
-		while (esq <= dir) {
-			while ( listFilmes.get(esq).getPontos() > pivo.getPontos()) {
-				esq = esq + 1;
-			}
-			while ( listFilmes.get(dir).getPontos() < pivo.getPontos()) {
-				dir = dir - 1;
-			}
-			if (esq <= dir) {
-				troca = listFilmes.get(esq);
-				listFilmes.set(esq, listFilmes.get(dir));
-				listFilmes.set(dir, troca);
-				esq = esq + 1;
-				dir = dir - 1;
-			}
-		}
-		if (dir > esquerda) {
-			quickSort(listFilmes, esquerda, dir);
-		}
-		if(esq < direita) {
-			quickSort(listFilmes, esq, direita);
-		}
-	}
-	
 	public TelaBuscarFilme(DadosLogin dadosLogin) throws BancoDadosException, UsuarioException{
 		viewTelaBuscarFilme(dadosLogin);
 	}
@@ -186,7 +155,6 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.getContentPane().add(scrollPaneList);
 		
 		tableFilmes = new JTable();	
-		
 		iniciarTabela();
 		
 		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
@@ -213,14 +181,11 @@ public class TelaBuscarFilme {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
 					ConfereCampoBusca(textFieldBusca);
 					listFilms = AtualizaLista(dl);
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
 					ConfereLista(listFilms);					
-//					quickSort(listFilms, 0, listFilms.size()-1);
 					constroiTabela(listFilms, dadosLogin);
-					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException dbe) {
@@ -241,14 +206,10 @@ public class TelaBuscarFilme {
 		JButton btnBuscarTodos = new JButton("Buscar Todos");
 		btnBuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				try {
-					
 					listFilms = AtualizaLista(dl);
 					ConfereLista(listFilms);
-//					quickSort(listFilms, 0, listFilms.size()-1);
 					constroiTabela(listFilms, dadosLogin);
-					
 				} catch (BancoDadosException dbe) {
 					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (FilmesException fe) {
@@ -285,9 +246,7 @@ public class TelaBuscarFilme {
 		btnVisualizar.setBounds(135, 520, 135, 30);
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				try {
-						
 					ConfereTabela(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
 					String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
@@ -295,12 +254,10 @@ public class TelaBuscarFilme {
 					if (donoFilme.equals("Eu")) { donoFilme = dl.getNome(); }
 					
 					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(donoFilme, filmeSelect));
-					
 					setStatus(false);
 					viewBuscarFilme.dispose();
 					
 					new TelaVisualizaFilme(dl, filme, "TelaBuscar");
-					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException dbe) {

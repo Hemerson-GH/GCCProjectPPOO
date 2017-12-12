@@ -37,7 +37,7 @@ public class ControleDadosUsuarios {
 			
 			ok = true;
 		} catch (SQLException sqle) {
-			throw new UsuarioException("Não foi possível cadastrar seu usuário\n" + sqle.getMessage(), "Erro Ao Cadastrar Usuário");
+			throw new UsuarioException("Não foi possível cadastrar seu usuário\n" + sqle.getMessage(), "Erro ao cadastrar usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -61,7 +61,7 @@ public class ControleDadosUsuarios {
 			    dadosLogin.setId(rs.getLong("id_user"));
 			} 
 		} catch (SQLException sqle) {
-			throw new UsuarioException("Não foi possível buscar os dados desse usuário" + sqle.getMessage(), "Erro Ao Buscar Dados Do Usuário");
+			throw new UsuarioException("Não foi possível buscar os dados desse usuário" + sqle.getMessage(), "Erro ao buscar dados do usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -71,6 +71,7 @@ public class ControleDadosUsuarios {
 	
 	public static String BuscaNomeUser(Long id) throws BancoDadosException, UsuarioException {
 		bancoDados.Conecta();	
+		
 		String nomeUser = null;
 		
 		try {
@@ -82,7 +83,7 @@ public class ControleDadosUsuarios {
 				nomeUser = (rs.getString("nome"));	
 			}
 		} catch (SQLException sqle) {
-			throw new UsuarioException("Não foi possível buscar os nome desse usuário" + sqle.getMessage(), "Erro Ao Nome Do Usuário");
+			throw new UsuarioException("Não foi possível buscar os nome desse usuário" + sqle.getMessage(), "Erro ao buscar nome do usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -92,6 +93,7 @@ public class ControleDadosUsuarios {
 	
 	public static Long BuscaIdUser(String nome) throws BancoDadosException, UsuarioException {
 		bancoDados.Conecta();	
+		
 		Long id = null;
 		
 		try {
@@ -103,7 +105,7 @@ public class ControleDadosUsuarios {
 				id = (rs.getLong("id_user"));	
 			}
 		} catch (SQLException sqle) {
-			throw new UsuarioException("Não foi possível buscar o nome desse usuário" +  sqle.getMessage(), "Erro Ao Buscar Id Do Usuário");
+			throw new UsuarioException("Não foi possível buscar o nome desse usuário" +  sqle.getMessage(), "Erro ao buscar ID do usuário");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -113,6 +115,7 @@ public class ControleDadosUsuarios {
 	
 	public static boolean ConfereEmail(String email) throws BancoDadosException, UsuarioException {
 		bancoDados.Conecta();	
+		
 		boolean encontrei = false;
 		
 		try {
@@ -124,7 +127,7 @@ public class ControleDadosUsuarios {
 				encontrei = true;
 			}
 		} catch (SQLException sqle) {
-			throw new UsuarioException("Não foi possível buscar o email desse usuário" + sqle.getMessage(), "Erro Ao Conferir Email");
+			throw new UsuarioException("Não foi possível buscar o email desse usuário" + sqle.getMessage(), "Erro ao conferir email");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -133,16 +136,16 @@ public class ControleDadosUsuarios {
 	}
 	
 	public static String ConvertMD5(String wordConvert) throws ConverteSenhaException{
-		MessageDigest md = null;
+		MessageDigest messageDigest = null;
 		
 		try {
-			md = MessageDigest.getInstance("MD5");
+			messageDigest = MessageDigest.getInstance("MD5");
 		} catch (NoSuchAlgorithmException nsae) {
-			throw new ConverteSenhaException(nsae.getMessage(), "Erro Ao Converte Senha");
-			
+			throw new ConverteSenhaException(nsae.getMessage(), "Erro ao converter senha");
 		} 
-		md.update(wordConvert.getBytes(),0,wordConvert.length()); 
-//	    System.out.println("MD5: "+ new BigInteger(1, m.digest()).toString(16));
-		return new BigInteger(1, md.digest()).toString(16);
+		
+		messageDigest.update(wordConvert.getBytes(),0,wordConvert.length()); 
+		
+		return new BigInteger(1, messageDigest.digest()).toString(16);
 	}
 }

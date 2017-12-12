@@ -26,15 +26,12 @@ import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 public class TelaLogin {
 	
 	private JFrame myViewLogin;
-	
 	private JTextField txtNovoUsuario;
 	private JTextField textAreaUser;
 	private JPasswordField passwordField;
-	
 	private BancoDeDados bancoDDados = new BancoDeDados();
 
 	public TelaLogin() {
-		
 		try {
 			bancoDDados.Conecta();
 		} catch (BancoDadosException dbe) {
@@ -92,7 +89,6 @@ public class TelaLogin {
 					
 					myViewLogin.dispose();
 					new TelaPrincipal(dadosLogin);
-					
 				}  catch (BancoDadosException dbe) {
 					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (UsuarioException ee) {
@@ -113,6 +109,7 @@ public class TelaLogin {
 		btnCancel.setBackground(new Color(255, 255, 255));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				myViewLogin.dispose();
 				
 				try {

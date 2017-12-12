@@ -66,14 +66,14 @@ public class TelaCadastroFilme {
 		if (textFieldNome.getText().trim().isEmpty() || textFieldWorKeys.getText().trim().isEmpty() || textFieldData.getText().trim().isEmpty() || 
 			textFieldDiretor.getText().trim().isEmpty() || textFieldDuracao.getText().trim().isEmpty() || 
 			textFieldGenero.getText().trim().isEmpty() || editorPaneDescricao.getText().trim().isEmpty()) {
-			throw new CadastroFilmeException("Preencha todos os campos para que seja possível salvar o filme.", "Erro Ao Salvar");
+			throw new CadastroFilmeException("Preencha todos os campos para que seja possível salvar o filme.", "Erro ao salvar");
 		}
 	}
 	
 	public void contensHifen(JTextField textFieldWorKeys) throws CadastroFilmeException{
 		if(!textFieldWorKeys.getText().contains("-")) {
 			throw new CadastroFilmeException("Campo 'Palavras-chave' não está preenchido corretamente.\n"
-					+ "Para salvar o filme as palavras-chave precisa ser separadas por '-'.", "Campo Palavras-chave não corresponde ao padrão");
+					+ "Para salvar o filme as palavras-chave precisa ser separadas por '-'.", "Campo Palavras-Chave não corresponde ao padrão");
 		}
 	}
 	
@@ -196,7 +196,7 @@ public class TelaCadastroFilme {
 		textFieldWorKeys = new JTextField();
 		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldWorKeys.setBounds(10, 190, 575, 30);
-		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, palavra1-palavra2...");
+		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, PalavraChave1-PalavraChave2...");
 		textFieldWorKeys.setColumns(10);
 		viewCadastroFilme.getContentPane().add(textFieldWorKeys);
 		
@@ -228,7 +228,7 @@ public class TelaCadastroFilme {
 		btnSalvar.setBounds(60, 445, 150, 25);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				
 				String nome = textFieldNome.getText();
 				String data = textFieldData.getText();
 				String descricao = editorPaneDescricao.getText();
@@ -240,7 +240,6 @@ public class TelaCadastroFilme {
 				Filme filme = new Filme(nome, data, descricao, wordsKeys, genero, duracao, diretor);
 				
 				try {
-					
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
 					contensHifen(textFieldWorKeys);
 					ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
@@ -275,7 +274,6 @@ public class TelaCadastroFilme {
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
 		
 		textFieldDiretor = new JTextField();
-		textFieldDiretor.setToolTipText("Caso você for adicionar mais de um diretor");
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDiretor.setColumns(10);
 		textFieldDiretor.setBounds(455, 245, 130, 30);

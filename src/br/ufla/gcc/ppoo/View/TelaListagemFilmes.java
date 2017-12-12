@@ -38,7 +38,6 @@ public class TelaListagemFilmes {
 	private JTable tableFilmes;
 	private JScrollPane scrollPaneList;
 	private DadosLogin dl;
-	
 	private static boolean status = false;
 	
 	private ArrayList<Filme> listFilms = new ArrayList<>();
@@ -85,26 +84,6 @@ public class TelaListagemFilmes {
 			}
 		});
 	}
-	
-//	public ArrayList<Filme> ordenaLista(ArrayList<Filme> listFilmes) {
-//	    Filme aux;
-//	    
-//	    for (int i = 0; i < listFilmes.size()-1; i++) {
-//			for (int j = 0; j < listFilmes.size()-1-i; j++) {					
-//				if (compareTo(listFilmes.get(j), listFilmes.get(j+1)) >= 1) {
-//					aux = listFilmes.get(j+1);
-//					listFilmes.set(j+1,  listFilmes.get(j));
-//					listFilmes.set(j, aux);
-//				} 
-//			}
-//		}
-//	    
-//	    return listFilmes;
-//	}
-//	
-//	public static int compareTo(Filme filme1, Filme filme2) {
-//		return filme1.getNome().toUpperCase().compareToIgnoreCase(filme2.getNome().toUpperCase());
-//	}
 	
 	public void ConfereTabelaEditar(JTable tableFilmes) throws BuscasException{
 		if (tableFilmes.getSelectedRow() == -1) {
@@ -199,11 +178,7 @@ public class TelaListagemFilmes {
 		btnVisualizar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-//					Filme filme = new Filme (Filme.comparaFilme(listFilms, filmeSelect));
-
 				try {
-					
 					ConfereTabelaVisualizar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
@@ -211,7 +186,6 @@ public class TelaListagemFilmes {
 					viewListagem.dispose();
 					
 					new TelaVisualizaFilme(dl, filme, "TelaListagem");
-					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException dbe) {
@@ -232,7 +206,6 @@ public class TelaListagemFilmes {
 		btnEditar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/editar.png")));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {	
-				
 				try {
 					ConfereTabelaEditar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);	
@@ -243,7 +216,6 @@ public class TelaListagemFilmes {
 					viewListagem.setVisible(false);
 					
 					new TelaEditaFilme(dl, filme);
-					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException dbe) {
@@ -264,9 +236,7 @@ public class TelaListagemFilmes {
 		btnRemover.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/deletar.png")));
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				try {
-					
 					ConfereTabelaDeletar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);		
 					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
@@ -277,13 +247,11 @@ public class TelaListagemFilmes {
 						ControleDadosAvaliacao.DeletaAvaliacaoDoFllme(filme.getId_filme());
 						ControleDadosFilmes.DeletaFilme(filme);
 	
-						JOptionPane.showMessageDialog(null, "Filme deletado do banco de dados com sucesso.", "Filme Deletado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Filme deletado com sucesso.", "Filme deletado", JOptionPane.WARNING_MESSAGE);
 						
 						listFilms = atualizaLista(dl);
-//						listFilms = ordenaLista(listFilms);
 						constroiTabela(listFilms);
 					}
-					
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (BancoDadosException dbe) {

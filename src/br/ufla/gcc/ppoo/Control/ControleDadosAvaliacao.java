@@ -20,7 +20,6 @@ public class ControleDadosAvaliacao {
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into avaliation(id_user_avaliador, id_filme_avaliado, bool_avaliacao) values(?,?,?)");
-			
 			pst.setLong(1, avaliacao.getId_user());
 			pst.setLong(2, avaliacao.getId_filme());		
 			pst.setBoolean(3, avaliacao.getAvaliacao());
@@ -28,7 +27,7 @@ public class ControleDadosAvaliacao {
 			
 			ok = true;
 		} catch (SQLException sqle) {
-			throw new AvaliacaoException("Não foi possível cadastrar a sua avaliação\n" + sqle.getMessage(), "Erro Ao Cadastrar Avaliação");
+			throw new AvaliacaoException("Não foi possível cadastrar a sua avaliação\n" + sqle.getMessage(), "Erro ao cadastrar avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -36,10 +35,8 @@ public class ControleDadosAvaliacao {
 	}	
 	
 	public static boolean BuscarAvaliacao(Long id, Long id_filme) throws AvaliacaoException, BancoDadosException{
-//		public static ArrayList<Avaliacao> BuscarAvaliacao(Long id) throws AvaliacaoException, BancoDadosException{
 		bancoDados.Conecta();
-//		ArrayList<Avaliacao> listAvaliacao = new ArrayList<>();
-//		Long idReceived, id_filmeReceived;
+		
 		boolean ok = false;
 		
 		try {
@@ -49,18 +46,10 @@ public class ControleDadosAvaliacao {
 			ResultSet rs = pst.executeQuery();	
 			
 			if (rs.next()) {	
-				
-//				idReceived = rs.getLong("id_user_avaliador");
-//				id_filmeReceived = rs.getLong("id_filme_avaliado");
-//				avaliacaoBool = rs.getBoolean("bool_avaliacao");
-//				
-//				Avaliacao avaliacao = new Avaliacao(idReceived, id_filmeReceived, avaliacaoBool);
-//				
-//				listAvaliacao.add(avaliacao);
 				ok = true;
 			}
 		} catch (SQLException sqle) {
-			throw new AvaliacaoException("Não foi possível buscar avaliação desse usuário\n" + sqle.getMessage(), "Erro Ao Buscar Avaliação");
+			throw new AvaliacaoException("Não foi possível buscar a avaliação desse usuário\n" + sqle.getMessage(), "Erro ao buscar avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}
@@ -75,19 +64,18 @@ public class ControleDadosAvaliacao {
 		
 		try {
 			PreparedStatement pst = bancoDados.getConnection().prepareStatement("DELETE from avaliation where id_filme_avaliado = ?");
-			
 			pst.setLong(1, id_filme);
 			pst.execute();
 			pst.close();	
 			
 			encontrou = true;
 		} catch (SQLException sqle) {
-			throw new AvaliacaoException("Não foi possível deletar as avaliações desse filme\n" + sqle.getMessage(), "Erro Ao Deletar Avaliação");
+			throw new AvaliacaoException("Não foi possível deletar as avaliações desse filme\n" + sqle.getMessage(), "Erro ao deletar avaliação");
 		} finally {
 			bancoDados.Desconecta();
 		}
 		
 		return encontrou;
 	}
-
+	
 }

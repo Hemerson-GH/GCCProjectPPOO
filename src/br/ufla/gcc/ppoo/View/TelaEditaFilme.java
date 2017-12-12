@@ -28,7 +28,6 @@ import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 public class TelaEditaFilme {
 	
 	private JFrame viewEditaFilme;
-	
 	private JTextField textFieldNome;
 	private JTextField textFieldData;
 	private JTextField textFieldDuracao;
@@ -36,16 +35,11 @@ public class TelaEditaFilme {
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
-	
 	private DadosLogin dl;
 	
 	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme){
 		viewListagemDeFilmes(dadosLogin, filme);
 	}
-	
-//	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException{
-//		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
-//	}
 	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
@@ -144,7 +138,7 @@ public class TelaEditaFilme {
 		textFieldGenero.setColumns(10);
 		viewEditaFilme.getContentPane().add(textFieldGenero);
 		
-		JLabel lblPalavras = new JLabel("Palavras-chaves(mínimo 2)");
+		JLabel lblPalavras = new JLabel("Palavras-chave(mínimo 2)");
 		lblPalavras.setBounds(10, 165, 185, 25);
 		lblPalavras.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPalavras.setForeground(new Color(255, 255, 255));
@@ -156,7 +150,7 @@ public class TelaEditaFilme {
 		textFieldWorKeys.setText(filme.getWordKeys());
 		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldWorKeys.setBounds(10, 190, 575, 30);
-		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
+		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, PalavraChave1-PalavraChave2...");
 		textFieldWorKeys.setColumns(10);
 		viewEditaFilme.getContentPane().add(textFieldWorKeys);
 		
@@ -188,7 +182,6 @@ public class TelaEditaFilme {
 		
 		textFieldDiretor = new JTextField();
 		textFieldDiretor.setText(filme.getDiretor());
-		textFieldDiretor.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDiretor.setColumns(10);
 		textFieldDiretor.setBounds(455, 245, 130, 30);
@@ -209,12 +202,10 @@ public class TelaEditaFilme {
 				filme.setDiretor(textFieldDiretor.getText());
 				
 				try {
-					
 					ControleDadosFilmes.AlteraFilme(filme, guardarFilme);
-					JOptionPane.showMessageDialog(null, "Filme Editado no banco de dados com sucesso.", "Filme Editado Com Sucesso", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Filme editado com sucesso.", "Filme editado", JOptionPane.WARNING_MESSAGE);
 					viewEditaFilme.dispose();
 					new TelaListagemFilmes(dl);
-					
 				} catch (BancoDadosException bdex){
 					JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (FilmeExistenteException fex) {
@@ -235,6 +226,7 @@ public class TelaEditaFilme {
 		btnCancelar.setBounds(390, 445, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				viewEditaFilme.dispose();
 				
 				try {

@@ -24,7 +24,6 @@ import br.ufla.gcc.ppoo.Exceptions.UsuarioExistenteException;
 public class TelaCadastroUsuario {
 
 	private JFrame myViewCadastro;
-
 	private JPasswordField passwordField;
 	private JPasswordField passwordFieldConfir;
 	private JTextField textFieldNome;
@@ -36,21 +35,21 @@ public class TelaCadastroUsuario {
 	
 	public void ConfereSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if (!senhaPri.equals(senhaSec)) {
-			throw new CadastroUsuarioException("As senha digitadas não conferem, digite novamente.", "Senha Inválida");
+			throw new CadastroUsuarioException("As senha digitadas não conferem, digite novamente.", "Senha inválida");
 		} 
 	}
 	
 	public void ConfereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if ( (senhaPri.trim().length() <= 3)  || (senhaSec.trim().length() <= 3) ) {
 			throw new CadastroUsuarioException("A senha digitada deve conter no mínimo quatro dígitos."
-					+ "\nPor favor digite uma nova senha válida.", "Senha Inválida");
+					+ "\nPor favor digite uma nova senha válida.", "Senha inválida");
 		} 
 	}
 	
 	public void ConfereCampoEmail(JTextField textFieldEmail) throws CadastroUsuarioException{
 		if (!textFieldEmail.getText().contains("@") || !textFieldEmail.getText().contains(".com")) {
 			throw new CadastroUsuarioException("O campo email está preenchido incorretamente.\nLembre-se de inserir um email válido, "
-					+ "exemplo nome@dominio.com", "Campo Email Incorreto");
+					+ "exemplo nome@dominio.com", "Campo email incorreto");
 		} 
 	}
 	
@@ -61,7 +60,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		myViewCadastro.setResizable(false);
 		myViewCadastro.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		myViewCadastro.setTitle("Cadastro De Novo Usuário");
+		myViewCadastro.setTitle("Cadastro De Usuário");
 		myViewCadastro.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		myViewCadastro.getContentPane().setLayout(null);
 		
@@ -133,9 +132,8 @@ public class TelaCadastroUsuario {
 					myViewCadastro.dispose();
 					
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso.\nAgora você será redirecionado para tela de login.", 
-																						"Cadastro sucedido", JOptionPane.INFORMATION_MESSAGE);
+																						"Cadastro realizado", JOptionPane.INFORMATION_MESSAGE);
 					new TelaLogin();
-					
 				} catch (CadastroUsuarioException cue) {
 					JOptionPane.showMessageDialog(null, cue.getMessage(), cue.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} catch (ConverteSenhaException cse) {

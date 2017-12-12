@@ -14,9 +14,9 @@ public class RecuperaSenha {
     private String hostName = "smtp.gmail.com";
     private String nomeRemetente = "AnnotFilm's";
     private String remetente = "gcc178project@gmail.com";
-    private String destinatarios = "raydsonferreira@gmail.com"; 
-    private String assuntoEmail = "teste email";
-    private String mensagemEmail = "Aprendi enviar email e agora consigo linkar isso para recurar sua senha no meu sistema";
+    private String destinatarios; 
+    private String assuntoEmail;
+    private String mensagemEmail;
     private String usuarioEmail = "gcc178project@gmail.com";
     private String senhaEmail = "PauloGcc178";
     private int portaEnvio = 465;

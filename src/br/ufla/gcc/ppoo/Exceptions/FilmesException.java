@@ -5,7 +5,7 @@ public class FilmesException extends Exception{
 	private String titulo;
 	
 	public FilmesException(String msg, String titulo) {
-		super(msg + "\nEntre Em Contato Com O Administrador Do Sistema.");	
+		super("Erro: " + msg + "\nEntre em contato com o Administrador do Sistema");	
 		this.titulo = titulo;
 	}
 	
