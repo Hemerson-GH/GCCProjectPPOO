@@ -72,7 +72,7 @@ public class TelaLogin {
 		passwordField.setBounds(90, 111, 220, 25);
 		myViewLogin.getContentPane().add(passwordField);
 		
-		JButton btnEnter = new JButton("Sing in");
+		JButton btnEnter = new JButton("Entrar");
 		btnEnter.setForeground(new Color(0, 0, 0));
 		btnEnter.setToolTipText("Entrar");
 		btnEnter.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -103,7 +103,7 @@ public class TelaLogin {
 		btnEnter.setBounds(90, 160, 90, 25);
 		myViewLogin.getContentPane().add(btnEnter);
 		
-		JButton btnCancel = new JButton("Exit");
+		JButton btnCancel = new JButton("Sair");
 		btnCancel.setToolTipText("Sair");
 		btnCancel.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancel.setBackground(new Color(255, 255, 255));

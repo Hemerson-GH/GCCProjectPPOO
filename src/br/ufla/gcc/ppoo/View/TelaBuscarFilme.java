@@ -37,6 +37,7 @@ public class TelaBuscarFilme {
 	private JTextField textFieldBusca;
 	private static boolean status = false;
 	private ArrayList<Filme> listFilms = new ArrayList<>();
+	private DadosLogin dl;
 
 	public static boolean getStatus() { 
 		return status;
@@ -127,10 +128,7 @@ public class TelaBuscarFilme {
 		viewTelaBuscarFilme(dadosLogin);
 	}
 	
-	public void viewTelaBuscarFilme(DadosLogin dadosLogin) throws BancoDadosException, UsuarioException{
-		
-		setStatus(true);
-		DadosLogin dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+	public void viewTelaBuscarFilme(DadosLogin dadosLogin) {
 		
 		viewBuscarFilme = new JFrame();	
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
@@ -142,13 +140,23 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewBuscarFilme.setBackground(new Color(0, 0, 255));
 		viewBuscarFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewBuscarFilme.setVisible(false);
-		viewBuscarFilme.getContentPane().setLayout(null);
+//		viewBuscarFilme.setVisible(false);
 		viewBuscarFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewBuscarFilme.getContentPane().setForeground(new Color(255, 255, 255));
 		viewBuscarFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewBuscarFilme.setTitle("Buscar Filmes");
 		viewBuscarFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewBuscarFilme.getContentPane().setLayout(null);
+		
+		setStatus(true);
+		
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		scrollPaneList = new JScrollPane();
 		scrollPaneList.setBounds(10, 175, 875, 320);

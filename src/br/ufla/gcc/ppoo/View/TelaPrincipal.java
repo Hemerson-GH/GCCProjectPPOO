@@ -72,7 +72,7 @@ public class TelaPrincipal {
 		mnItemCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (!(TelaCadastroFilme.getStatus())) {
+				if (!TelaCadastroFilme.getStatus()) {
 					new TelaCadastroFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);
@@ -88,14 +88,12 @@ public class TelaPrincipal {
 		mnItemListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (!(TelaListagemFilmes.getStatus())) {
-					
+				if (!TelaListagemFilmes.getStatus()) {
 					try {
 						new TelaListagemFilmes(dadosLogin);
 					} catch (BancoDadosException dbe) {
 						JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 					}
-					
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);
 				}
@@ -112,7 +110,7 @@ public class TelaPrincipal {
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if (!(TelaBuscarFilme.getStatus())) {
+				if (!TelaBuscarFilme.getStatus()) {
 					try {
 						new TelaBuscarFilme(dadosLogin);
 					} catch (BancoDadosException dbe) {
@@ -138,7 +136,7 @@ public class TelaPrincipal {
 		JMenuItem mnRecomendacoes = new JMenuItem("Recomendações");
 		mnRecomendacoes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (!(TelaRecomendaFilme.getStatus())) {
+				if (!TelaRecomendaFilme.getStatus()) {
 					new TelaRecomendaFilme(dadosLogin);
 				} else {
 					JOptionPane.showMessageDialog(null, "Uma janela já está em execução", "Tela em execução", JOptionPane.WARNING_MESSAGE);

@@ -53,6 +53,18 @@ public class TelaEditaFilme {
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin, Filme filme) {
 		
+		viewEditaFilme = new JFrame();
+		viewEditaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		viewEditaFilme.setBackground(new Color(0, 0, 255));
+		viewEditaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+//		viewEditaFilme.setVisible(false);
+		viewEditaFilme.getContentPane().setBackground(new Color(51, 102, 153));
+		viewEditaFilme.getContentPane().setForeground(new Color(255, 255, 255));
+		viewEditaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		viewEditaFilme.setTitle("Editar Filme");
+		viewEditaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewEditaFilme.getContentPane().setLayout(null);
+		
 		try {
 			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
@@ -60,18 +72,6 @@ public class TelaEditaFilme {
 		} catch (UsuarioException ee) {
 			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} 
-		
-		viewEditaFilme = new JFrame();
-		viewEditaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		viewEditaFilme.setBackground(new Color(0, 0, 255));
-		viewEditaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewEditaFilme.setVisible(false);
-		viewEditaFilme.getContentPane().setLayout(null);
-		viewEditaFilme.getContentPane().setBackground(new Color(51, 102, 153));
-		viewEditaFilme.getContentPane().setForeground(new Color(255, 255, 255));
-		viewEditaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewEditaFilme.setTitle("Editar Filme");
-		viewEditaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(10, 100, 45, 25);
@@ -249,8 +249,8 @@ public class TelaEditaFilme {
 		lblEditarFilme.setBounds(125, 20, 325, 55);
 		viewEditaFilme.getContentPane().add(lblEditarFilme);
 		
-		viewEditaFilme.setResizable(false);
 		viewEditaFilme.setSize(600, 520);
-		viewEditaFilme.setVisible(true);		
+		viewEditaFilme.setVisible(true);
+		viewEditaFilme.setResizable(false);
 	}
 }

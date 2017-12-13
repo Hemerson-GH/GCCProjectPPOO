@@ -127,16 +127,6 @@ public class TelaRecomendaFilme {
 	
 	public void viewTelaRecomendaFilme(DadosLogin dadosLogin){
 		
-		setStatus(true);
-		
-		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
-		} catch (BancoDadosException bdex){
-			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		} catch (UsuarioException ee) {
-			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		} 
-		
 		viewTelaRecomenda = new JFrame();	
 		viewTelaRecomenda.addWindowListener(new WindowAdapter() {
 			@Override
@@ -147,13 +137,23 @@ public class TelaRecomendaFilme {
 		viewTelaRecomenda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewTelaRecomenda.setBackground(new Color(0, 0, 255));
 		viewTelaRecomenda.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewTelaRecomenda.setVisible(false);
-		viewTelaRecomenda.getContentPane().setLayout(null);
+//		viewTelaRecomenda.setVisible(false);
 		viewTelaRecomenda.getContentPane().setBackground(new Color(51, 102, 153));
 		viewTelaRecomenda.getContentPane().setForeground(new Color(255, 255, 255));
 		viewTelaRecomenda.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewTelaRecomenda.setTitle("Buscar Filmes");
 		viewTelaRecomenda.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewTelaRecomenda.getContentPane().setLayout(null);
+		
+		setStatus(true);
+		
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		scrollPaneList = new JScrollPane();
 		scrollPaneList.setBounds(10, 125, 875, 375);
@@ -265,7 +265,7 @@ public class TelaRecomendaFilme {
 		viewTelaRecomenda.getContentPane().add(btnCancelar);
 				
 		viewTelaRecomenda.setResizable(false);
-		viewTelaRecomenda.setSize(900, 600);
+		viewTelaRecomenda.setSize(915, 600);
 		viewTelaRecomenda.setVisible(true);		
 	}
 }

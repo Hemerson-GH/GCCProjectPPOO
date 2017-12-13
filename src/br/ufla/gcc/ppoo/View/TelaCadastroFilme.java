@@ -32,12 +32,7 @@ public class TelaCadastroFilme {
 
 	private JFrame viewCadastroFilme;
 	private static boolean status = false;
-	private DadosLogin dl;
-	
-	public static boolean getStatus() { 
-		return status;
-	}
-	
+	private DadosLogin dl;	
 	private JTextField textFieldNome;
 	private JTextField textFieldData;
 	private JTextField textFieldDuracao;
@@ -45,6 +40,10 @@ public class TelaCadastroFilme {
 	private JTextField textFieldWorKeys;
 	private JEditorPane editorPaneDescricao;
 	private JTextField textFieldDiretor;
+	
+	public static boolean getStatus() { 
+		return status;
+	}
 	
 	public static void setStatus(boolean bool) {
 		status = bool;
@@ -62,7 +61,6 @@ public class TelaCadastroFilme {
 	
 	public void confereCampos(JTextField textFieldNome, JTextField textFieldWorKeys, JTextField textFieldData, JTextField textFieldDuracao, 
 			JTextField textFieldGenero, JEditorPane editorPaneDescricao, JTextField textFieldDiretor) throws CadastroFilmeException{
-		
 		if (textFieldNome.getText().trim().isEmpty() || textFieldWorKeys.getText().trim().isEmpty() || textFieldData.getText().trim().isEmpty() || 
 			textFieldDiretor.getText().trim().isEmpty() || textFieldDuracao.getText().trim().isEmpty() || 
 			textFieldGenero.getText().trim().isEmpty() || editorPaneDescricao.getText().trim().isEmpty()) {
@@ -83,16 +81,6 @@ public class TelaCadastroFilme {
 	
 	public void viewTelaCadastroFilme(DadosLogin dadosLogin){
 		
-		setStatus(true);
-		
-		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
-		} catch (BancoDadosException bdex){
-			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		} catch (UsuarioException ee) {
-			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		} 
-		
 		viewCadastroFilme = new JFrame();
 		viewCadastroFilme.addWindowListener(new WindowAdapter() {
 			@Override
@@ -103,13 +91,23 @@ public class TelaCadastroFilme {
 		viewCadastroFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewCadastroFilme.setBackground(new Color(0, 0, 255));
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewCadastroFilme.setVisible(false);
-		viewCadastroFilme.getContentPane().setLayout(null);
+//		viewCadastroFilme.setVisible(true);
 		viewCadastroFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewCadastroFilme.getContentPane().setForeground(new Color(255, 255, 255));
 		viewCadastroFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewCadastroFilme.setTitle("Cadastrar Filme");
 		viewCadastroFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewCadastroFilme.getContentPane().setLayout(null);
+		
+		setStatus(true);
+		
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		JLabel lblCadastro = new JLabel("Cadastrar Filme");
 		lblCadastro.setForeground(new Color(255, 255, 255));
@@ -214,6 +212,7 @@ public class TelaCadastroFilme {
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaCampos();
+				setStatus(false);
 				viewCadastroFilme.dispose();
 			}
 		});

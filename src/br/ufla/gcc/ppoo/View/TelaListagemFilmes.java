@@ -50,10 +50,6 @@ public class TelaListagemFilmes {
 		status = bool;
 	}
 	
-	public TelaListagemFilmes(DadosLogin dadosLogin) throws BancoDadosException{
-		viewListagemDeFilmes(dadosLogin);
-	}
-	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
 		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
 	}
@@ -103,17 +99,11 @@ public class TelaListagemFilmes {
 		}
 	}
 	
+	public TelaListagemFilmes(DadosLogin dadosLogin) throws BancoDadosException{
+		viewListagemDeFilmes(dadosLogin);
+	}
+	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin) throws BancoDadosException {
-		
-		setStatus(true);
-
-		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
-		} catch (BancoDadosException bdex){
-			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		} catch (UsuarioException ee) {
-			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
-		} 
 		
 		viewListagem = new JFrame();
 		viewListagem.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -125,13 +115,23 @@ public class TelaListagemFilmes {
 		});
 		viewListagem.setBackground(new Color(0, 0, 255));
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewListagem.setVisible(true);
-		viewListagem.getContentPane().setLayout(null);
+//		viewListagem.setVisible(true);
 		viewListagem.getContentPane().setBackground(new Color(51, 102, 153));
 		viewListagem.getContentPane().setForeground(new Color(255, 255, 255));
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewListagem.setTitle("Meus Filme");
+		viewListagem.setTitle("Meus Filmes");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewListagem.getContentPane().setLayout(null);
+		
+		setStatus(true);
+
+		try {
+			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+		} catch (BancoDadosException bdex){
+			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} catch (UsuarioException ee) {
+			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
+		} 
 		
 		scrollPaneList = new JScrollPane();
 		scrollPaneList.setBounds(10, 125, 875, 400);
@@ -287,8 +287,8 @@ public class TelaListagemFilmes {
 		btnCancelar.setBounds(765, 535, 120, 25);
 		viewListagem.getContentPane().add(btnCancelar);
 		
+		viewListagem.setSize(915, 615);
 		viewListagem.setResizable(false);
-		viewListagem.setSize(914, 615);
-		viewListagem.setVisible(true);				
+		viewListagem.setVisible(true);		
 	}
 }

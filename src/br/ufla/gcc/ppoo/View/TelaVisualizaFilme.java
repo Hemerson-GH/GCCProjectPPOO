@@ -89,6 +89,25 @@ public class TelaVisualizaFilme {
 	@SuppressWarnings("unchecked")
 	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) {
 		
+		viewVisualizaFilme = new JFrame();
+		viewVisualizaFilme.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		viewVisualizaFilme.setBackground(new Color(0, 0, 255));
+		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+//		viewVisualizaFilme.setVisible(false);
+		viewVisualizaFilme.getContentPane().setBackground(new Color(51, 102, 153));
+		viewVisualizaFilme.getContentPane().setForeground(new Color(255, 255, 255));
+		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		viewVisualizaFilme.setTitle("Visualiza Filme");
+		viewVisualizaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
+		viewVisualizaFilme.getContentPane().setLayout(null);
+		
+		JLabel lblVisualizarFilme = new JLabel("Visualizar Filme");
+		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
+		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
+		lblVisualizarFilme.setForeground(Color.WHITE);
+		lblVisualizarFilme.setBounds(190, 10, 185, 30);
+		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
+		
 		try {
 			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
@@ -98,25 +117,6 @@ public class TelaVisualizaFilme {
 		} 
 		
 		boolean avaibleAvaliation = contemFilme(filme, dl);
-		
-		viewVisualizaFilme = new JFrame();
-		viewVisualizaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		viewVisualizaFilme.setBackground(new Color(0, 0, 255));
-		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewVisualizaFilme.setVisible(false);
-		viewVisualizaFilme.getContentPane().setLayout(null);
-		viewVisualizaFilme.getContentPane().setBackground(new Color(51, 102, 153));
-		viewVisualizaFilme.getContentPane().setForeground(new Color(255, 255, 255));
-		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-		viewVisualizaFilme.setTitle("Visualiza Filme");
-		viewVisualizaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		
-		JLabel lblVisualizarFilme = new JLabel("Visualizar Filme");
-		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
-		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
-		lblVisualizarFilme.setForeground(Color.WHITE);
-		lblVisualizarFilme.setBounds(190, 10, 185, 30);
-		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		if (!avaibleAvaliation) {
 			
