@@ -68,10 +68,17 @@ public class TelaCadastroFilme {
 		}
 	}
 	
-	public void contensHifen(JTextField textFieldWorKeys) throws CadastroFilmeException{
-		if(!textFieldWorKeys.getText().contains("-")) {
+	public void contensHifen(String textFieldWorKeys) throws CadastroFilmeException{
+		if(!textFieldWorKeys.contains("-")) {
 			throw new CadastroFilmeException("Campo 'Palavras-chave' não está preenchido corretamente.\n"
-					+ "Para salvar o filme as palavras-chave precisa ser separadas por '-'.", "Campo Palavras-Chave não corresponde ao padrão");
+					+ "Para salvar o filme as palavras-chave precisa ser separadas por '-'.", "Campo Palavras-Chave incorreto");
+		}
+	}
+	
+	public void contemPalavrasChave(String textFieldWorKeys) throws CadastroFilmeException {
+		String[] wordKeyHifen = textFieldWorKeys.split("-");
+		if (wordKeyHifen.length < 2) {
+			throw new CadastroFilmeException("Insira mais de uma palavra-chave", "Campo Palavras-Chave incorreto");
 		}
 	}
 	
@@ -240,7 +247,8 @@ public class TelaCadastroFilme {
 				
 				try {
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
-					contensHifen(textFieldWorKeys);
+					contensHifen(textFieldWorKeys.getText());
+					contemPalavrasChave(textFieldWorKeys.getText());
 					ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
 					
 					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
