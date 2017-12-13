@@ -213,7 +213,8 @@ public class TelaListagemFilmes {
 					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
 					
 					setStatus(false);
-					viewListagem.setVisible(false);
+//					viewListagem.setVisible(false);
+					viewListagem.dispose();
 					
 					new TelaEditaFilme(dl, filme);
 				} catch (BuscasException be) {

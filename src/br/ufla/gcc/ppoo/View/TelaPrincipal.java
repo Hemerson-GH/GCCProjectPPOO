@@ -71,7 +71,6 @@ public class TelaPrincipal {
 		mnItemCadastro.setBackground(new Color(255, 255, 255));
 		mnItemCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				if (!TelaCadastroFilme.getStatus()) {
 					new TelaCadastroFilme(dadosLogin);
 				} else {
@@ -87,7 +86,6 @@ public class TelaPrincipal {
 		mnItemListagem.setBackground(new Color(255, 255, 255));
 		mnItemListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				if (!TelaListagemFilmes.getStatus()) {
 					try {
 						new TelaListagemFilmes(dadosLogin);
@@ -109,7 +107,6 @@ public class TelaPrincipal {
 		mnItemBuscarFilmes.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				if (!TelaBuscarFilme.getStatus()) {
 					try {
 						new TelaBuscarFilme(dadosLogin);

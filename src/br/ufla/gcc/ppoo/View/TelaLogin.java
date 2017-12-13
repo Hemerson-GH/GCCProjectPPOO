@@ -130,8 +130,8 @@ public class TelaLogin {
 		txtNovoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				new TelaCadastroUsuario();
 				myViewLogin.dispose();
+				new TelaCadastroUsuario();
 			}
 		});
 		txtNovoUsuario.setEditable(false);

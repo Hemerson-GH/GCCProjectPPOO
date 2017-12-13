@@ -183,8 +183,8 @@ public class TelaCadastroUsuario {
 		myViewCadastro.getContentPane().add(fundoCadastro);
 		
 		myViewCadastro.setSize(500, 300);
-		myViewCadastro.setVisible(true);
 		myViewCadastro.setResizable(false);
+		myViewCadastro.setVisible(true);
 	}	
 }	
 
