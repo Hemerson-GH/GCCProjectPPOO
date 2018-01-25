@@ -33,10 +33,16 @@ public class TelaCadastroUsuario {
 		ViewMain();
 	}
 	
+	private void ConfereCampoNome(String nome) throws CadastroUsuarioException {
+		if (nome.trim().isEmpty()) {
+			throw new CadastroUsuarioException("Campo nome não pode ser vazio, digite novamente.", "Nome inválido");
+		}
+	}
+	
 	public void ConfereSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if (!senhaPri.equals(senhaSec)) {
 			throw new CadastroUsuarioException("As senha digitadas não conferem, digite novamente.", "Senha inválida");
-		} 
+		}
 	}
 	
 	public void ConfereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
@@ -119,6 +125,7 @@ public class TelaCadastroUsuario {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
 				try {
+					ConfereCampoNome(textFieldNome.getText());
 					ConfereCampoEmail(textFieldEmail);
 					ConfereTamanhoSenhas(passwordField.getText(), passwordFieldConfir.getText());
 					ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
@@ -146,6 +153,7 @@ public class TelaCadastroUsuario {
 					JOptionPane.showMessageDialog(null, ue.getMessage(), ue.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				} 
 			}
+
 		});
 		btnSalvar.setBounds(80, 210, 105, 35);
 		myViewCadastro.getContentPane().add(btnSalvar);

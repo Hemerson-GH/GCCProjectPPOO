@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -43,7 +45,7 @@ public class TelaLogin {
 	
 	public void confereSenhaUsuario(String senhaInserida, String senhaUsuario) throws BuscasException, ConverteSenhaException {
 		if (!ControleDadosUsuarios.ConvertMD5(senhaInserida).equals(senhaUsuario)) {
-			throw new BuscasException(" Usuário e/ou senha errada...", "Usuário invalido");
+			throw new BuscasException(" UsuÃ¡rio e/ou senha errada...", "UsuÃ¡rio invalido");
 		}
 	}
 
@@ -53,17 +55,14 @@ public class TelaLogin {
 		myViewLogin.getContentPane().setBackground(new Color(51, 102, 153));
 		myViewLogin.getContentPane().setForeground(new Color(255, 255, 255));
 		myViewLogin.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		myViewLogin.setResizable(false);
+		myViewLogin.setResizable(true);
 		myViewLogin.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		myViewLogin.setTitle("Login");
 		myViewLogin.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		myViewLogin.getContentPane().setLayout(null);
 		
 		textAreaUser = new JTextField();
 		textAreaUser.setToolTipText("Digite seu email...");
 		textAreaUser.setBackground(new Color(255, 255, 255));
-		textAreaUser.setBounds(90, 57, 340, 25);
-		myViewLogin.getContentPane().add(textAreaUser);
 		textAreaUser.setColumns(10);
 		
 		passwordField = new JPasswordField();
@@ -126,7 +125,7 @@ public class TelaLogin {
 		txtNovoUsuario.setForeground(new Color(255, 255, 255));
 		txtNovoUsuario.setFont(new Font("Arial", Font.ITALIC, 14));
 		txtNovoUsuario.setBackground(new Color(0, 128, 128));
-		txtNovoUsuario.setToolTipText("Clique aqui para cadastrar um novo usuário");
+		txtNovoUsuario.setToolTipText("Clique aqui para cadastrar um novo usuÃ¡rio");
 		txtNovoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -135,7 +134,7 @@ public class TelaLogin {
 			}
 		});
 		txtNovoUsuario.setEditable(false);
-		txtNovoUsuario.setText("Novo usuário");
+		txtNovoUsuario.setText("Novo usuÃ¡rio");
 		txtNovoUsuario.setBounds(335, 113, 95, 20);
 		myViewLogin.getContentPane().add(txtNovoUsuario);
 		txtNovoUsuario.setOpaque(false);
@@ -150,20 +149,75 @@ public class TelaLogin {
 		JLabel lblLogin = new JLabel("Email:");
 		lblLogin.setForeground(new Color(255, 255, 255));
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblLogin.setBounds(48, 56, 45, 25);
-		myViewLogin.getContentPane().add(lblLogin);
 		
-		JLabel lblAutenticao = new JLabel("Autenticar usuário ");
+		JLabel lblAutenticao = new JLabel("Autenticar usuÃ¡rio ");
 		lblAutenticao.setBackground(new Color(51, 204, 102));
 		lblAutenticao.setFont(new Font("Arial", Font.BOLD, 18));
 		lblAutenticao.setForeground(new Color(255, 255, 255));
 		lblAutenticao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAutenticao.setBounds(125, 10, 225, 35);
 		myViewLogin.getContentPane().add(lblAutenticao);
+		GroupLayout groupLayout = new GroupLayout(myViewLogin.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(125)
+					.addComponent(lblAutenticao, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+					.addGap(119))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(48)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblLogin, GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+							.addGap(337))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(42)
+							.addComponent(textAreaUser, GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)))
+					.addGap(39))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(40)
+					.addComponent(lblSenha, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+					.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+					.addGap(25)
+					.addComponent(txtNovoUsuario, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+					.addGap(39))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(90)
+					.addComponent(btnEnter, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+					.addGap(140)
+					.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+					.addGap(59))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblAutenticao, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+					.addGap(11)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblLogin, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(1)
+							.addComponent(textAreaUser, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
+					.addGap(29)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblSenha, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+						.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(2)
+							.addComponent(txtNovoUsuario, GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
+							.addGap(3)))
+					.addGap(24)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnEnter, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(16))
+		);
+		myViewLogin.getContentPane().setLayout(groupLayout);
 		
 		myViewLogin.setSize(485, 240);
 		myViewLogin.setVisible(true);
-		myViewLogin.setResizable(false);
+		myViewLogin.setResizable(true);
 	}
 }	
 

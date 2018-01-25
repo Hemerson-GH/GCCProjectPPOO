@@ -360,7 +360,8 @@ public class TelaVisualizaFilme {
 						ConfereCampoComentario(editorPaneCommit.getText());
 						ConfereTamanhoCampoComentario(editorPaneCommit.getText());
 						
-						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
+//						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
+						Comentarios commit = new Comentarios(editorPaneCommit.getText(), dl.getId(), filme.getId_filme());
 						ControleDadosComentarios.CadastrarComentario(commit);
 						
 						JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
