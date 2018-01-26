@@ -256,7 +256,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblFieldData);
 		
 		JLabel lblDuraoDoFilme = new JLabel("Duração:");
-		lblDuraoDoFilme.setBounds(154, 190, 75, 25);
+		lblDuraoDoFilme.setBounds(155, 190, 75, 25);
 		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDuraoDoFilme.setForeground(new Color(0, 0, 0));
 		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
@@ -266,7 +266,7 @@ public class TelaVisualizaFilme {
 		JLabel lblTFieldDuracao = new JLabel(filme.getDuracaoFilme());
 		lblTFieldDuracao.setForeground(Color.WHITE);
 		lblTFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblTFieldDuracao.setBounds(154, 215, 85, 30);
+		lblTFieldDuracao.setBounds(155, 215, 85, 30);
 		viewVisualizaFilme.getContentPane().add(lblTFieldDuracao);
 		
 		JLabel lblDireto = new JLabel("Diretor:");
@@ -281,7 +281,7 @@ public class TelaVisualizaFilme {
 		lblTDiretor.setToolTipText(filme.getDiretor());
 		lblTDiretor.setForeground(Color.WHITE);
 		lblTDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblTDiretor.setBounds(475, 215, 110, 30);
+		lblTDiretor.setBounds(470, 215, 110, 30);
 		viewVisualizaFilme.getContentPane().add(lblTDiretor);
 
 		JLabel lblDescrio = new JLabel("Descrição:");
@@ -322,7 +322,7 @@ public class TelaVisualizaFilme {
 				editorPaneCommit.setText("");
 			}
 		});
-		editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+		editorPaneCommit.setText("Escreva um coment\u00E1rio sobre o filme...");
 		editorPaneCommit.setFont(new Font("Microsoft JhengHei", Font.ITALIC, 13));
 		scrollPaneCommit.setViewportView(editorPaneCommit);
 		

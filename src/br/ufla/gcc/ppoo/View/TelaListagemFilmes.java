@@ -115,7 +115,6 @@ public class TelaListagemFilmes {
 		});
 		viewListagem.setBackground(new Color(0, 0, 255));
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		viewListagem.setVisible(true);
 		viewListagem.getContentPane().setBackground(new Color(51, 102, 153));
 		viewListagem.getContentPane().setForeground(new Color(255, 255, 255));
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
@@ -248,7 +247,7 @@ public class TelaListagemFilmes {
 						ControleDadosAvaliacao.DeletaAvaliacaoDoFllme(filme.getId_filme());
 						ControleDadosFilmes.DeletaFilme(filme);
 	
-						JOptionPane.showMessageDialog(null, "Filme deletado com sucesso.", "Filme deletado", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Filme deletado com sucesso.", "Filme deletado", JOptionPane.INFORMATION_MESSAGE);
 						
 						listFilms = atualizaLista(dl);
 						constroiTabela(listFilms);
@@ -289,7 +288,7 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().add(btnCancelar);
 		
 		viewListagem.setSize(915, 615);
-		viewListagem.setResizable(false);
-		viewListagem.setVisible(true);		
+		viewListagem.setVisible(true);	
+		viewListagem.setResizable(true);
 	}
 }

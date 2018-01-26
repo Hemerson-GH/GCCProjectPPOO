@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,6 +19,7 @@ import javax.swing.JSeparator;
 import br.ufla.gcc.ppoo.Dados.DadosLogin;
 import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
 
 public class TelaPrincipal {
 	
@@ -38,7 +38,6 @@ public class TelaPrincipal {
 			public void windowClosing(WindowEvent arg0) {
 				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", 
 													JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					viewMain.dispose();
 					System.exit(0);
@@ -65,9 +64,8 @@ public class TelaPrincipal {
 		mnMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnMenu);
 		
-		JMenuItem mnItemCadastro = new JMenuItem("Cadastra Novo Filme");
+		JMenuItem mnItemCadastro = new JMenuItem("Cadastra Novo Filme", GerenciadorDeImagens.NOVO);
 		mnItemCadastro.setFont(new Font("Arial", Font.PLAIN, 13));
-		mnItemCadastro.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo.png")));
 		mnItemCadastro.setBackground(new Color(255, 255, 255));
 		mnItemCadastro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -80,9 +78,8 @@ public class TelaPrincipal {
 		});
 		mnMenu.add(mnItemCadastro);
 		
-		JMenuItem mnItemListagem = new JMenuItem("Listar Meus Filmes");
+		JMenuItem mnItemListagem = new JMenuItem("Listar Meus Filmes", GerenciadorDeImagens.FILME);
 		mnItemListagem.setFont(new Font("Arial", Font.PLAIN, 13));
-		mnItemListagem.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
 		mnItemListagem.setBackground(new Color(255, 255, 255));
 		mnItemListagem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -100,11 +97,11 @@ public class TelaPrincipal {
 		
 		JSeparator separatorMenu = new JSeparator();
 		mnMenu.add(separatorMenu);
-		mnItemListagem.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnItemListagem);
 		
-		JMenuItem mnItemBuscarFilmes = new JMenuItem("Buscar Filmes");
+		JMenuItem mnItemBuscarFilmes = new JMenuItem("Buscar Filmes", GerenciadorDeImagens.PROCURAR);
 		mnItemBuscarFilmes.setFont(new Font("Arial", Font.PLAIN, 13));
+		mnItemBuscarFilmes.setBackground(new Color(255, 255, 255));
 		mnItemBuscarFilmes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!TelaBuscarFilme.getStatus()) {
@@ -123,14 +120,14 @@ public class TelaPrincipal {
 		
 		JSeparator separatorFilmes = new JSeparator();
 		mnMenu.add(separatorFilmes);
-		mnItemBuscarFilmes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/procurar.png")));
-		mnItemBuscarFilmes.setBackground(new Color(255, 255, 255));
 		mnMenu.add(mnItemBuscarFilmes);
 		
 		JSeparator separatorBusca = new JSeparator();
 		mnMenu.add(separatorBusca);
 		
-		JMenuItem mnRecomendacoes = new JMenuItem("Recomendações");
+		JMenuItem mnRecomendacoes = new JMenuItem("Recomendações", GerenciadorDeImagens.FILME);
+		mnRecomendacoes.setFont(new Font("Arial", Font.PLAIN, 13));
+		mnRecomendacoes.setBackground(new Color(255, 255, 255));
 		mnRecomendacoes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!TelaRecomendaFilme.getStatus()) {
@@ -140,9 +137,6 @@ public class TelaPrincipal {
 				}
 			}
 		});
-		mnRecomendacoes.setBackground(new Color(255, 255, 255));
-		mnRecomendacoes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
-		mnRecomendacoes.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnMenu.add(mnRecomendacoes);
 		
 		JMenu mnSair = new JMenu("Sair");
@@ -150,9 +144,9 @@ public class TelaPrincipal {
 		mnSair.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnSair);
 		
-		JMenuItem mnItemLogout = new JMenuItem("Logout");
+		JMenuItem mnItemLogout = new JMenuItem("Logout", GerenciadorDeImagens.LOGOUT);
 		mnItemLogout.setFont(new Font("Arial", Font.PLAIN, 13));
-		mnItemLogout.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/logout.png")));
+		mnItemLogout.setBackground(new Color(255, 255, 255));
 		mnItemLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JOptionPane.showMessageDialog(null, "Você será redirecionado para a tela de login.", "Tela de Login", JOptionPane.CLOSED_OPTION);
@@ -160,18 +154,15 @@ public class TelaPrincipal {
 				new TelaLogin();
 			}
 		});
-		mnItemLogout.setBackground(new Color(255, 255, 255));
 		mnSair.add(mnItemLogout);
 		
-		JMenuItem mnItemSair = new JMenuItem("Sair");
+		JMenuItem mnItemSair = new JMenuItem("Sair", GerenciadorDeImagens.SAIR);
 		mnItemSair.setFont(new Font("Arial", Font.PLAIN, 13));
-		mnItemSair.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/sair.png")));
+		mnItemSair.setBackground(new Color(255, 255, 255));
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 para sair", 
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				
 				if (JOptionPane.YES_OPTION == confirm) {	
 					viewMain.dispose();
 					System.exit(0);
@@ -181,7 +172,6 @@ public class TelaPrincipal {
 		
 		JSeparator separatorSair = new JSeparator();
 		mnSair.add(separatorSair);
-		mnItemSair.setBackground(new Color(255, 255, 255));
 		mnSair.add(mnItemSair);
 		
 		Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();

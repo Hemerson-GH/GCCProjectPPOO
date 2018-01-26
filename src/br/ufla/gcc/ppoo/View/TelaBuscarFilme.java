@@ -8,7 +8,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,6 +27,7 @@ import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
 import br.ufla.gcc.ppoo.Exceptions.BuscasException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
 
 public class TelaBuscarFilme {
 
@@ -140,7 +140,6 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewBuscarFilme.setBackground(new Color(0, 0, 255));
 		viewBuscarFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		viewBuscarFilme.setVisible(false);
 		viewBuscarFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewBuscarFilme.getContentPane().setForeground(new Color(255, 255, 255));
 		viewBuscarFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
@@ -170,7 +169,6 @@ public class TelaBuscarFilme {
 		tableFilmes.setFillsViewportHeight(true);
 		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
 		scrollPaneList.setViewportView(tableFilmes);
-			
 		
 		JLabel lblSelecionar = new JLabel("Selecione um filme para realizar alguma ação:");
 		lblSelecionar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,6 +184,10 @@ public class TelaBuscarFilme {
 		textFieldBusca.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnBuscar.setBackground(new Color(255, 255, 255));
+		btnBuscar.setToolTipText("Clique aqui para listar os filmes a partir de sua busca");
+		btnBuscar.setBounds(545, 85, 115, 45);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -205,13 +207,13 @@ public class TelaBuscarFilme {
 				}
 			}
 		});
-		btnBuscar.setBounds(545, 85, 115, 45);
-		btnBuscar.setBackground(new Color(255, 255, 255));
-		btnBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
-		btnBuscar.setToolTipText("Clique aqui para listar os filmes a partir de sua busca");
 		viewBuscarFilme.getContentPane().add(btnBuscar);
 		
 		JButton btnBuscarTodos = new JButton("Buscar Todos");
+		btnBuscarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnBuscarTodos.setBackground(new Color(255, 255, 255));
+		btnBuscarTodos.setToolTipText("Clique aqui para listar todos os filmes de todos os usuários");
+		btnBuscarTodos.setBounds(720, 85, 125, 45);
 		btnBuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -229,28 +231,26 @@ public class TelaBuscarFilme {
 				} 		
 			}
 		});
-		btnBuscarTodos.setBounds(720, 85, 125, 45);
-		btnBuscarTodos.setBackground(new Color(255, 255, 255));
-		btnBuscarTodos.setToolTipText("Clique aqui para listar todos os filmes de todos os usuários");
-		btnBuscarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
 		viewBuscarFilme.getContentPane().add(btnBuscarTodos);
 		
 		JLabel lblBuscar = new JLabel("Buscar Filmes");
+		lblBuscar.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		lblBuscar.setForeground(new Color(255, 255, 255));
 		lblBuscar.setBounds(340, 15, 250, 55);
 		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
-		lblBuscar.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		viewBuscarFilme.getContentPane().add(lblBuscar);
 		
-		JLabel lblIconSearch = new JLabel("");
-		lblIconSearch.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/icon-procurar-grande.png")));
+		JLabel lblIconSearch = new JLabel(GerenciadorDeImagens.PROCURAR_GRANDE);
 		lblIconSearch.setBackground(new Color(51, 51, 255));
 		lblIconSearch.setBounds(295, 20, 40, 40);
 		lblIconSearch.setVerticalAlignment(SwingConstants.TOP);
 		viewBuscarFilme.getContentPane().add(lblIconSearch);
 		
-		JButton btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
+		JButton btnVisualizar = new JButton("Visualizar", GerenciadorDeImagens.FILME);
+		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnVisualizar.setBackground(new Color(255, 255, 255));
+		btnVisualizar.setForeground(new Color(0, 0, 0));
+		btnVisualizar.setToolTipText("Visualizar filme selecionado");
 		btnVisualizar.setBounds(135, 520, 135, 30);
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -277,14 +277,13 @@ public class TelaBuscarFilme {
 				}			
 			}
 		});
-		btnVisualizar.setForeground(new Color(0, 0, 0));
-		btnVisualizar.setToolTipText("Visualizar filme selecionado");
-		btnVisualizar.setBackground(new Color(255, 255, 255));
-		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
 		viewBuscarFilme.getContentPane().add(btnVisualizar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		JButton btnCancelar = new JButton("Cancelar", GerenciadorDeImagens.CANCELAR);
+		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCancelar.setBackground(new Color(255, 255, 255));
+		btnCancelar.setForeground(new Color(0, 0, 0));
+		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setBounds(620, 520, 135, 30);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -292,10 +291,6 @@ public class TelaBuscarFilme {
 				viewBuscarFilme.dispose();
 			}
 		});
-		btnCancelar.setForeground(new Color(0, 0, 0));
-		btnCancelar.setToolTipText("Cancelar");
-		btnCancelar.setBackground(new Color(255, 255, 255));
-		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		viewBuscarFilme.getContentPane().add(btnCancelar);
 				
 		viewBuscarFilme.setResizable(false);

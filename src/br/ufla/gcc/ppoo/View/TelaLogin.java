@@ -46,7 +46,7 @@ public class TelaLogin {
 	
 	public void confereSenhaUsuario(String senhaInserida, String senhaUsuario) throws BuscasException, ConverteSenhaException {
 		if (!ControleDadosUsuarios.ConvertMD5(senhaInserida).equals(senhaUsuario)) {
-			throw new BuscasException(" Usuário e/ou senha errada...", "Usuário invalido");
+			throw new BuscasException(" Usuário e/ou senha inválidos...", "Usuário inválidos");
 		}
 	}
 

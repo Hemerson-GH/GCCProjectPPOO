@@ -74,58 +74,58 @@ public class TelaCadastroUsuario {
 		myViewCadastro.getContentPane().setLayout(null);
 		
 		JLabel lblEmail = new JLabel("Email:");
+		lblEmail.setBounds(25, 110, 50, 25);
 		lblEmail.setForeground(new Color(255, 255, 255));
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblEmail.setBounds(25, 110, 50, 25);
 		myViewCadastro.getContentPane().add(lblEmail);
 		
 		JLabel lblNome = new JLabel("Nome:");
+		lblNome.setBounds(25, 60, 50, 25);
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblNome.setBounds(25, 60, 50, 25);
 		myViewCadastro.getContentPane().add(lblNome);
 		
 		JLabel lblSenha = new JLabel("Senha:");
+		lblSenha.setBounds(25, 165, 60, 15);
 		lblSenha.setForeground(new Color(255, 255, 255));
 		lblSenha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblSenha.setBounds(25, 165, 60, 15);
 		myViewCadastro.getContentPane().add(lblSenha);
 		
 		JLabel lblConfirSenha = new JLabel("Confirmar Senha:");
+		lblConfirSenha.setBounds(220, 165, 130, 15);
 		lblConfirSenha.setForeground(new Color(255, 255, 255));
 		lblConfirSenha.setFont(new Font("Tahoma", Font.BOLD, 15));
-		lblConfirSenha.setBounds(220, 165, 130, 15);
 		myViewCadastro.getContentPane().add(lblConfirSenha);
 		
 		passwordField = new JPasswordField();
+		passwordField.setBounds(80, 160, 125, 25);
 		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordField.setToolTipText("Digite uma senha com pelo menos 4 caracteres...");
 		passwordField.setBackground(new Color(255, 255, 255));
-		passwordField.setBounds(80, 160, 125, 25);
 		myViewCadastro.getContentPane().add(passwordField);
 		
 		passwordFieldConfir = new JPasswordField();
+		passwordFieldConfir.setBounds(355, 160, 125, 25);
 		passwordFieldConfir.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		passwordFieldConfir.setToolTipText("Digite a mesma senha digitada anteriormente...");
 		passwordFieldConfir.setBackground(new Color(255, 255, 255));
-		passwordFieldConfir.setBounds(355, 160, 125, 25);
 		myViewCadastro.getContentPane().add(passwordFieldConfir);
 		
 		JLabel txtrCadastrarUsurio = new JLabel();
+		txtrCadastrarUsurio.setBounds(140, 10, 235, 40);
 		txtrCadastrarUsurio.setToolTipText("Cadastro de novo usuário...");
 		txtrCadastrarUsurio.setForeground(new Color(255, 255, 255));
 		txtrCadastrarUsurio.setBackground(new Color(255, 255, 255));
 		txtrCadastrarUsurio.setOpaque(false);
 		txtrCadastrarUsurio.setFont(new Font("Arial", Font.BOLD, 19));
 		txtrCadastrarUsurio.setText("Cadastrar novo usuário");
-		txtrCadastrarUsurio.setBounds(140, 10, 235, 40);
 		myViewCadastro.getContentPane().add(txtrCadastrarUsurio);
 		
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBounds(85, 215, 105, 35);
 		btnSalvar.setToolTipText("Salvar usuário...");
 		btnSalvar.setBackground(new Color(255, 255, 255));
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 15));
-		
 		btnSalvar.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
@@ -160,10 +160,10 @@ public class TelaCadastroUsuario {
 			}
 
 		});
-		btnSalvar.setBounds(85, 215, 105, 35);
 		myViewCadastro.getContentPane().add(btnSalvar);
 		
 		JButton btnCancelar = new JButton("Sair");
+		btnCancelar.setBounds(350, 215, 105, 35);
 		btnCancelar.setToolTipText("Voltar para Tela de Login...");
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -173,23 +173,22 @@ public class TelaCadastroUsuario {
 				new TelaLogin();
 			}
 		});
-		btnCancelar.setBounds(350, 215, 105, 35);
 		myViewCadastro.getContentPane().add(btnCancelar);
 		
 		textFieldNome = new JTextField();
+		textFieldNome.setBounds(80, 60, 400, 25);
 		textFieldNome.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldNome.setToolTipText("Digite aqui o seu nome de usuário...");
 		textFieldNome.setBackground(new Color(255, 255, 255));
 		textFieldNome.setColumns(10);
-		textFieldNome.setBounds(80, 60, 400, 25);
 		myViewCadastro.getContentPane().add(textFieldNome);
 		
 		textFieldEmail = new JTextField();
+		textFieldEmail.setBounds(80, 110, 400, 25);
 		textFieldEmail.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		textFieldEmail.setToolTipText("Digite aqui seu email.\n Exemplo nome@dominio.com");
 		textFieldEmail.setBackground(new Color(255, 255, 255));
 		textFieldEmail.setColumns(10);
-		textFieldEmail.setBounds(80, 110, 400, 25);
 		myViewCadastro.getContentPane().add(textFieldEmail);
 		
 		GroupLayout groupLayout = new GroupLayout(myViewCadastro.getContentPane());
@@ -267,12 +266,10 @@ public class TelaCadastroUsuario {
 		);
 		myViewCadastro.getContentPane().setLayout(groupLayout);
 		
-//		JLabel fundoCadastro = new JLabel("");
-//		fundoCadastro.setIcon(new ImageIcon(TelaCadastroUsuario.class.getResource("/br/ufla/gcc/ppoo/Imagens/icone-usuario.png")));
+//		JLabel fundoCadastro = new JLabel(GerenciadorDeImagens.USUARIO);
 //		fundoCadastro.setBounds(100, 7, 50, 46);
 //		myViewCadastro.getContentPane().add(fundoCadastro);
 		
-//		myViewCadastro.setSize(525, 305);
 		myViewCadastro.setMinimumSize(new Dimension(525, 305));
 		myViewCadastro.setResizable(true);
 		myViewCadastro.setVisible(true);
