@@ -1,6 +1,7 @@
 package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -271,7 +272,8 @@ public class TelaCadastroUsuario {
 //		fundoCadastro.setBounds(100, 7, 50, 46);
 //		myViewCadastro.getContentPane().add(fundoCadastro);
 		
-		myViewCadastro.setSize(525, 305);
+//		myViewCadastro.setSize(525, 305);
+		myViewCadastro.setMinimumSize(new Dimension(525, 305));
 		myViewCadastro.setResizable(true);
 		myViewCadastro.setVisible(true);
 	}	
