@@ -61,11 +61,13 @@ public class TelaLogin {
 		myViewLogin.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
 		
 		textAreaUser = new JTextField();
+		textAreaUser.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		textAreaUser.setToolTipText("Digite seu email...");
 		textAreaUser.setBackground(new Color(255, 255, 255));
 		textAreaUser.setColumns(10);
 		
 		passwordField = new JPasswordField();
+		passwordField.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		passwordField.setToolTipText("Digite sua senha...");
 		passwordField.setBackground(new Color(255, 255, 255));
 		passwordField.setBounds(90, 111, 220, 25);
@@ -74,7 +76,7 @@ public class TelaLogin {
 		JButton btnEnter = new JButton("Entrar");
 		btnEnter.setForeground(new Color(0, 0, 0));
 		btnEnter.setToolTipText("Entrar");
-		btnEnter.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnEnter.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnEnter.setBackground(new Color(255, 255, 255));
 		btnEnter.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
@@ -104,7 +106,7 @@ public class TelaLogin {
 		
 		JButton btnCancel = new JButton("Sair");
 		btnCancel.setToolTipText("Sair");
-		btnCancel.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCancel.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnCancel.setBackground(new Color(255, 255, 255));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -123,7 +125,7 @@ public class TelaLogin {
 		
 		txtNovoUsuario = new JTextField();
 		txtNovoUsuario.setForeground(new Color(255, 255, 255));
-		txtNovoUsuario.setFont(new Font("Arial", Font.ITALIC, 14));
+		txtNovoUsuario.setFont(new Font("Arial", Font.ITALIC, 15));
 		txtNovoUsuario.setBackground(new Color(0, 128, 128));
 		txtNovoUsuario.setToolTipText("Clique aqui para cadastrar um novo usuário");
 		txtNovoUsuario.addMouseListener(new MouseAdapter() {
@@ -142,22 +144,24 @@ public class TelaLogin {
 		
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(new Color(255, 255, 255));
-		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblSenha.setBounds(40, 111, 50, 20);
 		myViewLogin.getContentPane().add(lblSenha);
 		
 		JLabel lblLogin = new JLabel("Email:");
 		lblLogin.setForeground(new Color(255, 255, 255));
-		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
 		JLabel lblAutenticao = new JLabel("Autenticar usuário ");
 		lblAutenticao.setBackground(new Color(51, 204, 102));
-		lblAutenticao.setFont(new Font("Arial", Font.BOLD, 18));
+		lblAutenticao.setFont(new Font("Arial", Font.BOLD, 19));
 		lblAutenticao.setForeground(new Color(255, 255, 255));
 		lblAutenticao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAutenticao.setBounds(125, 10, 225, 35);
 		myViewLogin.getContentPane().add(lblAutenticao);
+		
 		GroupLayout groupLayout = new GroupLayout(myViewLogin.getContentPane());
+		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -188,6 +192,7 @@ public class TelaLogin {
 					.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
 					.addGap(59))
 		);
+		
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -213,6 +218,7 @@ public class TelaLogin {
 						.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 					.addGap(16))
 		);
+		
 		myViewLogin.getContentPane().setLayout(groupLayout);
 		
 		myViewLogin.setSize(485, 240);
