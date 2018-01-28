@@ -31,6 +31,8 @@ import br.ufla.gcc.ppoo.Exceptions.BuscasException;
 import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class TelaListagemFilmes {
 	
@@ -120,7 +122,6 @@ public class TelaListagemFilmes {
 		viewListagem.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewListagem.setTitle("Meus Filmes");
 		viewListagem.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		viewListagem.getContentPane().setLayout(null);
 		
 		setStatus(true);
 
@@ -133,8 +134,6 @@ public class TelaListagemFilmes {
 		} 
 		
 		scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 125, 875, 400);
-		viewListagem.getContentPane().add(scrollPaneList);
 		
 		tableFilmes = new JTable();
 		
@@ -146,7 +145,7 @@ public class TelaListagemFilmes {
 		
 		constroiTabela(listFilms);
 		
-		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 12));
+		tableFilmes.setFont(new Font("Microsoft JhengHei", Font.BOLD, 13));
 		tableFilmes.clearSelection();
 		tableFilmes.setFillsViewportHeight(true);
 		tableFilmes.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);		
@@ -156,22 +155,16 @@ public class TelaListagemFilmes {
 		lblMeusFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMeusFilme.setForeground(Color.WHITE);
 		lblMeusFilme.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
-		lblMeusFilme.setBounds(337, 20, 230, 40);
-		viewListagem.getContentPane().add(lblMeusFilme);
 		
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/lista.jpg")));
-		label.setVerticalAlignment(SwingConstants.TOP);
-		label.setBackground(new Color(51, 51, 255));
-		label.setBounds(290, 20, 40, 40);
-		viewListagem.getContentPane().add(label);
+		JLabel lblLista = new JLabel("");
+		lblLista.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/lista.jpg")));
+		lblLista.setVerticalAlignment(SwingConstants.TOP);
+		lblLista.setBackground(new Color(51, 51, 255));
 		
 		JLabel lblSelecione = new JLabel("Selecione um filme para realizar alguma ação:");
 		lblSelecione.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSelecione.setForeground(Color.WHITE);
 		lblSelecione.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
-		lblSelecione.setBounds(250, 100, 405, 25);
-		viewListagem.getContentPane().add(lblSelecione);
 		
 		JButton btnVisualizar = new JButton("Visualizar");
 		btnVisualizar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
@@ -198,8 +191,6 @@ public class TelaListagemFilmes {
 		btnVisualizar.setToolTipText("Visualizar item");
 		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVisualizar.setBackground(new Color(255, 255, 255));
-		btnVisualizar.setBounds(10, 535, 120, 25);
-		viewListagem.getContentPane().add(btnVisualizar);
 		
 		JButton btnEditar = new JButton("Editar");
 		btnEditar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/editar.png")));
@@ -229,8 +220,6 @@ public class TelaListagemFilmes {
 		btnEditar.setToolTipText("Editar item");
 		btnEditar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnEditar.setBackground(new Color(255, 255, 255));
-		btnEditar.setBounds(260, 535, 120, 25);
-		viewListagem.getContentPane().add(btnEditar);
 		
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/deletar.png")));
@@ -269,8 +258,6 @@ public class TelaListagemFilmes {
 		btnRemover.setToolTipText("Remover item");
 		btnRemover.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnRemover.setBackground(new Color(255, 255, 255));
-		btnRemover.setBounds(520, 535, 120, 25);
-		viewListagem.getContentPane().add(btnRemover);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
@@ -284,8 +271,53 @@ public class TelaListagemFilmes {
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
-		btnCancelar.setBounds(765, 535, 120, 25);
-		viewListagem.getContentPane().add(btnCancelar);
+		GroupLayout groupLayout = new GroupLayout(viewListagem.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(290)
+					.addComponent(lblLista, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addGap(7)
+					.addComponent(lblMeusFilme, GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
+					.addGap(332))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(250)
+					.addComponent(lblSelecione, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+					.addGap(244))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+					.addGap(14))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addGap(130)
+					.addComponent(btnEditar, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addGap(140)
+					.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addGap(125)
+					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addGap(14))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(20)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(lblLista)
+						.addComponent(lblMeusFilme, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE))
+					.addGap(40)
+					.addComponent(lblSelecione, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
+					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnEditar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGap(16))
+		);
+		viewListagem.getContentPane().setLayout(groupLayout);
 		
 		viewListagem.setSize(915, 615);
 		viewListagem.setVisible(true);	
