@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -51,20 +53,17 @@ public class TelaPrincipal {
 		viewMain.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
 		viewMain.setTitle("Menu Principal");
 		viewMain.getContentPane().setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		viewMain.getContentPane().setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 13));
-		menuBar.setBounds(0, 0, 1389, 20);
 		menuBar.setBackground(new Color(255, 255, 255));
-		viewMain.getContentPane().add(menuBar);
 		
 		JMenu mnMenu = new JMenu("Menu");
 		mnMenu.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnMenu.setBackground(new Color(255, 255, 255));
 		menuBar.add(mnMenu);
 		
-		JMenuItem mnItemCadastro = new JMenuItem("Cadastra Novo Filme", GerenciadorDeImagens.NOVO);
+		JMenuItem mnItemCadastro = new JMenuItem("Cadastrar Novo Filme", GerenciadorDeImagens.NOVO);
 		mnItemCadastro.setFont(new Font("Arial", Font.PLAIN, 13));
 		mnItemCadastro.setBackground(new Color(255, 255, 255));
 		mnItemCadastro.addActionListener(new ActionListener() {
@@ -173,13 +172,28 @@ public class TelaPrincipal {
 		JSeparator separatorSair = new JSeparator();
 		mnSair.add(separatorSair);
 		mnSair.add(mnItemSair);
+		GroupLayout groupLayout = new GroupLayout(viewMain.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(menuBar, GroupLayout.DEFAULT_SIZE, 1350, Short.MAX_VALUE)
+					.addGap(0))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addComponent(menuBar, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(709, Short.MAX_VALUE))
+		);
+		viewMain.getContentPane().setLayout(groupLayout);
 		
 		Dimension tela = Toolkit.getDefaultToolkit().getScreenSize();
 		int lar = (int) tela.getWidth();
 		int alt = (int) tela.getHeight();
 		
 		viewMain.setSize(lar, alt);
-//		viewMain.setSize(1366, 768);
+		viewMain.setSize(1366, 768);
+		viewMain.setMinimumSize(new Dimension(270, 60));
 		viewMain.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		viewMain.setVisible(true);
 	}

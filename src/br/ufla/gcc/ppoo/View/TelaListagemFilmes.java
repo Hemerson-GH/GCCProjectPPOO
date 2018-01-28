@@ -1,6 +1,7 @@
 package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -189,7 +190,7 @@ public class TelaListagemFilmes {
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 0));
 		btnVisualizar.setToolTipText("Visualizar item");
-		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnVisualizar.setBackground(new Color(255, 255, 255));
 		
 		JButton btnEditar = new JButton("Editar");
@@ -218,7 +219,7 @@ public class TelaListagemFilmes {
 		});
 		btnEditar.setForeground(new Color(0, 0, 0));
 		btnEditar.setToolTipText("Editar item");
-		btnEditar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnEditar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnEditar.setBackground(new Color(255, 255, 255));
 		
 		JButton btnRemover = new JButton("Remover");
@@ -256,7 +257,7 @@ public class TelaListagemFilmes {
 		});
 		btnRemover.setForeground(new Color(0, 0, 0));
 		btnRemover.setToolTipText("Remover item");
-		btnRemover.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnRemover.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnRemover.setBackground(new Color(255, 255, 255));
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -269,7 +270,7 @@ public class TelaListagemFilmes {
 		btnCancelar.setIcon(new ImageIcon(TelaListagemFilmes.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
 		btnCancelar.setForeground(new Color(0, 0, 0));
 		btnCancelar.setToolTipText("Cancelar");
-		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		GroupLayout groupLayout = new GroupLayout(viewListagem.getContentPane());
 		groupLayout.setHorizontalGroup(
@@ -320,6 +321,7 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().setLayout(groupLayout);
 		
 		viewListagem.setSize(915, 615);
+		viewListagem.setMinimumSize(new Dimension(915, 255));
 		viewListagem.setVisible(true);	
 		viewListagem.setResizable(true);
 	}

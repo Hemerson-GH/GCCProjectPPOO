@@ -222,7 +222,7 @@ public class TelaLogin {
 		
 		myViewLogin.getContentPane().setLayout(groupLayout);
 		
-//		myViewLogin.setSize(485, 240);
+		myViewLogin.setSize(485, 240);
 		myViewLogin.setMinimumSize(new Dimension(485, 240));
 		myViewLogin.setVisible(true);
 		myViewLogin.setResizable(true);
