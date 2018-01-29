@@ -1,6 +1,7 @@
 package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +9,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -145,7 +148,6 @@ public class TelaBuscarFilme {
 		viewBuscarFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewBuscarFilme.setTitle("Buscar Filmes");
 		viewBuscarFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		viewBuscarFilme.getContentPane().setLayout(null);
 		
 		setStatus(true);
 		
@@ -158,8 +160,6 @@ public class TelaBuscarFilme {
 		} 
 		
 		scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 175, 875, 320);
-		viewBuscarFilme.getContentPane().add(scrollPaneList);
 		
 		tableFilmes = new JTable();	
 		iniciarTabela();
@@ -174,20 +174,15 @@ public class TelaBuscarFilme {
 		lblSelecionar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSelecionar.setForeground(Color.WHITE);
 		lblSelecionar.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
-		lblSelecionar.setBounds(250, 150, 405, 25);
-		viewBuscarFilme.getContentPane().add(lblSelecionar);
 		
 		textFieldBusca = new JTextField();
 		textFieldBusca.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldBusca.setBounds(10, 85, 500, 45);
-		viewBuscarFilme.getContentPane().add(textFieldBusca);
 		textFieldBusca.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnBuscar.setBackground(new Color(255, 255, 255));
 		btnBuscar.setToolTipText("Clique aqui para listar os filmes a partir de sua busca");
-		btnBuscar.setBounds(545, 85, 115, 45);
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -207,13 +202,11 @@ public class TelaBuscarFilme {
 				}
 			}
 		});
-		viewBuscarFilme.getContentPane().add(btnBuscar);
 		
 		JButton btnBuscarTodos = new JButton("Buscar Todos");
 		btnBuscarTodos.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnBuscarTodos.setBackground(new Color(255, 255, 255));
 		btnBuscarTodos.setToolTipText("Clique aqui para listar todos os filmes de todos os usuários");
-		btnBuscarTodos.setBounds(720, 85, 125, 45);
 		btnBuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -231,27 +224,21 @@ public class TelaBuscarFilme {
 				} 		
 			}
 		});
-		viewBuscarFilme.getContentPane().add(btnBuscarTodos);
 		
 		JLabel lblBuscar = new JLabel("Buscar Filmes");
 		lblBuscar.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		lblBuscar.setForeground(new Color(255, 255, 255));
-		lblBuscar.setBounds(340, 15, 250, 55);
 		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
-		viewBuscarFilme.getContentPane().add(lblBuscar);
 		
 		JLabel lblIconSearch = new JLabel(GerenciadorDeImagens.PROCURAR_GRANDE);
 		lblIconSearch.setBackground(new Color(51, 51, 255));
-		lblIconSearch.setBounds(295, 20, 40, 40);
 		lblIconSearch.setVerticalAlignment(SwingConstants.TOP);
-		viewBuscarFilme.getContentPane().add(lblIconSearch);
 		
 		JButton btnVisualizar = new JButton("Visualizar", GerenciadorDeImagens.FILME);
 		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnVisualizar.setBackground(new Color(255, 255, 255));
 		btnVisualizar.setForeground(new Color(0, 0, 0));
 		btnVisualizar.setToolTipText("Visualizar filme selecionado");
-		btnVisualizar.setBounds(135, 520, 135, 30);
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -277,24 +264,78 @@ public class TelaBuscarFilme {
 				}			
 			}
 		});
-		viewBuscarFilme.getContentPane().add(btnVisualizar);
 		
 		JButton btnCancelar = new JButton("Cancelar", GerenciadorDeImagens.CANCELAR);
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setForeground(new Color(0, 0, 0));
 		btnCancelar.setToolTipText("Cancelar");
-		btnCancelar.setBounds(620, 520, 135, 30);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setStatus(false);
 				viewBuscarFilme.dispose();
 			}
 		});
-		viewBuscarFilme.getContentPane().add(btnCancelar);
-				
-		viewBuscarFilme.setResizable(false);
+		GroupLayout groupLayout = new GroupLayout(viewBuscarFilme.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(295)
+					.addComponent(lblIconSearch, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(lblBuscar, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
+					.addGap(314))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+					.addGap(35)
+					.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+					.addGap(60)
+					.addComponent(btnBuscarTodos, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+					.addGap(64))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(250)
+					.addComponent(lblSelecionar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(254))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
+					.addGap(24))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(135)
+					.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+					.addGap(350)
+					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
+					.addGap(154))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(15)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(5)
+							.addComponent(lblIconSearch))
+						.addComponent(lblBuscar, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
+					.addGap(15)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+						.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+						.addComponent(btnBuscarTodos, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+					.addGap(20)
+					.addComponent(lblSelecionar, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
+					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+					.addGap(25)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+					.addGap(21))
+		);
+		viewBuscarFilme.getContentPane().setLayout(groupLayout);
+		
+		viewBuscarFilme.setMinimumSize(new Dimension(915, 305));
 		viewBuscarFilme.setSize(915, 600);
+		viewBuscarFilme.setResizable(true);
 		viewBuscarFilme.setVisible(true);		
 	}
 }
