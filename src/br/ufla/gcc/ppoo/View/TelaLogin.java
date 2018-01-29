@@ -162,7 +162,6 @@ public class TelaLogin {
 		myViewLogin.getContentPane().add(lblAutenticao);
 		
 		GroupLayout groupLayout = new GroupLayout(myViewLogin.getContentPane());
-		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -184,7 +183,7 @@ public class TelaLogin {
 					.addComponent(lblSenha, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 					.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
 					.addGap(25)
-					.addComponent(txtNovoUsuario, GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+					.addComponent(txtNovoUsuario, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
 					.addGap(39))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(90)
@@ -193,12 +192,11 @@ public class TelaLogin {
 					.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
 					.addGap(59))
 		);
-		
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(10)
-					.addComponent(lblAutenticao, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+					.addComponent(lblAutenticao, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
 					.addGap(11)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblLogin, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
