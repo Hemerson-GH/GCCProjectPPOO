@@ -226,13 +226,10 @@ public class TelaBuscarFilme {
 		});
 		
 		JLabel lblBuscar = new JLabel("Buscar Filmes");
+		lblBuscar.setIcon(GerenciadorDeImagens.PROCURAR_GRANDE);
 		lblBuscar.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		lblBuscar.setForeground(new Color(255, 255, 255));
 		lblBuscar.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JLabel lblIconSearch = new JLabel(GerenciadorDeImagens.PROCURAR_GRANDE);
-		lblIconSearch.setBackground(new Color(51, 51, 255));
-		lblIconSearch.setVerticalAlignment(SwingConstants.TOP);
 		
 		JButton btnVisualizar = new JButton("Visualizar", GerenciadorDeImagens.FILME);
 		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -280,12 +277,6 @@ public class TelaBuscarFilme {
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(295)
-					.addComponent(lblIconSearch, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
-					.addGap(5)
-					.addComponent(lblBuscar, GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
-					.addGap(314))
-				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(10)
 					.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
 					.addGap(35)
@@ -307,16 +298,16 @@ public class TelaBuscarFilme {
 					.addGap(350)
 					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
 					.addGap(154))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGap(317)
+					.addComponent(lblBuscar, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+					.addGap(287))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(15)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(5)
-							.addComponent(lblIconSearch))
-						.addComponent(lblBuscar, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
+					.addComponent(lblBuscar, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
 					.addGap(15)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)

@@ -116,18 +116,12 @@ public class TelaCadastroFilme {
 		} 
 		
 		JLabel lblCadastro = new JLabel("Cadastrar Filme");
+		lblCadastro.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo_item.png")));
 		lblCadastro.setForeground(new Color(255, 255, 255));
-		lblCadastro.setBounds(130, 30, 325, 55);
+		lblCadastro.setBounds(105, 30, 350, 55);
 		lblCadastro.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCadastro.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		viewCadastroFilme.getContentPane().add(lblCadastro);
-		
-		JLabel lblNewItem = new JLabel("");
-		lblNewItem.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/Novo_Item.png")));
-		lblNewItem.setBackground(new Color(51, 51, 255));
-		lblNewItem.setBounds(105, 35, 40, 40);
-		lblNewItem.setVerticalAlignment(SwingConstants.TOP);
-		viewCadastroFilme.getContentPane().add(lblNewItem);
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setBounds(10, 100, 45, 25);
