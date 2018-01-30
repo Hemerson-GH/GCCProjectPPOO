@@ -125,7 +125,7 @@ public class TelaRecomendaFilme {
 		viewTelaRecomendaFilme(dadosLogin);
 	}
 	
-	public void viewTelaRecomendaFilme(DadosLogin dadosLogin){
+	public void viewTelaRecomendaFilme(final DadosLogin dadosLogin){
 		
 		viewTelaRecomenda = new JFrame();	
 		viewTelaRecomenda.addWindowListener(new WindowAdapter() {

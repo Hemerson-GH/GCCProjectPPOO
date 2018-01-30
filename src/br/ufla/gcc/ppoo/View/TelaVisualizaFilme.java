@@ -87,7 +87,7 @@ public class TelaVisualizaFilme {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void viewVisualizaFilme(DadosLogin dadosLogin, Filme filme, String confSaida) {
+	public void viewVisualizaFilme(DadosLogin dadosLogin, final Filme filme, final String confSaida) {
 		
 		viewVisualizaFilme = new JFrame();
 		viewVisualizaFilme.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -136,7 +136,7 @@ public class TelaVisualizaFilme {
 			lblOnwer.setBounds(5, 15, 165, 30);
 			viewVisualizaFilme.getContentPane().add(lblOnwer);	
 			
-			JSlider sliderAvaliacao = new JSlider(JSlider.VERTICAL, 0, 5, 0);
+			final JSlider sliderAvaliacao = new JSlider(JSlider.VERTICAL, 0, 5, 0);
 			sliderAvaliacao.setMinorTickSpacing(1);
 			sliderAvaliacao.setBounds(485, 10, 75, 115);
 			sliderAvaliacao.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
@@ -315,7 +315,7 @@ public class TelaVisualizaFilme {
 		scrollPaneCommit.setBounds(10, 540, 575, 70);
 		viewVisualizaFilme.getContentPane().add(scrollPaneCommit);
 		
-		JEditorPane editorPaneCommit = new JEditorPane();
+		final JEditorPane editorPaneCommit = new JEditorPane();
 		editorPaneCommit.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -330,7 +330,7 @@ public class TelaVisualizaFilme {
 		scrollPaneCommits.setBounds(10, 420, 575, 110);
 		viewVisualizaFilme.getContentPane().add(scrollPaneCommits);
 		
-		JEditorPane editorPaneCommits = new JEditorPane();
+		final JEditorPane editorPaneCommits = new JEditorPane();
 		
 		try {
 			text = formatCommits(filme.getId_filme());

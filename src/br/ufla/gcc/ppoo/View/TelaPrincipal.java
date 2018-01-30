@@ -31,14 +31,14 @@ public class TelaPrincipal {
 		View(dadosLogin);
 	}
 	
-	public void View(DadosLogin dadosLogin){
+	public void View(final DadosLogin dadosLogin){
 
 		viewMain = new JFrame();
 		
 		viewMain.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent arg0) {
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Sair", 
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Sair", 
 													JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (JOptionPane.YES_OPTION == confirm) {	
 					viewMain.dispose();

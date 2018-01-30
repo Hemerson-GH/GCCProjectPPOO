@@ -241,7 +241,7 @@ public class TelaCadastroFilme {
 				try {
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
 					contensHifen(textFieldWorKeys.getText());
-					contemPalavrasChave(textFieldWorKeys.getText());
+					contemPalavrasChave(textFieldWorKeys.getText().trim());
 					ControleDadosFilmes.cadastrarFilme(filme, dl.getId());
 					
 					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);

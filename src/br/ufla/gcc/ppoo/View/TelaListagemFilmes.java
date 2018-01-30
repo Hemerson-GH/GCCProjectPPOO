@@ -313,7 +313,7 @@ public class TelaListagemFilmes {
 		viewListagem.getContentPane().setLayout(groupLayout);
 		
 		viewListagem.setSize(915, 615);
-		viewListagem.setMinimumSize(new Dimension(915, 255));
+		viewListagem.setMinimumSize(new Dimension(915, 250));
 		viewListagem.setVisible(true);	
 		viewListagem.setResizable(true);
 	}

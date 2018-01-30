@@ -75,7 +75,7 @@ public class TelaEditaFilme {
 		}
 	}
 	
-	public void viewListagemDeFilmes(DadosLogin dadosLogin, Filme filme) {
+	public void viewListagemDeFilmes(DadosLogin dadosLogin, final Filme filme) {
 		
 		viewEditaFilme = new JFrame();
 		viewEditaFilme.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -111,7 +111,7 @@ public class TelaEditaFilme {
 		viewEditaFilme.getContentPane().add(textFieldNome);
 		textFieldNome.setColumns(10);
 		
-		String guardarFilme = filme.getNome();
+		final String guardarFilme = filme.getNome();
 		
 		JLabel lblData = new JLabel("Data de Lançamento");
 		lblData.setBounds(155, 220, 140, 25);
@@ -230,7 +230,7 @@ public class TelaEditaFilme {
 				try {
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
 					contensHifen(textFieldWorKeys.getText());
-					contemPalavrasChave(textFieldWorKeys.getText());
+					contemPalavrasChave(textFieldWorKeys.getText().trim());
 					
 					ControleDadosFilmes.alteraFilme(filme, guardarFilme);
 					JOptionPane.showMessageDialog(null, "Filme editado com sucesso.", "Filme editado", JOptionPane.WARNING_MESSAGE);

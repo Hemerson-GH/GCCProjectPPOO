@@ -131,7 +131,7 @@ public class TelaBuscarFilme {
 		viewTelaBuscarFilme(dadosLogin);
 	}
 	
-	public void viewTelaBuscarFilme(DadosLogin dadosLogin) {
+	public void viewTelaBuscarFilme(final DadosLogin dadosLogin) {
 		
 		viewBuscarFilme = new JFrame();	
 		viewBuscarFilme.addWindowListener(new WindowAdapter() {
