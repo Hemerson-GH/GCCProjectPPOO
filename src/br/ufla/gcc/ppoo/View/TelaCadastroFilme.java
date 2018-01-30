@@ -108,7 +108,7 @@ public class TelaCadastroFilme {
 		setStatus(true);
 		
 		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
 			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} catch (UsuarioException ee) {
@@ -242,7 +242,7 @@ public class TelaCadastroFilme {
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
 					contensHifen(textFieldWorKeys.getText());
 					contemPalavrasChave(textFieldWorKeys.getText());
-					ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
+					ControleDadosFilmes.cadastrarFilme(filme, dl.getId());
 					
 					JOptionPane.showMessageDialog(null, "Filme cadastrado com sucesso", "Filme cadastrado", JOptionPane.INFORMATION_MESSAGE);
 					limpaCampos();				

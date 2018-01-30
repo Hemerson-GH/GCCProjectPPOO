@@ -89,7 +89,7 @@ public class TelaEditaFilme {
 		viewEditaFilme.getContentPane().setLayout(null);
 		
 		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
 			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} catch (UsuarioException ee) {
@@ -232,7 +232,7 @@ public class TelaEditaFilme {
 					contensHifen(textFieldWorKeys.getText());
 					contemPalavrasChave(textFieldWorKeys.getText());
 					
-					ControleDadosFilmes.AlteraFilme(filme, guardarFilme);
+					ControleDadosFilmes.alteraFilme(filme, guardarFilme);
 					JOptionPane.showMessageDialog(null, "Filme editado com sucesso.", "Filme editado", JOptionPane.WARNING_MESSAGE);
 					viewEditaFilme.dispose();
 					new TelaListagemFilmes(dl);

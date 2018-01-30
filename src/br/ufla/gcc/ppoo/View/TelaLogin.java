@@ -36,7 +36,7 @@ public class TelaLogin {
 
 	public TelaLogin() {
 		try {
-			bancoDDados.Conecta();
+			bancoDDados.conecta();
 		} catch (BancoDadosException dbe) {
 			JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		}
@@ -45,7 +45,7 @@ public class TelaLogin {
 	}
 	
 	public void confereSenhaUsuario(String senhaInserida, String senhaUsuario) throws BuscasException, ConverteSenhaException {
-		if (!ControleDadosUsuarios.ConvertMD5(senhaInserida).equals(senhaUsuario)) {
+		if (!ControleDadosUsuarios.convertMD5(senhaInserida).equals(senhaUsuario)) {
 			throw new BuscasException(" Usuário e/ou senha inválidos...", "Usuário inválidos");
 		}
 	}
@@ -86,7 +86,7 @@ public class TelaLogin {
 				DadosLogin dadosLogin;
 				
 				try {
-					dadosLogin = new DadosLogin(ControleDadosUsuarios.BuscarDados(textAreaUser.getText()));
+					dadosLogin = new DadosLogin(ControleDadosUsuarios.buscarDados(textAreaUser.getText()));
 					confereSenhaUsuario(passwordField.getText().trim(), dadosLogin.getSenha());					
 					
 					myViewLogin.dispose();
@@ -115,7 +115,7 @@ public class TelaLogin {
 				myViewLogin.dispose();
 				
 				try {
-					bancoDDados.Desconecta();
+					bancoDDados.desconecta();
 				}  catch (BancoDadosException dbe) {
 					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 				}

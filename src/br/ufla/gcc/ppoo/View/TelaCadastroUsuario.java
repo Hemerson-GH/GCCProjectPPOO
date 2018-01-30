@@ -137,10 +137,10 @@ public class TelaCadastroUsuario {
 					
 					String nome = textFieldNome.getText().trim();
 					String email = textFieldEmail.getText().trim();
-					String senha = ControleDadosUsuarios.ConvertMD5(passwordField.getText().trim());
+					String senha = ControleDadosUsuarios.convertMD5(passwordField.getText().trim());
 					DadosLogin dadosLogin = new DadosLogin(nome, email, senha);
 					
-					ControleDadosUsuarios.CadastrarUsuario(dadosLogin);
+					ControleDadosUsuarios.cadastrarUsuario(dadosLogin);
 					myViewCadastro.dispose();
 					
 					JOptionPane.showMessageDialog(null, "Cadastro realizado com sucesso.\nAgora você será redirecionado para tela de login.", 

@@ -48,11 +48,11 @@ public class TelaRecomendaFilme {
 	}
 	
 	public ArrayList<Filme> atualizaListaUsuarios(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesOutrosUsuarios(dl.getId());
+		return ControleDadosFilmes.buscarFilmesOutrosUsuarios(dl.getId());
 	}
 	
 	public ArrayList<Filme> atualizaListaUsuario(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
+		return ControleDadosFilmes.buscarFilmesUmUsuario(dl.getId());
 	}
 	
 	@SuppressWarnings("serial")
@@ -85,7 +85,7 @@ public class TelaRecomendaFilme {
 	}
 	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
 		
-		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
+		String nome = ControleDadosUsuarios.buscaNomeUser(filme.getId_user());
 		
 		if (nome.equals(dadosLogin.getNome())) {
 			nome = "Eu";
@@ -148,7 +148,7 @@ public class TelaRecomendaFilme {
 		setStatus(true);
 		
 		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
 			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} catch (UsuarioException ee) {
@@ -219,10 +219,10 @@ public class TelaRecomendaFilme {
 					
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
 					String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(donoFilme, filmeSelect));
+					Filme filme = new Filme (ControleDadosFilmes.confereFilme(donoFilme, filmeSelect));
 					
 					filme.setId_user(dl.getId());
-					ControleDadosFilmes.CadastrarFilme(filme, dl.getId());
+					ControleDadosFilmes.cadastrarFilme(filme, dl.getId());
 					
 					listTodosFilmes = atualizaListaUsuarios(dl);
 					listFilmesUsuario = atualizaListaUsuario(dl);				

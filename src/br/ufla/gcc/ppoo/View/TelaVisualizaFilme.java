@@ -45,12 +45,12 @@ public class TelaVisualizaFilme {
 	private JLabel lblOnwer = new JLabel();
 	
 	public String formatCommits(Long id_filme) throws BancoDadosException, UsuarioException, ComentariosException{
-		ArrayList<Comentarios> listCommits = ControleDadosComentarios.BuscarAvaliacao(id_filme);
+		ArrayList<Comentarios> listCommits = ControleDadosComentarios.buscarAvaliacao(id_filme);
 		String text = "";
 		
 		if (!listCommits.isEmpty()) {
 			for (Comentarios commit : listCommits) {
-				text += ControleDadosUsuarios.BuscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n";
+				text += ControleDadosUsuarios.buscaNomeUser(commit.getId_user_commit()) + ": " + commit.getCommit() + "\n";
 			}
 		} 
 		
@@ -59,7 +59,7 @@ public class TelaVisualizaFilme {
 	
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
+		return ControleDadosFilmes.buscarFilmesUmUsuario(dl.getId());
 	}
 	
 	public boolean contemFilme(Filme filme, DadosLogin dadosLogin) {	
@@ -109,7 +109,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
 			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} catch (UsuarioException ee) {
@@ -123,8 +123,8 @@ public class TelaVisualizaFilme {
 			lblOnwer = new JLabel();
 			
 			try {
-				lblOnwer = new JLabel("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
-				lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+				lblOnwer = new JLabel("(" + ControleDadosUsuarios.buscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
+				lblOnwer.setToolTipText("(" + ControleDadosUsuarios.buscaNomeUser(filme.getId_user()) + " | " +filme.getPontos()+ ")");
 			} catch (BancoDadosException dbe) {
 				JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 			} catch (UsuarioException ue) {
@@ -168,14 +168,14 @@ public class TelaVisualizaFilme {
 					filme.setPontos((long) sliderAvaliacao.getValue() + filme.getPontos());
 					
 					try {
-						ControleDadosFilmes.AvaliaFilme(dl.getId(), filme);
+						ControleDadosFilmes.avaliaFilme(dl.getId(), filme);
 						Avaliacao avaliacao = new Avaliacao(dl.getId(), filme.getId_filme(), true);
-						ControleDadosAvaliacao.CadastrarAvaliacao(avaliacao);
+						ControleDadosAvaliacao.cadastrarAvaliacao(avaliacao);
 						
 						JOptionPane.showMessageDialog(null, "Avaliação salva com sucesso", "Avaliação salva", JOptionPane.INFORMATION_MESSAGE);
 						
-						lblOnwer.setText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " + filme.getPontos()+ ")");
-						lblOnwer.setToolTipText("(" + ControleDadosUsuarios.BuscaNomeUser(filme.getId_user()) + " | " + filme.getPontos()+ ")");
+						lblOnwer.setText("(" + ControleDadosUsuarios.buscaNomeUser(filme.getId_user()) + " | " + filme.getPontos()+ ")");
+						lblOnwer.setToolTipText("(" + ControleDadosUsuarios.buscaNomeUser(filme.getId_user()) + " | " + filme.getPontos()+ ")");
 					} catch (BancoDadosException dbe) {
 						JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 					} catch (AvaliacaoException ae) {
@@ -360,9 +360,8 @@ public class TelaVisualizaFilme {
 						ConfereCampoComentario(editorPaneCommit.getText());
 						ConfereTamanhoCampoComentario(editorPaneCommit.getText());
 						
-//						Comentarios commit = new Comentarios(editorPaneCommit.getText(), filme.getId_user(), filme.getId_filme());
 						Comentarios commit = new Comentarios(editorPaneCommit.getText(), dl.getId(), filme.getId_filme());
-						ControleDadosComentarios.CadastrarComentario(commit);
+						ControleDadosComentarios.cadastrarComentario(commit);
 						
 						JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
 						

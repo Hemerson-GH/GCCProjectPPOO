@@ -51,11 +51,11 @@ public class TelaBuscarFilme {
 	}
 	
 	public ArrayList<Filme> AtualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesTodosUsuariosPontos();
+		return ControleDadosFilmes.buscarFilmesTodosUsuariosPontos();
 	}
 	
 	public String ConfereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
-		String nome = ControleDadosUsuarios.BuscaNomeUser(filme.getId_user());
+		String nome = ControleDadosUsuarios.buscaNomeUser(filme.getId_user());
 		
 		if (nome.equals(dadosLogin.getNome())) { 
 			nome = "Eu";
@@ -152,7 +152,7 @@ public class TelaBuscarFilme {
 		setStatus(true);
 		
 		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
 			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} catch (UsuarioException ee) {
@@ -245,7 +245,7 @@ public class TelaBuscarFilme {
 					
 					if (donoFilme.equals("Eu")) { donoFilme = dl.getNome(); }
 					
-					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(donoFilme, filmeSelect));
+					Filme filme = new Filme (ControleDadosFilmes.confereFilme(donoFilme, filmeSelect));
 					setStatus(false);
 					viewBuscarFilme.dispose();
 					

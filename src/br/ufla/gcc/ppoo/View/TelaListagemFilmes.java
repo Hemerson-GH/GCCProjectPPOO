@@ -54,7 +54,7 @@ public class TelaListagemFilmes {
 	}
 	
 	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
-		return ControleDadosFilmes.BuscarFilmesUmUsuario(dl.getId());
+		return ControleDadosFilmes.buscarFilmesUmUsuario(dl.getId());
 	}
 	
 	@SuppressWarnings("serial")
@@ -127,7 +127,7 @@ public class TelaListagemFilmes {
 		setStatus(true);
 
 		try {
-			dl = ControleDadosUsuarios.BuscarDados(dadosLogin.getEmail());
+			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
 		} catch (BancoDadosException bdex){
 			JOptionPane.showMessageDialog(null, bdex.getMessage(), bdex.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} catch (UsuarioException ee) {
@@ -170,7 +170,7 @@ public class TelaListagemFilmes {
 				try {
 					ConfereTabelaVisualizar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
-					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
+					Filme filme = new Filme (ControleDadosFilmes.confereFilme(dl.getId(), filmeSelect));
 					setStatus(false);
 					viewListagem.dispose();
 					
@@ -197,7 +197,7 @@ public class TelaListagemFilmes {
 					ConfereTabelaEditar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);	
 					
-					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
+					Filme filme = new Filme (ControleDadosFilmes.confereFilme(dl.getId(), filmeSelect));
 					
 					setStatus(false);
 //					viewListagem.setVisible(false);
@@ -225,13 +225,13 @@ public class TelaListagemFilmes {
 				try {
 					ConfereTabelaDeletar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);		
-					Filme filme = new Filme (ControleDadosFilmes.ConfereFilme(dl.getId(), filmeSelect));
+					Filme filme = new Filme (ControleDadosFilmes.confereFilme(dl.getId(), filmeSelect));
 					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					
 					if (JOptionPane.YES_OPTION == confirm) {
-						ControleDadosComentarios.DeletaComentariosFilme(filme.getId_filme());
-						ControleDadosAvaliacao.DeletaAvaliacaoDoFllme(filme.getId_filme());
-						ControleDadosFilmes.DeletaFilme(filme);
+						ControleDadosComentarios.deletaComentariosFilme(filme.getId_filme());
+						ControleDadosAvaliacao.deletaAvaliacaoDoFllme(filme.getId_filme());
+						ControleDadosFilmes.deletaFilme(filme);
 	
 						JOptionPane.showMessageDialog(null, "Filme deletado com sucesso.", "Filme deletado", JOptionPane.INFORMATION_MESSAGE);
 						

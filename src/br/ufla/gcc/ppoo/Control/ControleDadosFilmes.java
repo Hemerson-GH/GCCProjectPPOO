@@ -16,20 +16,20 @@ import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
 
 public class ControleDadosFilmes {
 	
-	private static BancoDeDados bancoDados = new BancoDeDados();
+	private static BancoDeDados bancoDeDados = new BancoDeDados();
 	
-	public static boolean CadastrarFilme(Filme filme, Long id_user) throws FilmeExistenteException, BancoDadosException, FilmesException {
+	public static boolean cadastrarFilme(Filme filme, Long id_user) throws FilmeExistenteException, BancoDadosException, FilmesException {
 		
-		if (ConfereFilme(filme.getNome(), id_user)) {
+		if (confereFilme(filme.getNome(), id_user)) {
 			throw new FilmeExistenteException(filme.getNome(), "Filme já cadastrado");
 		}
 		
-		bancoDados.Conecta();
+		bancoDeDados.conecta();
 		
 		boolean ok = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into filmes(id_user, nome_filme, ano_lancamento, descricao, palavras_chaves, genero, duracao_filme, diretor) values(?,?,?,?,?,?,?,?)");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("insert into filmes(id_user, nome_filme, ano_lancamento, descricao, palavras_chaves, genero, duracao_filme, diretor) values(?,?,?,?,?,?,?,?)");
 			pst.setLong(1, id_user);
 			pst.setString(2, filme.getNome());		
 			pst.setString(3, filme.getData());
@@ -44,21 +44,21 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível cadastrar esse filme\n" + sqle.getMessage(), "Erro ao cadastrar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return ok;
 	}	
 	
-	public static ArrayList<Filme> BuscarFilmesUmUsuario(Long id) throws BancoDadosException, FilmesException{
-		bancoDados.Conecta();
+	public static ArrayList<Filme> buscarFilmesUmUsuario(Long id) throws BancoDadosException, FilmesException{
+		bancoDeDados.conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
 		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
 		Long pontos, id_user, id_filme;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes WHERE id_user = ? ORDER BY nome_filme ASC");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes WHERE id_user = ? ORDER BY nome_filme ASC");
 			pst.setLong(1, id);
 			ResultSet rs = pst.executeQuery();	
 			
@@ -81,21 +81,21 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível buscar seus filmes\n" + sqle.getMessage(), "Erro ao buscar filmes");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 				
 		return listFilm;
 	}
 	
-	public static ArrayList<Filme> BuscarFilmesTodosUsuariosPontos() throws BancoDadosException, FilmesException{
-		bancoDados.Conecta();
+	public static ArrayList<Filme> buscarFilmesTodosUsuariosPontos() throws BancoDadosException, FilmesException{
+		bancoDeDados.conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
 		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
 		Long pontos, id_user, id_filme;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes ORDER BY pontos_filme DESC");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes ORDER BY pontos_filme DESC");
 			ResultSet rs = pst.executeQuery();	
 			
 			while (rs.next()) {	
@@ -117,21 +117,21 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível buscar todos os filmes\n" + sqle.getMessage(), "Erro ao buscar filmes");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return listFilm;
 	}
 	
-	public static ArrayList<Filme> BuscarFilmesOutrosUsuarios(Long id_usuario) throws BancoDadosException, FilmesException{
-		bancoDados.Conecta();
+	public static ArrayList<Filme> buscarFilmesOutrosUsuarios(Long id_usuario) throws BancoDadosException, FilmesException{
+		bancoDeDados.conecta();
 		
 		ArrayList<Filme> listFilm = new ArrayList<>();
 		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
 		Long pontos, id_user, id_filme;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes WHERE id_user != ? ORDER BY nome_filme ASC");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes WHERE id_user != ? ORDER BY nome_filme ASC");
 			pst.setLong(1, id_usuario);
 			ResultSet rs = pst.executeQuery();	
 			
@@ -154,19 +154,19 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível buscar os filmes de outros usuários\n" + sqle.getMessage(), "Erro ao buscar filmes");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return listFilm;
 	}
 	
-	public static boolean ConfereFilme(String filme, Long id_user) throws BancoDadosException, FilmesException{
-		bancoDados.Conecta();	
+	public static boolean confereFilme(String filme, Long id_user) throws BancoDadosException, FilmesException{
+		bancoDeDados.conecta();	
 		
 		boolean encontrei = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
 			pst.setString(1, filme);
 			pst.setLong(2, id_user);
 			ResultSet rs = pst.executeQuery();	
@@ -177,22 +177,22 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível encontrar esse filme\n" + sqle.getMessage(),  "Erro ao buscar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return encontrei;
 	}
 	
-	public static Filme ConfereFilme(String donoFilme, String filme) throws BancoDadosException, UsuarioException, FilmesException{
-		bancoDados.Conecta();	
+	public static Filme confereFilme(String donoFilme, String filme) throws BancoDadosException, UsuarioException, FilmesException{
+		bancoDeDados.conecta();	
 		
 		Filme filmeEncontrado = null;
 		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
 		Long pontos, id_user, id_filme;
-		Long id = ControleDadosUsuarios.BuscaIdUser(donoFilme);
+		Long id = ControleDadosUsuarios.buscaIdUser(donoFilme);
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
 			pst.setString(1, filme);
 			pst.setLong(2, id);
 			ResultSet rs = pst.executeQuery();	
@@ -215,21 +215,21 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível encontrar esse filme\n" + sqle.getMessage(), "Erro ao buscar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return filmeEncontrado;
 	}
 	
-	public static Filme ConfereFilme(Long id, String filme) throws BancoDadosException, FilmesException{
-		bancoDados.Conecta();	
+	public static Filme confereFilme(Long id, String filme) throws BancoDadosException, FilmesException{
+		bancoDeDados.conecta();	
 		
 		Filme filmeEncontrado = null;
 		String nome, data, descricao, wordsKeys, genero, duracao, diretor;
 		Long pontos, id_user, id_filme;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and id_user = ?");
 			pst.setString(1, filme);
 			pst.setLong(2, id);
 			ResultSet rs = pst.executeQuery();	
@@ -252,19 +252,19 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível encontrar esse filme\n" + sqle.getMessage(), "Erro ao buscar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return filmeEncontrado;
 	}
 	
-	public static boolean ConfereFilme(String filmeEditado, String filme, Long id_user) throws BancoDadosException, FilmesException{
-		bancoDados.Conecta();	
+	public static boolean confereFilme(String filmeEditado, String filme, Long id_user) throws BancoDadosException, FilmesException{
+		bancoDeDados.conecta();	
 		
 		boolean encontrei = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and nome_filme != ? and id_user = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM filmes Where nome_filme = ? and nome_filme != ? and id_user = ?");
 			pst.setString(1, filmeEditado);
 			pst.setString(2, filme);
 			pst.setLong(3, id_user);
@@ -276,19 +276,19 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new FilmesException("Não foi possível encontrar esse filme\n" + sqle.getMessage(), "Erro ao buscar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return encontrei;
 	}
 	
-	public static boolean DeletaFilme(Filme filme) throws BancoDadosException{
-		bancoDados.Conecta();
+	public static boolean deletaFilme(Filme filme) throws BancoDadosException{
+		bancoDeDados.conecta();
 		
 		boolean encontrou = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("DELETE from filmes where id_filme = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("DELETE from filmes where id_filme = ?");
 			pst.setLong(1, filme.getId_filme());
 			pst.execute();
 			pst.close();	
@@ -297,23 +297,23 @@ public class ControleDadosFilmes {
 		} catch (SQLException sqle) {
 			throw new BancoDadosException("Não foi possível deletar esse filme\n" + sqle.getMessage(), "Erro ao deletar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return encontrou;
 	}
 	
-	public static boolean AlteraFilme(Filme filme, String nomeOriginal) throws BancoDadosException, FilmeExistenteException, FilmesException{
+	public static boolean alteraFilme(Filme filme, String nomeOriginal) throws BancoDadosException, FilmeExistenteException, FilmesException{
 		boolean encontrou = false;
 		
-		if (ConfereFilme(filme.getNome(), nomeOriginal, filme.getId_user())) {
+		if (confereFilme(filme.getNome(), nomeOriginal, filme.getId_user())) {
 			throw new FilmeExistenteException(filme.getNome(), "filme já cadastrado");
 		}
 		
-		bancoDados.Conecta();
+		bancoDeDados.conecta();
 		
 		try {
-			 PreparedStatement pst = bancoDados.getConnection().prepareStatement("UPDATE filmes set nome_filme = ?, ano_lancamento = ?, descricao = ?, palavras_chaves = ?, genero = ?, duracao_filme = ?, diretor = ? WHERE id_filme = ?");
+			 PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("UPDATE filmes set nome_filme = ?, ano_lancamento = ?, descricao = ?, palavras_chaves = ?, genero = ?, duracao_filme = ?, diretor = ? WHERE id_filme = ?");
 			 pst.setString(1, filme.getNome());
 			 pst.setString(2, filme.getData());
 			 pst.setString(3, filme.getDescricao());
@@ -328,24 +328,24 @@ public class ControleDadosFilmes {
 	    } catch (SQLException sqle) {
 	    	throw new FilmesException("Não foi possível alterar dados desse filme\n" + sqle.getMessage(), "Erro ao alterar dados do filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return encontrou;
 	}
 	
-	public static boolean AvaliaFilme(Long id, Filme filme) throws BancoDadosException, AvaliacaoException, AvaliacaoExistenteException, FilmesException{
+	public static boolean avaliaFilme(Long id, Filme filme) throws BancoDadosException, AvaliacaoException, AvaliacaoExistenteException, FilmesException{
 		
-		if (ControleDadosAvaliacao.BuscarAvaliacao(id, filme.getId_filme())) {
+		if (ControleDadosAvaliacao.buscarAvaliacao(id, filme.getId_filme())) {
 			throw new AvaliacaoExistenteException(filme.getNome(), "você já avaliou esse filme");
 		}
 		
-		bancoDados.Conecta();
+		bancoDeDados.conecta();
 		
 		boolean encontrou = false;
 		
 		try {
-			 PreparedStatement pst = bancoDados.getConnection().prepareStatement("UPDATE filmes set pontos_filme = ? WHERE id_filme = ?");
+			 PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("UPDATE filmes set pontos_filme = ? WHERE id_filme = ?");
 			 pst.setLong(1, filme.getPontos());
 			 pst.setLong(2, filme.getId_filme());
 	         pst.execute();
@@ -354,7 +354,7 @@ public class ControleDadosFilmes {
 	    } catch (SQLException sqle) {
 	    	throw new FilmesException("Não foi possível avaliar esse filme\n" + sqle.getMessage(), "Erro ao avaliar filme");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return encontrou;

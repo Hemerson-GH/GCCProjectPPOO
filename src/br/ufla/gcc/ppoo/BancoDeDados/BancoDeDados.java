@@ -10,9 +10,9 @@ public class BancoDeDados {
 	
 	private Connection connection;
 	private String driver = "org.postgresql.Driver";
-	private String caminho = "jdbc:postgresql://localhost:5433/ProjetoFilmes";
+	private String caminho = "jdbc:postgresql://localhost:5432/ProjetoFilmes";
 	private String usuario = "postgres";
-	private String senha = "seagate01";
+	private String senha = "root";
 	
 	public Connection getConnection() {
 		return connection;
@@ -22,7 +22,7 @@ public class BancoDeDados {
 		this.connection = connection;
 	}	
 
-	public void Conecta() throws BancoDadosException{
+	public void conecta() throws BancoDadosException{
 		try {
 			System.setProperty("jdbc.Drivers", driver);
 			setConnection(DriverManager.getConnection(caminho, usuario, senha));
@@ -31,7 +31,7 @@ public class BancoDeDados {
 		}
 	}
 
-	public void Desconecta() throws BancoDadosException{
+	public void desconecta() throws BancoDadosException{
 		try {
 			getConnection().close();
 		} catch (SQLException sqlex){

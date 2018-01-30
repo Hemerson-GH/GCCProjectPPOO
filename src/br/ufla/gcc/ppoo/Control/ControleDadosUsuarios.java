@@ -16,20 +16,20 @@ import br.ufla.gcc.ppoo.Exceptions.UsuarioExistenteException;
 
 public class ControleDadosUsuarios {
 	
-	private static BancoDeDados bancoDados = new BancoDeDados();
+	private static BancoDeDados bancoDeDados = new BancoDeDados();
 	
-	public static boolean CadastrarUsuario(DadosLogin dados) throws UsuarioExistenteException, BancoDadosException, UsuarioException{
+	public static boolean cadastrarUsuario(DadosLogin dados) throws UsuarioExistenteException, BancoDadosException, UsuarioException{
 		
-		if (ConfereEmail(dados.getEmail())) {
+		if (confereEmail(dados.getEmail())) {
 			throw new UsuarioExistenteException(dados.getEmail(), "Usuário Existente");
 		}
 		
-		bancoDados.Conecta();
+		bancoDeDados.conecta();
 		
 		boolean ok = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("insert into dados_user(nome,email,senha) values(?,?,?)");
 			pst.setString(1, dados.getNome());		
 			pst.setString(2, dados.getEmail());
 			pst.setString(3, dados.getSenha());	
@@ -39,18 +39,18 @@ public class ControleDadosUsuarios {
 		} catch (SQLException sqle) {
 			throw new UsuarioException("Não foi possível cadastrar seu usuário\n" + sqle.getMessage(), "Erro ao cadastrar usuário");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		return ok;
 	}
 	
-	public static DadosLogin BuscarDados(String email) throws BancoDadosException, UsuarioException {
-		bancoDados.Conecta();	
+	public static DadosLogin buscarDados(String email) throws BancoDadosException, UsuarioException {
+		bancoDeDados.conecta();	
 		
 		DadosLogin dadosLogin = new DadosLogin(null, null, null, null);
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
 			pst.setString(1, email);
 			ResultSet rs = pst.executeQuery();	
 			
@@ -63,19 +63,19 @@ public class ControleDadosUsuarios {
 		} catch (SQLException sqle) {
 			throw new UsuarioException("Não foi possível buscar os dados desse usuário" + sqle.getMessage(), "Erro ao buscar dados do usuário");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return dadosLogin;
 	}
 	
-	public static String BuscaNomeUser(Long id) throws BancoDadosException, UsuarioException {
-		bancoDados.Conecta();	
+	public static String buscaNomeUser(Long id) throws BancoDadosException, UsuarioException {
+		bancoDeDados.conecta();	
 		
 		String nomeUser = null;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where id_user = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM dados_user Where id_user = ?");
 			pst.setLong(1, id);
 			ResultSet rs = pst.executeQuery();	
 			
@@ -85,19 +85,19 @@ public class ControleDadosUsuarios {
 		} catch (SQLException sqle) {
 			throw new UsuarioException("Não foi possível buscar os nome desse usuário" + sqle.getMessage(), "Erro ao buscar nome do usuário");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return nomeUser;
 	}
 	
-	public static Long BuscaIdUser(String nome) throws BancoDadosException, UsuarioException {
-		bancoDados.Conecta();	
+	public static Long buscaIdUser(String nome) throws BancoDadosException, UsuarioException {
+		bancoDeDados.conecta();	
 		
 		Long id = null;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where nome = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM dados_user Where nome = ?");
 			pst.setString(1, nome);
 			ResultSet rs = pst.executeQuery();	
 			
@@ -107,19 +107,19 @@ public class ControleDadosUsuarios {
 		} catch (SQLException sqle) {
 			throw new UsuarioException("Não foi possível buscar o nome desse usuário" +  sqle.getMessage(), "Erro ao buscar ID do usuário");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return id;
 	}
 	
-	public static boolean ConfereEmail(String email) throws BancoDadosException, UsuarioException {
-		bancoDados.Conecta();	
+	public static boolean confereEmail(String email) throws BancoDadosException, UsuarioException {
+		bancoDeDados.conecta();	
 		
 		boolean encontrei = false;
 		
 		try {
-			PreparedStatement pst = bancoDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
+			PreparedStatement pst = bancoDeDados.getConnection().prepareStatement("SELECT * FROM dados_user Where email = ?");
 			pst.setString(1, email);
 			ResultSet rs = pst.executeQuery();		
 			
@@ -129,13 +129,13 @@ public class ControleDadosUsuarios {
 		} catch (SQLException sqle) {
 			throw new UsuarioException("Não foi possível buscar o email desse usuário" + sqle.getMessage(), "Erro ao conferir email");
 		} finally {
-			bancoDados.Desconecta();
+			bancoDeDados.desconecta();
 		}
 		
 		return encontrei;
 	}
 	
-	public static String ConvertMD5(String wordConvert) throws ConverteSenhaException{
+	public static String convertMD5(String wordConvert) throws ConverteSenhaException{
 		MessageDigest messageDigest = null;
 		
 		try {
