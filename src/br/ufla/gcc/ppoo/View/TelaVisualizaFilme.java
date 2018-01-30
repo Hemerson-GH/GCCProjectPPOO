@@ -322,7 +322,7 @@ public class TelaVisualizaFilme {
 				editorPaneCommit.setText("");
 			}
 		});
-		editorPaneCommit.setText("Escreva um coment\u00E1rio sobre o filme...");
+		editorPaneCommit.setText("Escreva um comentário sobre o filme...");
 		editorPaneCommit.setFont(new Font("Microsoft JhengHei", Font.ITALIC, 13));
 		scrollPaneCommit.setViewportView(editorPaneCommit);
 		
