@@ -114,7 +114,7 @@ public class TelaRecomendaFilme {
 	
 	private void confereLista(ArrayList<Filme> listFilmes) throws BuscasException {
 		if(listFilmes.isEmpty()) {
-			throw new BuscasException("Sinto muito mas não temos nenhuma recomendação de filme para você.", "Filmes não encontrados");
+			throw new BuscasException("Sinto muito, mas não temos nenhuma recomendação de filme para você.", "Filmes não encontrados");
 		}
 	}
 	

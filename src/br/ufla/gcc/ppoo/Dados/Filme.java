@@ -203,19 +203,23 @@ public class Filme {
 		return filmesEncontrados;
 	}
 
+//	public static String converteTexto(String wordKeys) {
+//		
+//		String[] wordKeyHifen = wordKeys.split("-");
+//		String listWordKeys = "";
+//		
+//		for (int i = 0; i < wordKeyHifen.length; i++) {
+//			if (i < wordKeyHifen.length-1) {
+//				listWordKeys += wordKeyHifen[i] + ", ";
+//			} else {
+//				listWordKeys += wordKeyHifen[i];
+//			}
+//		}
+//		
+//		return listWordKeys;
+//	}
+	
 	public static String converteTexto(String wordKeys) {
-		
-		String[] wordKeyHifen = wordKeys.split("-");
-		String listWordKeys = "";
-		
-		for (int i = 0; i < wordKeyHifen.length; i++) {
-			if (i < wordKeyHifen.length-1) {
-				listWordKeys += wordKeyHifen[i] + ", ";
-			} else {
-				listWordKeys += wordKeyHifen[i];
-			}
-		}
-		
-		return listWordKeys;
+		return wordKeys.replaceAll("-", ", ");
 	}
 }

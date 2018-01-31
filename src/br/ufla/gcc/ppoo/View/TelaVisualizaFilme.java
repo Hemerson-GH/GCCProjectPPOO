@@ -70,7 +70,7 @@ public class TelaVisualizaFilme {
 	}
 	
 	public void ConfereCampoComentario(String commit) throws ConfereCampoException {
-		if (commit.equals("") || commit.equals("Digite aqui seu comentário sobre esse filme...")) {
+		if (commit.equals("") || commit.equals("Escreva um comentário sobre o filme...")) {
 			throw new ConfereCampoException("Não é permitido enviar um comentário vazio, digite seu comentário antes de clicar aqui.",
 					"Comentário inválido");
 		}
@@ -93,7 +93,6 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewVisualizaFilme.setBackground(new Color(0, 0, 255));
 		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		viewVisualizaFilme.setVisible(false);
 		viewVisualizaFilme.getContentPane().setBackground(new Color(51, 102, 153));
 		viewVisualizaFilme.getContentPane().setForeground(new Color(255, 255, 255));
 		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
@@ -365,7 +364,7 @@ public class TelaVisualizaFilme {
 						
 						JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
 						
-						editorPaneCommit.setText("Digite aqui seu comentário sobre esse filme...");
+						editorPaneCommit.setText("Escreva um comentário sobre o filme......");
 						text = formatCommits(filme.getId_filme());
 						editorPaneCommits.setText(text);
 					} catch (ConfereCampoException cce) {
