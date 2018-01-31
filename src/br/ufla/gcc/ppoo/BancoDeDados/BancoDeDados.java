@@ -10,9 +10,9 @@ public class BancoDeDados {
 	
 	private Connection connection;
 	private String driver = "org.postgresql.Driver";
-	private String caminho = "jdbc:postgresql://localhost:5432/ProjetoFilmes";
+	private String caminho = "jdbc:postgresql://localhost:5433/ProjetoFilmes";
 	private String usuario = "postgres";
-	private String senha = "root";
+	private String senha = "seagate01";
 	
 	public Connection getConnection() {
 		return connection;

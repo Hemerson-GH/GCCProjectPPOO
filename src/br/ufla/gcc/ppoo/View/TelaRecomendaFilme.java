@@ -1,6 +1,7 @@
 package br.ufla.gcc.ppoo.View;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,6 +29,8 @@ import br.ufla.gcc.ppoo.Exceptions.BuscasException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class TelaRecomendaFilme {
 	
@@ -137,13 +140,11 @@ public class TelaRecomendaFilme {
 		viewTelaRecomenda.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		viewTelaRecomenda.setBackground(new Color(0, 0, 255));
 		viewTelaRecomenda.setFont(new Font("Times New Roman", Font.PLAIN, 14));
-//		viewTelaRecomenda.setVisible(false);
 		viewTelaRecomenda.getContentPane().setBackground(new Color(51, 102, 153));
 		viewTelaRecomenda.getContentPane().setForeground(new Color(255, 255, 255));
 		viewTelaRecomenda.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewTelaRecomenda.setTitle("Buscar Filmes");
 		viewTelaRecomenda.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		viewTelaRecomenda.getContentPane().setLayout(null);
 		
 		setStatus(true);
 		
@@ -156,8 +157,6 @@ public class TelaRecomendaFilme {
 		} 
 		
 		scrollPaneList = new JScrollPane();
-		scrollPaneList.setBounds(10, 125, 875, 375);
-		viewTelaRecomenda.getContentPane().add(scrollPaneList);
 		
 		tableFilmes = new JTable();	
 		iniciarTabela();
@@ -172,8 +171,6 @@ public class TelaRecomendaFilme {
 		lblSelecionar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSelecionar.setForeground(Color.WHITE);
 		lblSelecionar.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
-		lblSelecionar.setBounds(265, 100, 405, 25);
-		viewTelaRecomenda.getContentPane().add(lblSelecionar);
 		
 		JButton btnRecomendar = new JButton("Gerar Recomendações");
 		btnRecomendar.addActionListener(new ActionListener() {
@@ -195,22 +192,17 @@ public class TelaRecomendaFilme {
 				} 		
 			}
 		});
-		btnRecomendar.setBounds(365, 520, 190, 30);
 		btnRecomendar.setBackground(new Color(255, 255, 255));
 		btnRecomendar.setToolTipText("Clique aqui para listar todos os filmes de todos os usuários");
 		btnRecomendar.setFont(new Font("Arial", Font.PLAIN, 14));
-		viewTelaRecomenda.getContentPane().add(btnRecomendar);
 		
 		JLabel lblRecomendacoes = new JLabel("Filmes Recomendados");
 		lblRecomendacoes.setForeground(new Color(255, 255, 255));
-		lblRecomendacoes.setBounds(270, 15, 400, 55);
 		lblRecomendacoes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecomendacoes.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
-		viewTelaRecomenda.getContentPane().add(lblRecomendacoes);
 		
 		JButton btnAdicionar = new JButton("Adicionar Filme");
 		btnAdicionar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
-		btnAdicionar.setBounds(10, 520, 165, 30);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -247,11 +239,9 @@ public class TelaRecomendaFilme {
 		btnAdicionar.setToolTipText("Adicionar filme recomendado");
 		btnAdicionar.setBackground(new Color(255, 255, 255));
 		btnAdicionar.setFont(new Font("Arial", Font.PLAIN, 14));
-		viewTelaRecomenda.getContentPane().add(btnAdicionar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
-		btnCancelar.setBounds(750, 520, 135, 30);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setStatus(false);
@@ -262,9 +252,49 @@ public class TelaRecomendaFilme {
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
-		viewTelaRecomenda.getContentPane().add(btnCancelar);
+		GroupLayout groupLayout = new GroupLayout(viewTelaRecomenda.getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(270)
+					.addComponent(lblRecomendacoes, GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+					.addGap(229))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(265)
+					.addComponent(lblSelecionar, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+					.addGap(229))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 875, Short.MAX_VALUE)
+					.addGap(14))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+					.addGap(190)
+					.addComponent(btnRecomendar, GroupLayout.DEFAULT_SIZE, 190, Short.MAX_VALUE)
+					.addGap(195)
+					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+					.addGap(14))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(15)
+					.addComponent(lblRecomendacoes, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+					.addGap(30)
+					.addComponent(lblSelecionar, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
+					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
+					.addGap(20)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+						.addComponent(btnRecomendar, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+					.addGap(11))
+		);
+		viewTelaRecomenda.getContentPane().setLayout(groupLayout);
 				
-		viewTelaRecomenda.setResizable(false);
+		viewTelaRecomenda.setResizable(true);
+		viewTelaRecomenda.setMinimumSize(new Dimension(915, 260));
 		viewTelaRecomenda.setSize(915, 600);
 		viewTelaRecomenda.setVisible(true);		
 	}

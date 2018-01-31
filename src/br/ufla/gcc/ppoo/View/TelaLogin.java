@@ -138,7 +138,7 @@ public class TelaLogin {
 		});
 		txtNovoUsuario.setEditable(false);
 		txtNovoUsuario.setText("Novo usuário");
-		txtNovoUsuario.setBounds(335, 113, 95, 20);
+		txtNovoUsuario.setBounds(335, 115, 95, 20);
 		myViewLogin.getContentPane().add(txtNovoUsuario);
 		txtNovoUsuario.setOpaque(false);
 		txtNovoUsuario.setBorder(null);
@@ -146,7 +146,7 @@ public class TelaLogin {
 		JLabel lblSenha = new JLabel("Senha:");
 		lblSenha.setForeground(new Color(255, 255, 255));
 		lblSenha.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblSenha.setBounds(40, 111, 50, 20);
+		lblSenha.setBounds(40, 115, 50, 20);
 		myViewLogin.getContentPane().add(lblSenha);
 		
 		JLabel lblLogin = new JLabel("Email:");
