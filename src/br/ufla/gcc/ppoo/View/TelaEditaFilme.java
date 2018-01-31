@@ -38,10 +38,6 @@ public class TelaEditaFilme {
 	private JTextField textFieldDiretor;
 	private DadosLogin dl;
 	
-	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme){
-		viewListagemDeFilmes(dadosLogin, filme);
-	}
-	
 	public void limpaCampos(){
 		textFieldNome.setText(null);
 		textFieldData.setText(null);
@@ -70,9 +66,21 @@ public class TelaEditaFilme {
 	
 	public void contemPalavrasChave(String textFieldWorKeys) throws CadastroFilmeException {
 		String[] wordKeyHifen = textFieldWorKeys.split("-");
-		if (wordKeyHifen.length < 2) {
+		boolean ok = false;
+		
+		for (int i = 0; i < wordKeyHifen.length && ok == false; i++) {
+			if (wordKeyHifen[i].isEmpty()) {
+				ok = true;
+			}
+		}
+		
+		if (wordKeyHifen.length < 2 || ok == true) {
 			throw new CadastroFilmeException("Insira mais de uma palavra-chave", "Campo Palavras-Chave incorreto");
 		}
+	}
+	
+	public TelaEditaFilme(DadosLogin dadosLogin, Filme filme){
+		viewListagemDeFilmes(dadosLogin, filme);
 	}
 	
 	public void viewListagemDeFilmes(DadosLogin dadosLogin, final Filme filme) {

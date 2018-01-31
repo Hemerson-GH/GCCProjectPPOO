@@ -307,7 +307,7 @@ public class ControleDadosFilmes {
 		boolean encontrou = false;
 		
 		if (confereFilme(filme.getNome(), nomeOriginal, filme.getId_user())) {
-			throw new FilmeExistenteException(filme.getNome(), "filme já cadastrado");
+			throw new FilmeExistenteException(filme.getNome(), "Filme já cadastrado");
 		}
 		
 		bancoDeDados.conecta();
@@ -337,7 +337,7 @@ public class ControleDadosFilmes {
 	public static boolean avaliaFilme(Long id, Filme filme) throws BancoDadosException, AvaliacaoException, AvaliacaoExistenteException, FilmesException{
 		
 		if (ControleDadosAvaliacao.buscarAvaliacao(id, filme.getId_filme())) {
-			throw new AvaliacaoExistenteException(filme.getNome(), "você já avaliou esse filme");
+			throw new AvaliacaoExistenteException(filme.getNome(), "Filme já avaliado");
 		}
 		
 		bancoDeDados.conecta();

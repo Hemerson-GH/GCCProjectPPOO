@@ -81,8 +81,15 @@ public class TelaCadastroFilme {
 	
 	public void contemPalavrasChave(String textFieldWorKeys) throws CadastroFilmeException {
 		String[] wordKeyHifen = textFieldWorKeys.split("-");
-		JOptionPane.showMessageDialog(null, wordKeyHifen.length);
-		if (wordKeyHifen.length < 2) {
+		boolean ok = false;
+		
+		for (int i = 0; i < wordKeyHifen.length && ok == false; i++) {
+			if (wordKeyHifen[i].isEmpty()) {
+				ok = true;
+			}
+		}
+		
+		if (wordKeyHifen.length < 2 || ok == true) {
 			throw new CadastroFilmeException("Insira mais de uma palavra-chave", "Campo Palavras-Chave incorreto");
 		}
 	}
