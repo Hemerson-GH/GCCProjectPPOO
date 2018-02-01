@@ -105,7 +105,7 @@ public class TelaVisualizaFilme {
 		
 		JLabel lblVisualizarFilme = new JLabel("Visualizar Filme");
 		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
-		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
+		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblVisualizarFilme.setForeground(Color.WHITE);
 		
 		try {
@@ -196,7 +196,7 @@ public class TelaVisualizaFilme {
 		}		
 		
 		JLabel lblTitulo = new JLabel("Título:");
-		lblTitulo.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTitulo.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTitulo.setForeground(Color.BLACK);
 		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		lblTitulo.setBackground(Color.WHITE);
@@ -209,7 +209,7 @@ public class TelaVisualizaFilme {
 		lblNome.setBackground(Color.WHITE);
 		
 		JLabel lblPalavras = new JLabel("Palavras-chave:");
-		lblPalavras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPalavras.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPalavras.setForeground(new Color(0, 0, 0));
 		lblPalavras.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		lblPalavras.setBackground(Color.WHITE);
@@ -381,15 +381,8 @@ public class TelaVisualizaFilme {
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		
 		GroupLayout groupLayout = new GroupLayout(viewVisualizaFilme.getContentPane());
-		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addComponent(lblPalavras, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(10)
 					.addComponent(lblComentarios, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE))
@@ -438,27 +431,35 @@ public class TelaVisualizaFilme {
 					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(99, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblPalavras, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(432, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 68, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(526, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(12)
 					.addComponent(lblFieldWorKeys, GroupLayout.PREFERRED_SIZE, 547, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(45, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(209)
-					.addComponent(lblVisualizarFilme, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(214))
+					.addGap(185)
+					.addComponent(lblVisualizarFilme, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
+					.addGap(184))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblVisualizarFilme, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
-					.addGap(14)
-					.addComponent(lblTitulo)
+					.addComponent(lblVisualizarFilme, GroupLayout.PREFERRED_SIZE, 29, Short.MAX_VALUE)
+					.addGap(18)
+					.addComponent(lblTitulo, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 					.addGap(5)
-					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
 					.addGap(10)
-					.addComponent(lblPalavras)
+					.addComponent(lblPalavras, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
 					.addGap(5)
-					.addComponent(lblFieldWorKeys, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblFieldWorKeys, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
 					.addGap(10)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblDireto, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)

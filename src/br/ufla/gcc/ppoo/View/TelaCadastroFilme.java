@@ -290,13 +290,8 @@ public class TelaCadastroFilme {
 		lblDiretor.setBackground(Color.GRAY);
 		
 		GroupLayout groupLayout = new GroupLayout(viewCadastroFilme.getContentPane());
-		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(115)
-					.addComponent(lblCadastroFilme, GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
-					.addGap(129))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(10)
 					.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
@@ -354,13 +349,17 @@ public class TelaCadastroFilme {
 					.addContainerGap()
 					.addComponent(lblDescricao, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(512, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGap(127)
+					.addComponent(lblCadastroFilme, GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+					.addGap(117))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(30)
+					.addGap(29)
 					.addComponent(lblCadastroFilme, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
-					.addGap(17)
+					.addGap(18)
 					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)

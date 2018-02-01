@@ -22,6 +22,7 @@ import br.ufla.gcc.ppoo.exceptions.CadastroUsuarioException;
 import br.ufla.gcc.ppoo.exceptions.ConverteSenhaException;
 import br.ufla.gcc.ppoo.exceptions.UsuarioException;
 import br.ufla.gcc.ppoo.exceptions.UsuarioExistenteException;
+import javax.swing.SwingConstants;
 	
 public class TelaCadastroUsuario {
 
@@ -111,6 +112,7 @@ public class TelaCadastroUsuario {
 		myViewCadastro.getContentPane().add(passwordFieldConfir);
 		
 		JLabel txtrCadastrarUsurio = new JLabel();
+		txtrCadastrarUsurio.setHorizontalAlignment(SwingConstants.CENTER);
 		txtrCadastrarUsurio.setBounds(140, 10, 235, 40);
 		txtrCadastrarUsurio.setToolTipText("Cadastro de novo usuário...");
 		txtrCadastrarUsurio.setForeground(new Color(255, 255, 255));
