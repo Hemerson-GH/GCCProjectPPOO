@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,15 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
 
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.CadastroUsuarioException;
-import br.ufla.gcc.ppoo.Exceptions.ConverteSenhaException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioExistenteException;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.CadastroUsuarioException;
+import br.ufla.gcc.ppoo.exceptions.ConverteSenhaException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioExistenteException;
 	
 public class TelaCadastroUsuario {
 
@@ -33,36 +32,36 @@ public class TelaCadastroUsuario {
 	private JTextField textFieldEmail;
 	
 	public TelaCadastroUsuario() {
-		ViewMain();
+		viewMain();
 	}
 	
-	private void ConfereCampoNome(String nome) throws CadastroUsuarioException {
+	private void confereCampoNome(String nome) throws CadastroUsuarioException {
 		if (nome.trim().isEmpty()) {
 			throw new CadastroUsuarioException("Campo nome não pode ser vazio, digite novamente.", "Nome inválido");
 		}
 	}
 	
-	public void ConfereSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
+	public void confereSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if (!senhaPri.equals(senhaSec)) {
 			throw new CadastroUsuarioException("As senha digitadas não conferem, digite novamente.", "Senha inválida");
 		}
 	}
 	
-	public void ConfereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
+	public void confereTamanhoSenhas(String senhaPri, String senhaSec) throws CadastroUsuarioException{
 		if ( (senhaPri.trim().length() <= 3)  || (senhaSec.trim().length() <= 3) ) {
 			throw new CadastroUsuarioException("A senha digitada deve conter no mínimo quatro dígitos."
 					+ "\nPor favor digite uma nova senha válida.", "Senha inválida");
 		} 
 	}
 	
-	public void ConfereCampoEmail(JTextField textFieldEmail) throws CadastroUsuarioException{
+	public void confereCampoEmail(JTextField textFieldEmail) throws CadastroUsuarioException{
 		if (!textFieldEmail.getText().contains("@") || !textFieldEmail.getText().contains(".com")) {
 			throw new CadastroUsuarioException("O campo email está preenchido incorretamente.\nLembre-se de inserir um email válido, "
 					+ "exemplo nome@dominio.com", "Campo email incorreto");
 		} 
 	}
 	
-	public void ViewMain(){
+	public void viewMain(){
 		
 		myViewCadastro = new JFrame();
 		myViewCadastro.getContentPane().setBackground(new Color(51, 102, 153));
@@ -130,10 +129,10 @@ public class TelaCadastroUsuario {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {		
 				try {
-					ConfereCampoNome(textFieldNome.getText());
-					ConfereCampoEmail(textFieldEmail);
-					ConfereTamanhoSenhas(passwordField.getText(), passwordFieldConfir.getText());
-					ConfereSenhas(passwordField.getText(), passwordFieldConfir.getText());
+					confereCampoNome(textFieldNome.getText());
+					confereCampoEmail(textFieldEmail);
+					confereTamanhoSenhas(passwordField.getText(), passwordFieldConfir.getText());
+					confereSenhas(passwordField.getText(), passwordFieldConfir.getText());
 					
 					String nome = textFieldNome.getText().trim();
 					String email = textFieldEmail.getText().trim();
@@ -225,18 +224,17 @@ public class TelaCadastroUsuario {
 					.addGap(160)
 					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
 					.addGap(54))
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addGap(153)
-					.addComponent(txtrCadastrarUsurio, GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-					.addGap(121))
+					.addComponent(txtrCadastrarUsurio, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(136))
 		);
-		
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(txtrCadastrarUsurio, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-					.addGap(9)
+					.addComponent(txtrCadastrarUsurio, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+					.addGap(18)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 						.addComponent(textFieldNome))
@@ -251,17 +249,15 @@ public class TelaCadastroUsuario {
 						.addComponent(passwordField)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(5)
-							.addComponent(lblSenha, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 5, Short.MAX_VALUE))
+							.addComponent(lblSenha, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(5)
-							.addComponent(lblConfirSenha, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED, 5, Short.MAX_VALUE))
+							.addComponent(lblConfirSenha, GroupLayout.PREFERRED_SIZE, 15, GroupLayout.PREFERRED_SIZE))
 						.addComponent(passwordFieldConfir))
 					.addGap(30)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnSalvar, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnSalvar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
 					.addGap(16))
 		);
 		myViewCadastro.getContentPane().setLayout(groupLayout);

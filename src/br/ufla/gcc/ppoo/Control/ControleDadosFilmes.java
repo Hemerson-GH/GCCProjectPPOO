@@ -1,18 +1,18 @@
-package br.ufla.gcc.ppoo.Control;
+package br.ufla.gcc.ppoo.control;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoExistenteException;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.bancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.dados.Filme;
+import br.ufla.gcc.ppoo.exceptions.AvaliacaoException;
+import br.ufla.gcc.ppoo.exceptions.AvaliacaoExistenteException;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
 
 public class ControleDadosFilmes {
 	

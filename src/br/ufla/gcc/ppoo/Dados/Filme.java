@@ -1,8 +1,8 @@
-package br.ufla.gcc.ppoo.Dados;
+package br.ufla.gcc.ppoo.dados;
 
 import java.util.ArrayList;
 
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
 
 public class Filme {
 	
@@ -18,7 +18,7 @@ public class Filme {
 	private Long id_filme;
 	
 	public Filme(String nome, String data, String descricao, String wordKeys,
-			String genero, String duracaoFilme, String diretor){
+									String genero, String duracaoFilme, String diretor){
 		this.nome = nome;
 		this.data = data;
 		this.descricao = descricao;
@@ -28,8 +28,8 @@ public class Filme {
 		this.diretor = diretor;
 	}
 	
-	public Filme(String nome, String data, String descricao, String wordKeys,
-			String genero, String duracaoFilme, String diretor, Long pontos, Long id_user, Long id_filme){
+	public Filme(String nome, String data, String descricao, String wordKeys, String genero, 
+									String duracaoFilme, String diretor, Long pontos, Long id_user, Long id_filme){
 		this.nome = nome;
 		this.data = data;
 		this.descricao = descricao;
@@ -46,6 +46,7 @@ public class Filme {
 		if (filme == null) {
 			throw new FilmesException("Não foi possível encontrar esse filme", "Filme Inexistente");
 		}
+		
 		this.setNome(filme.getNome());
 		this.setData(filme.getData());
 		this.setDescricao(filme.getDescricao());
@@ -145,6 +146,7 @@ public class Filme {
 				return true;
 			}
 		}
+		
 		return false;
 	}
 	

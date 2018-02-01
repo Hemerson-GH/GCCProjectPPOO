@@ -1,6 +1,7 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,16 +16,19 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.CadastroFilmeException;
-import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
+import br.ufla.gcc.ppoo.control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.dados.Filme;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.CadastroFilmeException;
+import br.ufla.gcc.ppoo.exceptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.imagens.GerenciadorDeImagens;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 public class TelaEditaFilme {
 	
@@ -66,16 +70,36 @@ public class TelaEditaFilme {
 	
 	public void contemPalavrasChave(String textFieldWorKeys) throws CadastroFilmeException {
 		String[] wordKeyHifen = textFieldWorKeys.split("-");
-		boolean ok = false;
 		
-		for (int i = 0; i < wordKeyHifen.length && ok == false; i++) {
-			if (wordKeyHifen[i].isEmpty()) {
+		if (wordKeyHifen.length < 2) {
+			throw new CadastroFilmeException("Insira mais de uma palavra-chave", "Campo Palavras-Chave incorreto");
+		}
+	}
+	
+	public void contemPalavrasChaveEmBranco(String textFieldWorKeys) throws CadastroFilmeException {
+		String[] wordKeyHifen = textFieldWorKeys.split("-");
+		boolean ok = false;
+		int contHifens = 0, contPalaInva = 0;
+		char caracter;
+		
+		for (int i = 0; i < wordKeyHifen.length; i++) {
+			if (wordKeyHifen[i].isEmpty() || wordKeyHifen[i].trim().equals("")) {
 				ok = true;
+				contPalaInva++;
 			}
 		}
 		
-		if (wordKeyHifen.length < 2 || ok == true) {
-			throw new CadastroFilmeException("Insira mais de uma palavra-chave", "Campo Palavras-Chave incorreto");
+		for (int i = 0; i < textFieldWorKeys.length(); i++) {
+			caracter = textFieldWorKeys.charAt(i);
+			if (caracter == '-') {
+				contHifens++;
+			}
+		}
+		
+		int tamPalaCorreto = wordKeyHifen.length - contPalaInva - 1;
+		
+		if (ok == true || tamPalaCorreto != contHifens) {
+			throw new CadastroFilmeException("Preencha corretamente o campo das palavras-chave.\n", "Campo Palavras-Chave incorreto");
 		}
 	}
 	
@@ -94,7 +118,6 @@ public class TelaEditaFilme {
 		viewEditaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewEditaFilme.setTitle("Editar Filme");
 		viewEditaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		viewEditaFilme.getContentPane().setLayout(null);
 		
 		try {
 			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
@@ -105,97 +128,78 @@ public class TelaEditaFilme {
 		} 
 		
 		JLabel lblNome = new JLabel("Nome");
-		lblNome.setBounds(15, 100, 45, 25);
 		lblNome.setForeground(new Color(255, 255, 255));
-		lblNome.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblNome.setBackground(Color.WHITE);
-		viewEditaFilme.getContentPane().add(lblNome);
 		
 		textFieldNome = new JTextField();
+		textFieldNome.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldNome.setText(filme.getNome());
 		textFieldNome.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldNome.setBounds(15, 125, 575, 30);
-		viewEditaFilme.getContentPane().add(textFieldNome);
 		textFieldNome.setColumns(10);
 		
 		final String guardarFilme = filme.getNome();
 		
 		JLabel lblData = new JLabel("Data de Lançamento");
-		lblData.setBounds(155, 220, 140, 25);
-		lblData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblData.setHorizontalAlignment(SwingConstants.LEFT);
 		lblData.setForeground(new Color(255, 255, 255));
 		lblData.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblData.setBackground(Color.WHITE);
-		viewEditaFilme.getContentPane().add(lblData);
 		
 		textFieldData = new JTextField();
+		textFieldData.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldData.setText(filme.getData());
 		textFieldData.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldData.setBounds(155, 245, 140, 30);
 		textFieldData.setToolTipText("Preencha esse campo da seguinte forma, 01/11/2017");
 		textFieldData.setColumns(10);
-		viewEditaFilme.getContentPane().add(textFieldData);
 		
 		JLabel lblDuraoDoFilme = new JLabel("Duração");
-		lblDuraoDoFilme.setBounds(325, 220, 58, 25);
-		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDuraoDoFilme.setForeground(new Color(255, 255, 255));
 		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblDuraoDoFilme.setBackground(Color.WHITE);
-		viewEditaFilme.getContentPane().add(lblDuraoDoFilme);
 		
 		textFieldDuracao = new JTextField();
+		textFieldDuracao.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldDuracao.setText(filme.getDuracaoFilme());
 		textFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldDuracao.setBounds(325, 245, 100, 30);
 		textFieldDuracao.setToolTipText("Preencha esse campo da seguinte forma, 2h15m");
 		textFieldDuracao.setColumns(10);
-		viewEditaFilme.getContentPane().add(textFieldDuracao);
 		
 		JLabel lblGnero = new JLabel("Gênero");
-		lblGnero.setBounds(15, 220, 55, 25);
-		lblGnero.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGnero.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGnero.setForeground(new Color(255, 255, 255));
 		lblGnero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblGnero.setBackground(Color.WHITE);
-		viewEditaFilme.getContentPane().add(lblGnero);
 		
 		textFieldGenero = new JTextField();
+		textFieldGenero.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldGenero.setText(filme.getGenero());
 		textFieldGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldGenero.setBounds(15, 245, 115, 30);
 		textFieldGenero.setToolTipText("");
 		textFieldGenero.setColumns(10);
-		viewEditaFilme.getContentPane().add(textFieldGenero);
 		
 		JLabel lblPalavras = new JLabel("Palavras-chave(mínimo 2)");
-		lblPalavras.setBounds(15, 165, 180, 25);
-		lblPalavras.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPalavras.setHorizontalAlignment(SwingConstants.LEFT);
 		lblPalavras.setForeground(new Color(255, 255, 255));
 		lblPalavras.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblPalavras.setBackground(Color.WHITE);
-		viewEditaFilme.getContentPane().add(lblPalavras);
 		
 		textFieldWorKeys = new JTextField();
+		textFieldWorKeys.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldWorKeys.setText(filme.getWordKeys());
 		textFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		textFieldWorKeys.setBounds(15, 190, 575, 30);
 		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, PalavraChave1-PalavraChave2...");
 		textFieldWorKeys.setColumns(10);
-		viewEditaFilme.getContentPane().add(textFieldWorKeys);
 		
 		JLabel lblDescrio = new JLabel("Descrição");
-		lblDescrio.setBounds(15, 281, 72, 25);
-		lblDescrio.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescrio.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDescrio.setForeground(new Color(255, 255, 255));
 		lblDescrio.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblDescrio.setBackground(Color.WHITE);
-		viewEditaFilme.getContentPane().add(lblDescrio);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 305, 575, 130);
-		viewEditaFilme.getContentPane().add(scrollPane);
 		
 		editorPaneDescricao = new JEditorPane();
 		scrollPane.setViewportView(editorPaneDescricao);
@@ -204,22 +208,18 @@ public class TelaEditaFilme {
 		editorPaneDescricao.setBorder(BorderFactory.createLineBorder(Color.darkGray, 1));
 		
 		JLabel lblDireto = new JLabel("Diretor");
-		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDireto.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDireto.setForeground(Color.WHITE);
 		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
 		lblDireto.setBackground(Color.WHITE);
-		lblDireto.setBounds(460, 220, 50, 25);
-		viewEditaFilme.getContentPane().add(lblDireto);
 		
 		textFieldDiretor = new JTextField();
+		textFieldDiretor.setHorizontalAlignment(SwingConstants.LEFT);
 		textFieldDiretor.setText(filme.getDiretor());
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
 		textFieldDiretor.setColumns(10);
-		textFieldDiretor.setBounds(460, 245, 130, 30);
-		viewEditaFilme.getContentPane().add(textFieldDiretor);
 		
 		JButton btnSalvar = new JButton("Salvar", GerenciadorDeImagens.OK);
-		btnSalvar.setBounds(80, 450, 150, 25);
 		btnSalvar.setForeground(new Color(0, 0, 0));
 		btnSalvar.setToolTipText("Entrar");
 		btnSalvar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -239,9 +239,10 @@ public class TelaEditaFilme {
 					confereCampos(textFieldNome, textFieldWorKeys, textFieldData, textFieldDuracao, textFieldGenero, editorPaneDescricao, textFieldDiretor);
 					contensHifen(textFieldWorKeys.getText());
 					contemPalavrasChave(textFieldWorKeys.getText().trim());
+					contemPalavrasChaveEmBranco(textFieldWorKeys.getText().trim());
 					
 					ControleDadosFilmes.alteraFilme(filme, guardarFilme);
-					JOptionPane.showMessageDialog(null, "Filme editado com sucesso.", "Filme editado", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Filme editado com sucesso.", "Filme editado", JOptionPane.INFORMATION_MESSAGE);
 					viewEditaFilme.dispose();
 					new TelaListagemFilmes(dl);
 				}
@@ -256,10 +257,8 @@ public class TelaEditaFilme {
 				} 			
 			}
 		});
-		viewEditaFilme.getContentPane().add(btnSalvar);
 		
 		JButton btnCancelar = new JButton("Cancelar", GerenciadorDeImagens.CANCELAR);
-		btnCancelar.setBounds(395, 450, 150, 25);
 		btnCancelar.setForeground(new Color(0, 0, 0));
 		btnCancelar.setToolTipText("Entrar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -276,16 +275,117 @@ public class TelaEditaFilme {
 				}
 			}
 		});
-		viewEditaFilme.getContentPane().add(btnCancelar);
 		
 		JLabel lblEditarFilme = new JLabel("Editar Filme");
 		lblEditarFilme.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditarFilme.setForeground(Color.WHITE);
 		lblEditarFilme.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
-		lblEditarFilme.setBounds(140, 20, 325, 55);
-		viewEditaFilme.getContentPane().add(lblEditarFilme);
 		
-		viewEditaFilme.setSize(630, 530);
+		GroupLayout groupLayout = new GroupLayout(viewEditaFilme.getContentPane());
+		
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(140)
+					.addComponent(lblEditarFilme, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE)
+					.addGap(139))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(85)
+					.addComponent(btnSalvar, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+					.addGap(150)
+					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+					.addGap(69))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(15)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+						.addComponent(lblNome))
+					.addContainerGap())
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(15)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+						.addComponent(textFieldWorKeys, GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(textFieldGenero, GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
+											.addGap(18))
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(lblGnero, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.RELATED)))
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addComponent(textFieldData, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+										.addComponent(lblData, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+									.addGap(24)
+									.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+										.addGroup(groupLayout.createSequentialGroup()
+											.addComponent(lblDuraoDoFilme, GroupLayout.DEFAULT_SIZE, 61, Short.MAX_VALUE)
+											.addGap(53))
+										.addComponent(textFieldDuracao, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
+									.addGap(18)))
+							.addGap(0)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lblDireto, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+								.addComponent(textFieldDiretor, GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
+						.addComponent(lblPalavras, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap())
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(20)
+					.addComponent(lblEditarFilme, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addGap(27)
+					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textFieldNome, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(lblPalavras, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textFieldWorKeys, GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(31)
+							.addComponent(textFieldGenero, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblDireto, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(textFieldDiretor, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblData, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblGnero, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(31)
+							.addComponent(textFieldData, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+						.addComponent(lblDuraoDoFilme, GroupLayout.PREFERRED_SIZE, 31, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(31)
+							.addComponent(textFieldDuracao, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(24)
+							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+							.addGap(57))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+							.addGap(111)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING, false)
+								.addGroup(groupLayout.createSequentialGroup()
+									.addComponent(btnCancelar)
+									.addGap(2))
+								.addComponent(btnSalvar, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addContainerGap())))
+		);
+		viewEditaFilme.getContentPane().setLayout(groupLayout);
+		
+		viewEditaFilme.setSize(620, 530);
+		viewEditaFilme.setMinimumSize(new Dimension(600, 510));
 		viewEditaFilme.setVisible(true);
 		viewEditaFilme.setResizable(true);
 	}

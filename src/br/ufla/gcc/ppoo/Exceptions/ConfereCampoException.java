@@ -1,7 +1,8 @@
-package br.ufla.gcc.ppoo.Exceptions;
+package br.ufla.gcc.ppoo.exceptions;
 
 @SuppressWarnings("serial")
 public class ConfereCampoException extends Exception {
+	
 	private String titulo;
 	
 	public ConfereCampoException(String msg, String titulo) {

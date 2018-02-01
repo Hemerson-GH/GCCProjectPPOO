@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.RecuperacaoSenha;
+package br.ufla.gcc.ppoo.recuperacaoSenha;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

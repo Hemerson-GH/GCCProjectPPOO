@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,13 +18,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.BuscasException;
-import br.ufla.gcc.ppoo.Exceptions.ConverteSenhaException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.bancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.BuscasException;
+import br.ufla.gcc.ppoo.exceptions.ConverteSenhaException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
 
 public class TelaLogin {
 	
@@ -41,16 +41,16 @@ public class TelaLogin {
 			JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		}
 		
-		View();
+		view();
 	}
 	
 	public void confereSenhaUsuario(String senhaInserida, String senhaUsuario) throws BuscasException, ConverteSenhaException {
 		if (!ControleDadosUsuarios.convertMD5(senhaInserida).equals(senhaUsuario)) {
-			throw new BuscasException(" UsuÃ¡rio e/ou senha invÃ¡lidos...", "UsuÃ¡rio invÃ¡lidos");
+			throw new BuscasException(" Usuário e/ou senha inválidos...", "Usuário inválidos");
 		}
 	}
 
-	public void View(){
+	public void view(){
 
 		myViewLogin = new JFrame();
 		myViewLogin.getContentPane().setBackground(new Color(51, 102, 153));
@@ -82,7 +82,6 @@ public class TelaLogin {
 		btnEnter.addActionListener(new ActionListener() {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent arg0) {
-				
 				DadosLogin dadosLogin;
 				
 				try {
@@ -111,7 +110,6 @@ public class TelaLogin {
 		btnCancel.setBackground(new Color(255, 255, 255));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				myViewLogin.dispose();
 				
 				try {
@@ -128,7 +126,7 @@ public class TelaLogin {
 		txtNovoUsuario.setForeground(new Color(255, 255, 255));
 		txtNovoUsuario.setFont(new Font("Arial", Font.ITALIC, 15));
 		txtNovoUsuario.setBackground(new Color(0, 128, 128));
-		txtNovoUsuario.setToolTipText("Clique aqui para cadastrar um novo usuÃ¡rio");
+		txtNovoUsuario.setToolTipText("Clique aqui para cadastrar um novo usuário");
 		txtNovoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -137,7 +135,7 @@ public class TelaLogin {
 			}
 		});
 		txtNovoUsuario.setEditable(false);
-		txtNovoUsuario.setText("Novo usuÃ¡rio");
+		txtNovoUsuario.setText("Novo usuário");
 		txtNovoUsuario.setBounds(335, 115, 95, 20);
 		myViewLogin.getContentPane().add(txtNovoUsuario);
 		txtNovoUsuario.setOpaque(false);
@@ -153,7 +151,7 @@ public class TelaLogin {
 		lblLogin.setForeground(new Color(255, 255, 255));
 		lblLogin.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		
-		JLabel lblAutenticao = new JLabel("Autenticar usuÃ¡rio ");
+		JLabel lblAutenticao = new JLabel("Autenticar usuário ");
 		lblAutenticao.setBackground(new Color(51, 204, 102));
 		lblAutenticao.setFont(new Font("Arial", Font.BOLD, 19));
 		lblAutenticao.setForeground(new Color(255, 255, 255));
@@ -212,12 +210,11 @@ public class TelaLogin {
 							.addComponent(txtNovoUsuario, GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE)
 							.addGap(3)))
 					.addGap(24)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnEnter, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnCancel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnEnter, Alignment.TRAILING)
+						.addComponent(btnCancel))
 					.addGap(16))
 		);
-		
 		myViewLogin.getContentPane().setLayout(groupLayout);
 		
 		myViewLogin.setSize(485, 240);

@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,19 +21,19 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
-import br.ufla.gcc.ppoo.Control.ControleDadosComentarios;
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.BuscasException;
-import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
+import br.ufla.gcc.ppoo.control.ControleDadosAvaliacao;
+import br.ufla.gcc.ppoo.control.ControleDadosComentarios;
+import br.ufla.gcc.ppoo.control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.dados.Filme;
+import br.ufla.gcc.ppoo.exceptions.AvaliacaoException;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.BuscasException;
+import br.ufla.gcc.ppoo.exceptions.ComentariosException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.imagens.GerenciadorDeImagens;
 
 public class TelaListagemFilmes {
 	
@@ -84,19 +84,19 @@ public class TelaListagemFilmes {
 		});
 	}
 	
-	public void ConfereTabelaEditar(JTable tableFilmes) throws BuscasException{
+	public void confereTabelaEditar(JTable tableFilmes) throws BuscasException{
 		if (tableFilmes.getSelectedRow() == -1) {
 			throw new BuscasException("Para editar um filme selecione a linha dele.", "Seleção inválida");
 		}
 	}
 	
-	public void ConfereTabelaDeletar(JTable tableFilmes) throws BuscasException{
+	public void confereTabelaDeletar(JTable tableFilmes) throws BuscasException{
 		if (tableFilmes.getSelectedRow() == -1) {
 			throw new BuscasException("Para excluir um filme selecione a linha dele.", "Seleção inválida");
 		}
 	}
 	
-	public void ConfereTabelaVisualizar(JTable tableFilmes) throws BuscasException{
+	public void confereTabelaVisualizar(JTable tableFilmes) throws BuscasException{
 		if (tableFilmes.getSelectedRow() == -1) {
 			throw new BuscasException("Para visualizar um filme selecione a linha dele.", "Seleção inválida");
 		}
@@ -163,12 +163,11 @@ public class TelaListagemFilmes {
 		lblSelecione.setForeground(Color.WHITE);
 		lblSelecione.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 20));
 		
-		JButton btnVisualizar = new JButton("Visualizar");
-		btnVisualizar.setIcon(GerenciadorDeImagens.FILME);
+		JButton btnVisualizar = new JButton("Visualizar", GerenciadorDeImagens.FILME);
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ConfereTabelaVisualizar(tableFilmes);
+					confereTabelaVisualizar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					Filme filme = new Filme (ControleDadosFilmes.confereFilme(dl.getId(), filmeSelect));
 					setStatus(false);
@@ -189,18 +188,16 @@ public class TelaListagemFilmes {
 		btnVisualizar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnVisualizar.setBackground(new Color(255, 255, 255));
 		
-		JButton btnEditar = new JButton("Editar");
-		btnEditar.setIcon(GerenciadorDeImagens.EDITAR);
+		JButton btnEditar = new JButton("Editar", GerenciadorDeImagens.EDITAR);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {	
 				try {
-					ConfereTabelaEditar(tableFilmes);
+					confereTabelaEditar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);	
 					
 					Filme filme = new Filme (ControleDadosFilmes.confereFilme(dl.getId(), filmeSelect));
 					
 					setStatus(false);
-//					viewListagem.setVisible(false);
 					viewListagem.dispose();
 					
 					new TelaEditaFilme(dl, filme);
@@ -218,15 +215,14 @@ public class TelaListagemFilmes {
 		btnEditar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnEditar.setBackground(new Color(255, 255, 255));
 		
-		JButton btnRemover = new JButton("Remover");
-		btnRemover.setIcon(GerenciadorDeImagens.DELETAR);
+		JButton btnRemover = new JButton("Remover", GerenciadorDeImagens.DELETAR);
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ConfereTabelaDeletar(tableFilmes);
+					confereTabelaDeletar(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);		
 					Filme filme = new Filme (ControleDadosFilmes.confereFilme(dl.getId(), filmeSelect));
-					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir esse filme ?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente excluir esse filme?", "Excluir", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 					
 					if (JOptionPane.YES_OPTION == confirm) {
 						ControleDadosComentarios.deletaComentariosFilme(filme.getId_filme());
@@ -256,19 +252,20 @@ public class TelaListagemFilmes {
 		btnRemover.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnRemover.setBackground(new Color(255, 255, 255));
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("Cancelar", GerenciadorDeImagens.CANCELAR);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setStatus(false);
 				viewListagem.dispose();
 			}
 		});
-		btnCancelar.setIcon(GerenciadorDeImagens.CANCELAR);
 		btnCancelar.setForeground(new Color(0, 0, 0));
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 15));
 		btnCancelar.setBackground(new Color(255, 255, 255));
+		
 		GroupLayout groupLayout = new GroupLayout(viewListagem.getContentPane());
+		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
@@ -303,11 +300,11 @@ public class TelaListagemFilmes {
 					.addComponent(lblSelecione, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
 					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 398, Short.MAX_VALUE)
 					.addGap(10)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnEditar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnRemover, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnVisualizar, Alignment.TRAILING)
+						.addComponent(btnEditar, Alignment.TRAILING)
+						.addComponent(btnRemover)
+						.addComponent(btnCancelar, Alignment.TRAILING))
 					.addGap(16))
 		);
 		viewListagem.getContentPane().setLayout(groupLayout);

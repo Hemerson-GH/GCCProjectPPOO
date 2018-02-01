@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,15 +22,15 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.BuscasException;
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
+import br.ufla.gcc.ppoo.control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.dados.Filme;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.BuscasException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.imagens.GerenciadorDeImagens;
 
 public class TelaBuscarFilme {
 
@@ -50,11 +50,11 @@ public class TelaBuscarFilme {
 		status = bool;
 	}
 	
-	public ArrayList<Filme> AtualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
+	public ArrayList<Filme> atualizaLista(DadosLogin dl) throws BancoDadosException, FilmesException{
 		return ControleDadosFilmes.buscarFilmesTodosUsuariosPontos();
 	}
 	
-	public String ConfereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
+	public String confereNomeFilme(Filme filme, DadosLogin dadosLogin) throws BancoDadosException, UsuarioException {
 		String nome = ControleDadosUsuarios.buscaNomeUser(filme.getId_user());
 		
 		if (nome.equals(dadosLogin.getNome())) { 
@@ -64,20 +64,20 @@ public class TelaBuscarFilme {
 		return nome;
 	}
 	
-	public void ConfereCampoBusca(JTextField textFieldBusca) throws BuscasException{
+	public void confereCampoBusca(JTextField textFieldBusca) throws BuscasException{
 		if (textFieldBusca.getText().equals("")) {
 			throw new BuscasException("Digite uma palavra para que possa ser feita a busca.", "Campo busca vazio");
 		}
 	}
 	
-	public void ConfereLista(ArrayList<Filme> listFilms) throws BuscasException{
+	public void confereLista(ArrayList<Filme> listFilms) throws BuscasException{
 		if (listFilms.isEmpty()) {
 			iniciarTabela();
 			throw new BuscasException( "Nenhum filme com essa palavra foi encontrado", "Filme não encontrado");
 		}
 	}
 	
-	public void ConfereTabela(JTable tableFilmes) throws BuscasException{
+	public void confereTabela(JTable tableFilmes) throws BuscasException{
 		if (tableFilmes.getSelectedRow() == -1) {
 			throw new BuscasException("Para visuzalizar um filme selecione a linha dele.", "Seleção inválida");
 		}
@@ -92,7 +92,7 @@ public class TelaBuscarFilme {
 		int i = 0;	
 		
 		for (Filme filme : listFilms) {
-			filmes[i][0] = ConfereNomeFilme(filme, dadosLogin);
+			filmes[i][0] = confereNomeFilme(filme, dadosLogin);
 			filmes[i][1] = filme.getNome();
 			filmes[i][2] = filme.getGenero();
 			filmes[i][3] = filme.getData();
@@ -186,10 +186,10 @@ public class TelaBuscarFilme {
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ConfereCampoBusca(textFieldBusca);
-					listFilms = AtualizaLista(dl);
+					confereCampoBusca(textFieldBusca);
+					listFilms = atualizaLista(dl);
 					listFilms = Filme.pesquisaFilme(listFilms, textFieldBusca.getText());
-					ConfereLista(listFilms);					
+					confereLista(listFilms);					
 					constroiTabela(listFilms, dadosLogin);
 				} catch (BuscasException be) {
 					JOptionPane.showMessageDialog(null, be.getMessage(), be.getTitulo(), JOptionPane.ERROR_MESSAGE);
@@ -210,8 +210,8 @@ public class TelaBuscarFilme {
 		btnBuscarTodos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					listFilms = AtualizaLista(dl);
-					ConfereLista(listFilms);
+					listFilms = atualizaLista(dl);
+					confereLista(listFilms);
 					constroiTabela(listFilms, dadosLogin);
 				} catch (BancoDadosException dbe) {
 					JOptionPane.showMessageDialog(null, dbe.getMessage(), dbe.getTitulo(), JOptionPane.ERROR_MESSAGE);
@@ -239,7 +239,7 @@ public class TelaBuscarFilme {
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ConfereTabela(tableFilmes);
+					confereTabela(tableFilmes);
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
 					String donoFilme = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 0);
 					
@@ -273,35 +273,36 @@ public class TelaBuscarFilme {
 				viewBuscarFilme.dispose();
 			}
 		});
+		
 		GroupLayout groupLayout = new GroupLayout(viewBuscarFilme.getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
-					.addGap(35)
-					.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-					.addGap(60)
-					.addComponent(btnBuscarTodos, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
-					.addGap(64))
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(250)
 					.addComponent(lblSelecionar, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(254))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(10)
-					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)
-					.addGap(24))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(135)
-					.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
-					.addGap(350)
-					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
-					.addGap(154))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addGap(317)
 					.addComponent(lblBuscar, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
 					.addGap(287))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(10)
+							.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+							.addGap(67)
+							.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+							.addGap(68)
+							.addComponent(btnBuscarTodos, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, 131, Short.MAX_VALUE)
+							.addGap(605)
+							.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(10)
+							.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 866, Short.MAX_VALUE)))
+					.addGap(24))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -309,15 +310,16 @@ public class TelaBuscarFilme {
 					.addGap(15)
 					.addComponent(lblBuscar, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
 					.addGap(15)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(textFieldBusca, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-						.addComponent(btnBuscar, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-						.addComponent(btnBuscarTodos, GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(textFieldBusca, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(btnBuscarTodos, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)
+							.addComponent(btnBuscar, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE)))
 					.addGap(20)
 					.addComponent(lblSelecionar, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
 					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
 					.addGap(25)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnVisualizar, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
 						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
 					.addGap(21))

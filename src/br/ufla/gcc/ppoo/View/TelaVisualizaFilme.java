@@ -1,6 +1,7 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,23 +20,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
-import br.ufla.gcc.ppoo.Control.ControleDadosAvaliacao;
-import br.ufla.gcc.ppoo.Control.ControleDadosComentarios;
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.Avaliacao;
-import br.ufla.gcc.ppoo.Dados.Comentarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoExistenteException;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
-import br.ufla.gcc.ppoo.Exceptions.ConfereCampoException;
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
+import br.ufla.gcc.ppoo.control.ControleDadosAvaliacao;
+import br.ufla.gcc.ppoo.control.ControleDadosComentarios;
+import br.ufla.gcc.ppoo.control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.Avaliacao;
+import br.ufla.gcc.ppoo.dados.Comentarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.dados.Filme;
+import br.ufla.gcc.ppoo.exceptions.AvaliacaoException;
+import br.ufla.gcc.ppoo.exceptions.AvaliacaoExistenteException;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.ComentariosException;
+import br.ufla.gcc.ppoo.exceptions.ConfereCampoException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.imagens.GerenciadorDeImagens;
 
 public class TelaVisualizaFilme {
 	
@@ -69,14 +73,14 @@ public class TelaVisualizaFilme {
 		return false;
 	}
 	
-	public void ConfereCampoComentario(String commit) throws ConfereCampoException {
+	public void confereCampoComentario(String commit) throws ConfereCampoException {
 		if (commit.equals("") || commit.equals("Escreva um comentário sobre o filme...")) {
 			throw new ConfereCampoException("Não é permitido enviar um comentário vazio, digite seu comentário antes de clicar aqui.",
 					"Comentário inválido");
 		}
 	}
 	
-	public void ConfereTamanhoCampoComentario(String commit) throws ConfereCampoException {
+	public void confereTamanhoCampoComentario(String commit) throws ConfereCampoException {
 		if (commit.length() > 144) {
 			throw new ConfereCampoException("Seu comentário não pode ter mais que 144 caracteres.", "Comentário excede limite de caracteres");
 		}
@@ -98,14 +102,11 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.setFont(new Font("Times New Roman", Font.PLAIN, 14));
 		viewVisualizaFilme.setTitle("Visualiza Filme");
 		viewVisualizaFilme.getContentPane().setFont(new Font("Arial", Font.PLAIN, 12));
-		viewVisualizaFilme.getContentPane().setLayout(null);
 		
 		JLabel lblVisualizarFilme = new JLabel("Visualizar Filme");
 		lblVisualizarFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 24));
 		lblVisualizarFilme.setHorizontalAlignment(SwingConstants.LEFT);
 		lblVisualizarFilme.setForeground(Color.WHITE);
-		lblVisualizarFilme.setBounds(190, 10, 185, 30);
-		viewVisualizaFilme.getContentPane().add(lblVisualizarFilme);
 		
 		try {
 			dl = ControleDadosUsuarios.buscarDados(dadosLogin.getEmail());
@@ -150,7 +151,7 @@ public class TelaVisualizaFilme {
 			
 			@SuppressWarnings("rawtypes")
 			Hashtable labelTable = new Hashtable();
-			labelTable.put( new Integer(5), new JLabel(GerenciadorDeImagens.ESTRELA_5) );
+			labelTable.put( new Integer(5), new JLabel(GerenciadorDeImagens.ESTRELA_5));
 			labelTable.put( new Integer(4), new JLabel(GerenciadorDeImagens.ESTRELA_4));
 			labelTable.put( new Integer(3), new JLabel(GerenciadorDeImagens.ESTRELA_3));
 			labelTable.put( new Integer(2), new JLabel(GerenciadorDeImagens.ESTRELA_2));
@@ -199,101 +200,77 @@ public class TelaVisualizaFilme {
 		lblTitulo.setForeground(Color.BLACK);
 		lblTitulo.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		lblTitulo.setBackground(Color.WHITE);
-		lblTitulo.setBounds(10, 55, 60, 25);
-		viewVisualizaFilme.getContentPane().add(lblTitulo);
 		
 		JLabel lblNome = new JLabel(filme.getNome());
 		lblNome.setToolTipText(filme.getNome());
-		lblNome.setBounds(10, 85, 495, 25);
 		lblNome.setForeground(new Color(255, 255, 255));
 		lblNome.setHorizontalAlignment(SwingConstants.LEFT);
 		lblNome.setFont(new Font("Microsoft JhengHei", Font.BOLD, 20));
 		lblNome.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblNome);	
 		
 		JLabel lblPalavras = new JLabel("Palavras-chave:");
-		lblPalavras.setBounds(10, 120, 140, 25);
 		lblPalavras.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPalavras.setForeground(new Color(0, 0, 0));
 		lblPalavras.setFont(new Font("Microsoft JhengHei", Font.BOLD, 18));
 		lblPalavras.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblPalavras);
 		
 		JLabel lblFieldWorKeys = new JLabel(Filme.converteTexto(filme.getWordKeys()));
 		lblFieldWorKeys.setForeground(Color.WHITE);
 		lblFieldWorKeys.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 16));
-		lblFieldWorKeys.setBounds(12, 150, 475, 30);
-		viewVisualizaFilme.getContentPane().add(lblFieldWorKeys);
 		
 		JLabel lblGenero = new JLabel("Gênero:");
-		lblGenero.setBounds(10, 190, 70, 25);
-		lblGenero.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGenero.setHorizontalAlignment(SwingConstants.LEFT);
 		lblGenero.setForeground(new Color(0, 0, 0));
 		lblGenero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblGenero.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblGenero);
 		
 		JLabel lblTGenero = new JLabel(filme.getGenero());
+		lblTGenero.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTGenero.setForeground(Color.WHITE);
 		lblTGenero.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblTGenero.setBounds(10, 215, 115, 30);
 		lblTGenero.setToolTipText(filme.getGenero());
-		viewVisualizaFilme.getContentPane().add(lblTGenero);
 		
 		JLabel lblData = new JLabel("Lançamento:");
-		lblData.setBounds(297, 190, 110, 25);
-		lblData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblData.setHorizontalAlignment(SwingConstants.LEFT);
 		lblData.setForeground(new Color(0, 0, 0));
 		lblData.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblData.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblData);
 		
 		JLabel lblFieldData = new JLabel(filme.getData());
+		lblFieldData.setHorizontalAlignment(SwingConstants.LEFT);
 		lblFieldData.setForeground(Color.WHITE);
 		lblFieldData.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblFieldData.setBounds(309, 215, 90, 30);
-		viewVisualizaFilme.getContentPane().add(lblFieldData);
 		
 		JLabel lblDuraoDoFilme = new JLabel("Duração:");
-		lblDuraoDoFilme.setBounds(155, 190, 75, 25);
-		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDuraoDoFilme.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDuraoDoFilme.setForeground(new Color(0, 0, 0));
 		lblDuraoDoFilme.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblDuraoDoFilme.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblDuraoDoFilme);
 		
 		JLabel lblTFieldDuracao = new JLabel(filme.getDuracaoFilme());
+		lblTFieldDuracao.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTFieldDuracao.setForeground(Color.WHITE);
 		lblTFieldDuracao.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblTFieldDuracao.setBounds(155, 215, 85, 30);
-		viewVisualizaFilme.getContentPane().add(lblTFieldDuracao);
 		
 		JLabel lblDireto = new JLabel("Diretor:");
-		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDireto.setHorizontalAlignment(SwingConstants.LEFT);
 		lblDireto.setForeground(new Color(0, 0, 0));
 		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblDireto.setBackground(Color.WHITE);
-		lblDireto.setBounds(470, 190, 65, 25);
-		viewVisualizaFilme.getContentPane().add(lblDireto);
 		
 		JLabel lblTDiretor = new JLabel(filme.getDiretor());
+		lblTDiretor.setHorizontalAlignment(SwingConstants.LEFT);
 		lblTDiretor.setToolTipText(filme.getDiretor());
 		lblTDiretor.setForeground(Color.WHITE);
 		lblTDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 15));
-		lblTDiretor.setBounds(470, 215, 110, 30);
-		viewVisualizaFilme.getContentPane().add(lblTDiretor);
 
 		JLabel lblDescrio = new JLabel("Descrição:");
-		lblDescrio.setBounds(10, 255, 90, 25);
 		lblDescrio.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDescrio.setForeground(new Color(0, 0, 0));
 		lblDescrio.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblDescrio.setBackground(Color.WHITE);
-		viewVisualizaFilme.getContentPane().add(lblDescrio);
 		
 		JScrollPane scrollPaneDescricao = new JScrollPane();
-		scrollPaneDescricao.setBounds(10, 285, 575, 100);
-		viewVisualizaFilme.getContentPane().add(scrollPaneDescricao);
 		
 		JEditorPane editorPaneDescricao = new JEditorPane();
 		editorPaneDescricao.setEditable(false);
@@ -307,12 +284,8 @@ public class TelaVisualizaFilme {
 		lblComentarios.setForeground(Color.BLACK);
 		lblComentarios.setFont(new Font("Microsoft JhengHei", Font.BOLD, 17));
 		lblComentarios.setBackground(Color.WHITE);
-		lblComentarios.setBounds(10, 390, 115, 25);
-		viewVisualizaFilme.getContentPane().add(lblComentarios);
 		
 		JScrollPane scrollPaneCommit = new JScrollPane();
-		scrollPaneCommit.setBounds(10, 540, 575, 70);
-		viewVisualizaFilme.getContentPane().add(scrollPaneCommit);
 		
 		final JEditorPane editorPaneCommit = new JEditorPane();
 		editorPaneCommit.addMouseListener(new MouseAdapter() {
@@ -326,8 +299,6 @@ public class TelaVisualizaFilme {
 		scrollPaneCommit.setViewportView(editorPaneCommit);
 		
 		JScrollPane scrollPaneCommits = new JScrollPane();
-		scrollPaneCommits.setBounds(10, 420, 575, 110);
-		viewVisualizaFilme.getContentPane().add(scrollPaneCommits);
 		
 		final JEditorPane editorPaneCommits = new JEditorPane();
 		
@@ -351,13 +322,12 @@ public class TelaVisualizaFilme {
 		editorPaneCommits.setFont(new Font("Microsoft JhengHei", Font.BOLD, 13));
 		scrollPaneCommits.setViewportView(editorPaneCommits);
 		
-		JButton btnComentar = new JButton("Comentar");
-		btnComentar.setIcon(GerenciadorDeImagens.COMENTARIO);
+		JButton btnComentar = new JButton("Comentar", GerenciadorDeImagens.COMENTARIO);
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					try {
-						ConfereCampoComentario(editorPaneCommit.getText());
-						ConfereTamanhoCampoComentario(editorPaneCommit.getText());
+						confereCampoComentario(editorPaneCommit.getText());
+						confereTamanhoCampoComentario(editorPaneCommit.getText());
 						
 						Comentarios commit = new Comentarios(editorPaneCommit.getText(), dl.getId(), filme.getId_filme());
 						ControleDadosComentarios.cadastrarComentario(commit);
@@ -381,12 +351,8 @@ public class TelaVisualizaFilme {
 		btnComentar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnComentar.setBackground(new Color(255, 255, 255));
 		btnComentar.setToolTipText("Clique aqui para salvar seu comentario");
-		btnComentar.setBounds(90, 620, 150, 25);
-		viewVisualizaFilme.getContentPane().add(btnComentar);
 		
-		JButton btnCancelar = new JButton("Sair");
-		btnCancelar.setIcon(GerenciadorDeImagens.CANCELAR);
-		btnCancelar.setBounds(385, 620, 150, 25);
+		JButton btnCancelar = new JButton("Sair", GerenciadorDeImagens.CANCELAR);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -413,10 +379,123 @@ public class TelaVisualizaFilme {
 		btnCancelar.setToolTipText("Clique aqui para sair");
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
 		btnCancelar.setBackground(new Color(255, 255, 255));
-		viewVisualizaFilme.getContentPane().add(btnCancelar);
 		
-		viewVisualizaFilme.setResizable(false);
+		GroupLayout groupLayout = new GroupLayout(viewVisualizaFilme.getContentPane());
+		
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblTitulo, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblPalavras, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblComentarios, GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(90)
+					.addComponent(btnComentar, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+					.addGap(145)
+					.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE)
+					.addGap(79))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPaneCommit, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+						.addComponent(scrollPaneDescricao, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+						.addComponent(scrollPaneCommits, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE))
+					.addGap(14))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblGenero, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblTGenero, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblTFieldDuracao, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+							.addGap(55))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblDuraoDoFilme, GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addGap(18)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblData, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+						.addComponent(lblFieldData, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+					.addGap(42)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(3)
+							.addComponent(lblDireto, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
+						.addComponent(lblTDiretor, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(10)
+					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 495, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(99, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(12)
+					.addComponent(lblFieldWorKeys, GroupLayout.PREFERRED_SIZE, 547, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(45, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(209)
+					.addComponent(lblVisualizarFilme, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(214))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblVisualizarFilme, GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+					.addGap(14)
+					.addComponent(lblTitulo)
+					.addGap(5)
+					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addComponent(lblPalavras)
+					.addGap(5)
+					.addComponent(lblFieldWorKeys, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblDireto, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblGenero, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+							.addComponent(lblDuraoDoFilme, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+							.addComponent(lblData, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblTFieldDuracao, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+								.addComponent(lblTDiretor, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblFieldData, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+							.addGap(10))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblTGenero, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)))
+					.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(scrollPaneDescricao, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+					.addGap(5)
+					.addComponent(lblComentarios, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(scrollPaneCommits, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+					.addGap(10)
+					.addComponent(scrollPaneCommit, GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnComentar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+					.addGap(11))
+		);
+		viewVisualizaFilme.getContentPane().setLayout(groupLayout);
+		
+		viewVisualizaFilme.setResizable(true);
 		viewVisualizaFilme.setSize(620, 695);
+		viewVisualizaFilme.setMinimumSize(new Dimension(620, 570));
 		viewVisualizaFilme.setVisible(true);		
 	}
 }

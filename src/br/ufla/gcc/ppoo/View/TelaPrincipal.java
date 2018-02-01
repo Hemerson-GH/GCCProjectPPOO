@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -18,20 +18,20 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.imagens.GerenciadorDeImagens;
 
 public class TelaPrincipal {
 	
 	private JFrame viewMain;
 	
 	public TelaPrincipal(DadosLogin dadosLogin) {
-		View(dadosLogin);
+		view(dadosLogin);
 	}
 	
-	public void View(final DadosLogin dadosLogin){
+	public void view(final DadosLogin dadosLogin){
 
 		viewMain = new JFrame();
 		
@@ -160,7 +160,7 @@ public class TelaPrincipal {
 		mnItemSair.setBackground(new Color(255, 255, 255));
 		mnItemSair.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair ?", "Confirmação	 para sair", 
+				final int confirm = JOptionPane.showConfirmDialog(null, "Deseja realmente sair?", "Confirmação para sair", 
 						JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 				if (JOptionPane.YES_OPTION == confirm) {	
 					viewMain.dispose();
@@ -172,7 +172,9 @@ public class TelaPrincipal {
 		JSeparator separatorSair = new JSeparator();
 		mnSair.add(separatorSair);
 		mnSair.add(mnItemSair);
+		
 		GroupLayout groupLayout = new GroupLayout(viewMain.getContentPane());
+		
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()

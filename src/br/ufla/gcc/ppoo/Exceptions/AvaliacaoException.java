@@ -1,7 +1,8 @@
-package br.ufla.gcc.ppoo.Exceptions;
+package br.ufla.gcc.ppoo.exceptions;
 
 @SuppressWarnings("serial")
 public class AvaliacaoException extends Exception{
+	
 	private String titulo;
 	
 	public AvaliacaoException(String msg, String titulo) {

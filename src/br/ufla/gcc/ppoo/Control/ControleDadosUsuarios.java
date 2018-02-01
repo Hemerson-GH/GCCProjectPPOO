@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.Control;
+package br.ufla.gcc.ppoo.control;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -7,12 +7,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.ConverteSenhaException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioExistenteException;
+import br.ufla.gcc.ppoo.bancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.ConverteSenhaException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioExistenteException;
 
 public class ControleDadosUsuarios {
 	

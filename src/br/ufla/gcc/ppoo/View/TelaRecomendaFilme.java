@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.View;
+package br.ufla.gcc.ppoo.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -21,16 +21,16 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
-import br.ufla.gcc.ppoo.Control.ControleDadosFilmes;
-import br.ufla.gcc.ppoo.Control.ControleDadosUsuarios;
-import br.ufla.gcc.ppoo.Dados.DadosLogin;
-import br.ufla.gcc.ppoo.Dados.Filme;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
-import br.ufla.gcc.ppoo.Exceptions.BuscasException;
-import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
-import br.ufla.gcc.ppoo.Exceptions.FilmesException;
-import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
+import br.ufla.gcc.ppoo.control.ControleDadosFilmes;
+import br.ufla.gcc.ppoo.control.ControleDadosUsuarios;
+import br.ufla.gcc.ppoo.dados.DadosLogin;
+import br.ufla.gcc.ppoo.dados.Filme;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.BuscasException;
+import br.ufla.gcc.ppoo.exceptions.FilmeExistenteException;
+import br.ufla.gcc.ppoo.exceptions.FilmesException;
+import br.ufla.gcc.ppoo.exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.imagens.GerenciadorDeImagens;
 
 public class TelaRecomendaFilme {
 	
@@ -118,7 +118,7 @@ public class TelaRecomendaFilme {
 		}
 	}
 	
-	public void ConfereTabelaAdicionar(JTable tableFilmes) throws BuscasException{
+	public void confereTabelaAdicionar(JTable tableFilmes) throws BuscasException{
 		if (tableFilmes.getSelectedRow() == -1) {
 			throw new BuscasException("Para adicionar um filme selecione a linha dele.", "Seleção inválida");
 		}
@@ -201,12 +201,11 @@ public class TelaRecomendaFilme {
 		lblRecomendacoes.setHorizontalAlignment(SwingConstants.CENTER);
 		lblRecomendacoes.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		
-		JButton btnAdicionar = new JButton("Adicionar Filme");
-		btnAdicionar.setIcon(GerenciadorDeImagens.FILME);
+		JButton btnAdicionar = new JButton("Adicionar Filme", GerenciadorDeImagens.FILME);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ConfereTabelaAdicionar(tableFilmes);
+					confereTabelaAdicionar(tableFilmes);
 					confereLista(listTodosFilmes);
 					
 					String filmeSelect = (String) tableFilmes.getModel().getValueAt(tableFilmes.getSelectedRow() , 1);		
@@ -240,8 +239,7 @@ public class TelaRecomendaFilme {
 		btnAdicionar.setBackground(new Color(255, 255, 255));
 		btnAdicionar.setFont(new Font("Arial", Font.PLAIN, 14));
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(GerenciadorDeImagens.CANCELAR);
+		JButton btnCancelar = new JButton("Cancelar", GerenciadorDeImagens.CANCELAR);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setStatus(false);
@@ -252,6 +250,7 @@ public class TelaRecomendaFilme {
 		btnCancelar.setToolTipText("Cancelar");
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		btnCancelar.setFont(new Font("Arial", Font.PLAIN, 14));
+		
 		GroupLayout groupLayout = new GroupLayout(viewTelaRecomenda.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -285,10 +284,10 @@ public class TelaRecomendaFilme {
 					.addComponent(lblSelecionar, GroupLayout.PREFERRED_SIZE, 25, Short.MAX_VALUE)
 					.addComponent(scrollPaneList, GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
 					.addGap(20)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAdicionar, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-						.addComponent(btnRecomendar, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-						.addComponent(btnCancelar, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnAdicionar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnRecomendar, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnCancelar, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
 					.addGap(11))
 		);
 		viewTelaRecomenda.getContentPane().setLayout(groupLayout);

@@ -1,7 +1,8 @@
-package br.ufla.gcc.ppoo.Exceptions;
+package br.ufla.gcc.ppoo.exceptions;
 
 @SuppressWarnings("serial")
 public class BuscasException extends Exception {
+	
 	private String titulo;
 	
 	public BuscasException(String msg, String titulo) {

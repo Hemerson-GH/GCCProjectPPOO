@@ -1,10 +1,10 @@
-package br.ufla.gcc.ppoo.BancoDeDados;
+package br.ufla.gcc.ppoo.bancoDeDados;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
 
 public class BancoDeDados {
 	

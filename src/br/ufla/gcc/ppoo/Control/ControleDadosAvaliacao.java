@@ -1,13 +1,13 @@
-package br.ufla.gcc.ppoo.Control;
+package br.ufla.gcc.ppoo.control;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.ufla.gcc.ppoo.BancoDeDados.BancoDeDados;
-import br.ufla.gcc.ppoo.Dados.Avaliacao;
-import br.ufla.gcc.ppoo.Exceptions.AvaliacaoException;
-import br.ufla.gcc.ppoo.Exceptions.BancoDadosException;
+import br.ufla.gcc.ppoo.bancoDeDados.BancoDeDados;
+import br.ufla.gcc.ppoo.dados.Avaliacao;
+import br.ufla.gcc.ppoo.exceptions.AvaliacaoException;
+import br.ufla.gcc.ppoo.exceptions.BancoDadosException;
 
 public class ControleDadosAvaliacao {
 	

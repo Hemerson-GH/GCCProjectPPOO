@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.Imagens;
+package br.ufla.gcc.ppoo.imagens;
 
 import javax.swing.ImageIcon;
 
@@ -15,7 +15,7 @@ public class GerenciadorDeImagens {
     public static final ImageIcon PROCURAR = CarregarIcone("procurar.png");
     public static final ImageIcon PROCURAR_GRANDE = CarregarIcone("icon-procurar-grande.png");
     public static final ImageIcon DELETAR = CarregarIcone("deletar.png");
-    public static final ImageIcon LISTA_OK = CarregarIcone("Lista.jpg");
+    public static final ImageIcon LISTA_OK = CarregarIcone("lista.jpg");
     public static final ImageIcon ESTRELA_1 = CarregarIcone("estrela-1.jpg");
     public static final ImageIcon ESTRELA_2 = CarregarIcone("estrela-2.jpg");
     public static final ImageIcon ESTRELA_3 = CarregarIcone("estrela-3.jpg");

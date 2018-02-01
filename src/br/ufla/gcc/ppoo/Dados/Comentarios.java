@@ -1,4 +1,4 @@
-package br.ufla.gcc.ppoo.Dados;
+package br.ufla.gcc.ppoo.dados;
 
 public class Comentarios {
 	
