@@ -9,7 +9,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -29,8 +30,7 @@ import br.ufla.gcc.ppoo.Exceptions.BuscasException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
 
 public class TelaRecomendaFilme {
 	
@@ -202,7 +202,7 @@ public class TelaRecomendaFilme {
 		lblRecomendacoes.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		
 		JButton btnAdicionar = new JButton("Adicionar Filme");
-		btnAdicionar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/filmes.png")));
+		btnAdicionar.setIcon(GerenciadorDeImagens.FILME);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -241,7 +241,7 @@ public class TelaRecomendaFilme {
 		btnAdicionar.setFont(new Font("Arial", Font.PLAIN, 14));
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(TelaBuscarFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		btnCancelar.setIcon(GerenciadorDeImagens.CANCELAR);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setStatus(false);

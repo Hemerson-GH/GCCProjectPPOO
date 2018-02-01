@@ -11,7 +11,6 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -31,6 +30,7 @@ import br.ufla.gcc.ppoo.Exceptions.CadastroFilmeException;
 import br.ufla.gcc.ppoo.Exceptions.FilmeExistenteException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
 
 public class TelaCadastroFilme {
 
@@ -126,11 +126,11 @@ public class TelaCadastroFilme {
 			JOptionPane.showMessageDialog(null, ee.getMessage(), ee.getTitulo(), JOptionPane.ERROR_MESSAGE);
 		} 
 		
-		JLabel lblCadastro = new JLabel("Cadastrar Filme");
-		lblCadastro.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/novo_item.png")));
-		lblCadastro.setForeground(new Color(255, 255, 255));
-		lblCadastro.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCadastro.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
+		JLabel lblCadastroFilme = new JLabel("Cadastrar Filme");
+		lblCadastroFilme.setIcon(GerenciadorDeImagens.NOVO_ITEM);
+		lblCadastroFilme.setForeground(new Color(255, 255, 255));
+		lblCadastroFilme.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCadastroFilme.setFont(new Font("Microsoft Tai Le", Font.PLAIN, 40));
 		
 		JLabel lblNome = new JLabel("Nome");
 		lblNome.setForeground(new Color(255, 255, 255));
@@ -181,14 +181,14 @@ public class TelaCadastroFilme {
 		textFieldWorKeys.setToolTipText("Preencha esse campo da seguinte forma, PalavraChave1-PalavraChave2...");
 		textFieldWorKeys.setColumns(10);
 		
-		JLabel lblDescrio = new JLabel("Descrição");
-		lblDescrio.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDescrio.setForeground(new Color(255, 255, 255));
-		lblDescrio.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblDescrio.setBackground(Color.GRAY);
+		JLabel lblDescricao = new JLabel("Descrição");
+		lblDescricao.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDescricao.setForeground(new Color(255, 255, 255));
+		lblDescricao.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
+		lblDescricao.setBackground(Color.GRAY);
 		
 		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		btnCancelar.setIcon(GerenciadorDeImagens.CANCELAR);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limpaCampos();
@@ -202,7 +202,7 @@ public class TelaCadastroFilme {
 		btnCancelar.setBackground(new Color(255, 255, 255));
 		
 		JButton btnSalvar = new JButton("Salvar");
-		btnSalvar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-ok.png")));
+		btnSalvar.setIcon(GerenciadorDeImagens.OK);
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
@@ -252,23 +252,23 @@ public class TelaCadastroFilme {
 		textFieldDiretor.setFont(new Font("Microsoft JhengHei", Font.PLAIN, 14));
 		textFieldDiretor.setColumns(10);
 		
-		JLabel lblduracao = new JLabel("G\u00EAnero");
-		lblduracao.setHorizontalAlignment(SwingConstants.CENTER);
-		lblduracao.setForeground(Color.WHITE);
-		lblduracao.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblduracao.setBackground(Color.GRAY);
+		JLabel lblGenero = new JLabel("GêEAnero");
+		lblGenero.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGenero.setForeground(Color.WHITE);
+		lblGenero.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
+		lblGenero.setBackground(Color.GRAY);
 		
-		JLabel lblDireto = new JLabel("Diretor");
-		lblDireto.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDireto.setForeground(Color.WHITE);
-		lblDireto.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
-		lblDireto.setBackground(Color.GRAY);
+		JLabel lblDiretor = new JLabel("Diretor");
+		lblDiretor.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDiretor.setForeground(Color.WHITE);
+		lblDiretor.setFont(new Font("Microsoft JhengHei", Font.BOLD, 14));
+		lblDiretor.setBackground(Color.GRAY);
 		GroupLayout groupLayout = new GroupLayout(viewCadastroFilme.getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(115)
-					.addComponent(lblCadastro, GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+					.addComponent(lblCadastroFilme, GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
 					.addGap(129))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(10)
@@ -296,7 +296,7 @@ public class TelaCadastroFilme {
 							.addGap(30))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(lblduracao, GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
+							.addComponent(lblGenero, GroupLayout.DEFAULT_SIZE, 58, Short.MAX_VALUE)
 							.addGap(86)
 							.addComponent(lblData, GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
 							.addGap(30)
@@ -307,7 +307,7 @@ public class TelaCadastroFilme {
 							.addComponent(textFieldDiretor, GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE)
 							.addGap(10))
 						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(lblDireto, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDiretor, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
@@ -323,14 +323,14 @@ public class TelaCadastroFilme {
 					.addGap(9))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblDescricao, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(512, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(30)
-					.addComponent(lblCadastro, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+					.addComponent(lblCadastroFilme, GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
 					.addGap(17)
 					.addComponent(lblNome, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -343,17 +343,17 @@ public class TelaCadastroFilme {
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
 							.addComponent(lblData, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblduracao, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
+							.addComponent(lblGenero, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE))
 						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE, false)
 							.addComponent(lblDuraoDoFilme, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-							.addComponent(lblDireto, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(lblDiretor, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)))
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(textFieldGenero, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
 						.addComponent(textFieldData, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
 						.addComponent(textFieldDuracao, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
 						.addComponent(textFieldDiretor, GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
+					.addComponent(lblDescricao, GroupLayout.PREFERRED_SIZE, 21, GroupLayout.PREFERRED_SIZE)
 					.addGap(1)
 					.addComponent(scrollPaneDescricao, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)

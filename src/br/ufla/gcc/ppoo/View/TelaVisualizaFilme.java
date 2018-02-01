@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JFrame;
@@ -36,6 +35,7 @@ import br.ufla.gcc.ppoo.Exceptions.ComentariosException;
 import br.ufla.gcc.ppoo.Exceptions.ConfereCampoException;
 import br.ufla.gcc.ppoo.Exceptions.FilmesException;
 import br.ufla.gcc.ppoo.Exceptions.UsuarioException;
+import br.ufla.gcc.ppoo.Imagens.GerenciadorDeImagens;
 
 public class TelaVisualizaFilme {
 	
@@ -150,11 +150,11 @@ public class TelaVisualizaFilme {
 			
 			@SuppressWarnings("rawtypes")
 			Hashtable labelTable = new Hashtable();
-			labelTable.put( new Integer(5), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-5.jpg"))) );
-			labelTable.put( new Integer(4), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-4.jpg"))) );
-			labelTable.put( new Integer(3), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-3.jpg"))) );
-			labelTable.put( new Integer(2), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-2.jpg"))) );
-			labelTable.put( new Integer(1), new JLabel(new ImageIcon(TelaPrincipal.class.getResource("/br/ufla/gcc/ppoo/Imagens/estrela-1.jpg"))) );
+			labelTable.put( new Integer(5), new JLabel(GerenciadorDeImagens.ESTRELA_5) );
+			labelTable.put( new Integer(4), new JLabel(GerenciadorDeImagens.ESTRELA_4));
+			labelTable.put( new Integer(3), new JLabel(GerenciadorDeImagens.ESTRELA_3));
+			labelTable.put( new Integer(2), new JLabel(GerenciadorDeImagens.ESTRELA_2));
+			labelTable.put( new Integer(1), new JLabel(GerenciadorDeImagens.ESTRELA_1));
 			labelTable.put( new Integer(0), new JLabel( "0" ));
 			sliderAvaliacao.setLabelTable(labelTable);
 			
@@ -352,7 +352,7 @@ public class TelaVisualizaFilme {
 		scrollPaneCommits.setViewportView(editorPaneCommits);
 		
 		JButton btnComentar = new JButton("Comentar");
-		btnComentar.setIcon(new ImageIcon(TelaVisualizaFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/comentario.png")));
+		btnComentar.setIcon(GerenciadorDeImagens.COMENTARIO);
 		btnComentar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 					try {
@@ -364,7 +364,7 @@ public class TelaVisualizaFilme {
 						
 						JOptionPane.showMessageDialog(null, "Seu comentário foi enviado.", "Comentário enviado", JOptionPane.INFORMATION_MESSAGE);
 						
-						editorPaneCommit.setText("Escreva um comentário sobre o filme......");
+						editorPaneCommit.setText("Escreva um comentário sobre o filme...");
 						text = formatCommits(filme.getId_filme());
 						editorPaneCommits.setText(text);
 					} catch (ConfereCampoException cce) {
@@ -385,7 +385,7 @@ public class TelaVisualizaFilme {
 		viewVisualizaFilme.getContentPane().add(btnComentar);
 		
 		JButton btnCancelar = new JButton("Sair");
-		btnCancelar.setIcon(new ImageIcon(TelaCadastroFilme.class.getResource("/br/ufla/gcc/ppoo/Imagens/btn-cancelar.png")));
+		btnCancelar.setIcon(GerenciadorDeImagens.CANCELAR);
 		btnCancelar.setBounds(385, 620, 150, 25);
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
